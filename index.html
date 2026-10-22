@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Mohamadou Lamine Sarr, Tech Lead et développeur ServiceNow : ITSM, CSM, ITOM, CMDB.">
+<title>Mohamadou Lamine Sarr</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : console HUD sur une seule colonne, graphe CMDB animé en fond, missions en timeline à rail. Deux couleurs seulement : encre et volt. */
+:root {
+  --ink: #061a22;
+  --volt: #6bf0a8;
+  --fg: color-mix(in srgb, var(--volt) 14%, #eaf7f1);
+  --muted: color-mix(in srgb, var(--volt) 30%, var(--ink) 30%, #c9d9d3);
+  --line: color-mix(in srgb, var(--volt) 22%, transparent);
+  --panel: color-mix(in srgb, var(--volt) 5%, var(--ink));
+  --f-display: "Chakra Petch", "Rajdhani", "Segoe UI", sans-serif;
+  --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+img { max-width: 100%; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--fg);
+  font: 400 16px/1.65 var(--f-body);
+  overflow-x: hidden;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ink); }
+#net { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: .55; }
+.scan { position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, transparent 0 3px, color-mix(in srgb, var(--volt) 3%, transparent) 3px 4px); }
+.wrap {
+  position: relative; z-index: 2;
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: var(--volt); }
+:focus-visible { outline: 2px solid var(--volt); outline-offset: 3px; }
+
+/* nav */
+nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--ink) 82%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.logo { font: 700 15px/1 var(--f-display); letter-spacing: .14em; color: var(--volt); text-decoration: none; }
+.logo span { color: var(--fg); }
+nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+nav ul a { font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
+nav ul a:hover { color: var(--volt); }
+
+/* hero */
+.hero { padding-block: 72px 56px; display: grid; grid-template-columns: 1.35fr 1fr; gap: 40px; align-items: end; }
+.hero > * { min-width: 0; }
+.status { display: inline-flex; align-items: center; gap: 10px; font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--volt); border: 1px solid var(--line); padding: 8px 12px; }
+.status i { width: 8px; height: 8px; background: var(--volt); border-radius: 50%; box-shadow: 0 0 12px var(--volt); animation: pulse 2s infinite; }
+@keyframes pulse { 50% { opacity: .3; } }
+h1 {
+  font: 700 clamp(44px, 8vw, 92px)/.92 var(--f-display);
+  letter-spacing: -.01em; text-transform: uppercase;
+  margin: 24px 0 18px; text-wrap: balance;
+}
+h1 .out { color: transparent; -webkit-text-stroke: 1.5px var(--volt); }
+.role { font: 600 clamp(18px, 2.4vw, 24px)/1.3 var(--f-display); color: var(--volt); letter-spacing: .06em; margin: 0 0 18px; }
+.role .cursor { display: inline-block; width: .55em; height: 1em; background: var(--volt); vertical-align: -2px; margin-left: 4px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.lead { max-width: 60ch; color: var(--muted); margin: 0; }
+
+.console {
+  border: 1px solid var(--line); background: color-mix(in srgb, var(--panel) 85%, transparent);
+  font: 400 13px/1.8 var(--f-mono);
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
+}
+.console header { display: flex; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+.console dl { margin: 0; padding: 16px; display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; }
+.console dt { color: var(--muted); }
+.console dd { margin: 0; color: var(--fg); overflow-wrap: anywhere; }
+.console dd b { color: var(--volt); font-weight: 500; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+.stats div { padding: 14px 16px; border-left: 1px solid var(--line); }
+.stats div:first-child { border-left: 0; }
+.stats strong { display: block; font: 700 30px/1 var(--f-display); color: var(--volt); font-variant-numeric: tabular-nums; }
+.stats span { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+/* sections */
+section { padding-block: 56px; border-top: 1px solid var(--line); }
+.sec-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+.sec-head small { font: 500 12px/1 var(--f-mono); color: var(--volt); letter-spacing: .14em; }
+h2 { font: 700 clamp(28px, 4vw, 40px)/1 var(--f-display); text-transform: uppercase; letter-spacing: .02em; margin: 0; }
+
+/* modules */
+.modules { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.mod { background: var(--ink); padding: 22px 20px; min-width: 0; transition: background .25s; }
+.mod:hover { background: var(--panel); }
+.mod h3 { font: 700 28px/1 var(--f-display); color: var(--volt); margin: 0 0 6px; letter-spacing: .04em; }
+.mod p { margin: 0; font-size: 14px; color: var(--muted); }
+.stack { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 36px; }
+.stack > div { min-width: 0; }
+.stack h4 { font: 500 12px/1 var(--f-mono); text-transform: uppercase; letter-spacing: .14em; color: var(--muted); margin: 0 0 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: 500 12.5px/1 var(--f-mono); padding: 8px 11px; border: 1px solid var(--line); color: var(--fg); }
+.chip.on { border-color: var(--volt); color: var(--volt); }
+
+/* timeline */
+.timeline { list-style: none; margin: 0; padding: 0; position: relative; }
+.timeline::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(var(--volt), var(--line) 60%, transparent); }
+.job { position: relative; padding-left: 40px; padding-bottom: 36px; display: grid; grid-template-columns: 210px 1fr; gap: 8px 32px; }
+.job:last-child { padding-bottom: 0; }
+.job::before { content: ""; position: absolute; left: 2px; top: 8px; width: 11px; height: 11px; border: 2px solid var(--volt); background: var(--ink); transform: rotate(45deg); }
+.job.now::before { background: var(--volt); box-shadow: 0 0 14px var(--volt); }
+.job > * { min-width: 0; }
+.when { font: 500 12.5px/1.6 var(--f-mono); color: var(--volt); letter-spacing: .04em; }
+.when .co { display: block; font: 700 22px/1.2 var(--f-display); color: var(--fg); letter-spacing: .04em; margin-top: 4px; }
+.job h3 { font: 600 19px/1.3 var(--f-display); margin: 0 0 10px; letter-spacing: .02em; }
+.job ul + h3 { font-size: 15px; color: var(--muted); margin-top: 18px; }
+.job ul { margin: 0 0 12px; padding: 0; list-style: none; display: grid; gap: 6px; }
+.job li { position: relative; padding-left: 18px; color: var(--muted); font-size: 15px; }
+.job li::before { content: "›"; position: absolute; left: 0; color: var(--volt); font-family: var(--f-mono); }
+.env { font: 400 11.5px/1.6 var(--f-mono); color: color-mix(in srgb, var(--volt) 70%, var(--ink)); letter-spacing: .03em; }
+.tag { display: inline-block; font: 500 10px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; background: var(--volt); color: var(--ink); padding: 4px 7px; margin-left: 8px; vertical-align: 3px; }
+
+/* certs + edu */
+.duo { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; }
+.duo > * { min-width: 0; }
+.certs { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); }
+.certs li { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; padding: 16px 18px; border-top: 1px solid var(--line); }
+.certs li:first-child { border-top: 0; }
+.certs b { font: 600 16px/1.35 var(--f-display); letter-spacing: .02em; }
+.certs small { display: block; font: 400 11.5px/1.4 var(--f-mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-top: 3px; }
+.certs time { font: 700 20px/1 var(--f-display); color: var(--volt); font-variant-numeric: tabular-nums; }
+.edu { display: grid; gap: 16px; }
+.edu div { border-left: 2px solid var(--volt); padding: 6px 0 6px 18px; }
+.edu time { font: 500 12px/1 var(--f-mono); color: var(--volt); letter-spacing: .1em; }
+.edu b { display: block; font: 600 18px/1.3 var(--f-display); margin: 6px 0 2px; }
+.edu span { color: var(--muted); font-size: 14.5px; }
+
+/* contact */
+.contact { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end; }
+.contact > * { min-width: 0; }
+.big { font: 700 clamp(30px, 5.5vw, 60px)/1 var(--f-display); text-transform: uppercase; margin: 0 0 12px; text-wrap: balance; }
+.big em { font-style: normal; color: var(--volt); }
+.lines { display: grid; gap: 10px; }
+.line { display: flex; align-items: center; gap: 12px; border: 1px solid var(--line); padding: 12px 14px; font: 500 15px/1.2 var(--f-mono); }
+.line span { user-select: all; overflow-wrap: anywhere; }
+.line small { color: var(--muted); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; width: 44px; flex: none; }
+.copy { margin-left: auto; flex: none; font: 500 11px/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); background: var(--volt); border: 0; padding: 8px 10px; cursor: pointer; }
+.copy:hover { filter: brightness(1.1); }
+footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 12px/1.5 var(--f-mono); color: var(--muted); letter-spacing: .06em; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+/* entrance */
+.rise { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
+.d1 { animation-delay: .08s; } .d2 { animation-delay: .16s; } .d3 { animation-delay: .24s; } .d4 { animation-delay: .32s; }
+@keyframes rise { from { transform: translateY(14px); opacity: .001; } }
+
+@media (max-width: 860px) {
+  .hero, .duo, .contact { grid-template-columns: 1fr; }
+  .modules { grid-template-columns: repeat(2, 1fr); }
+  .stack { grid-template-columns: 1fr; gap: 22px; }
+  .job { grid-template-columns: 1fr; }
+  nav ul { display: none; }
+}
+@media (max-width: 420px) {
+  .stats strong { font-size: 24px; }
+  .job { padding-left: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="net" aria-hidden="true"></canvas>
+<div class="scan" aria-hidden="true"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top">MLS<span>://folio</span></a>
+    <ul>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#missions">Missions</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap" id="top">
+  <header class="hero">
+    <div>
+      <span class="status rise"><i></i>Disponible pour nouvelles missions</span>
+      <h1 class="rise d1">Mohamadou<br><span class="out">Lamine</span> Sarr</h1>
+      <p class="role rise d2">ServiceNow Developer · Tech Lead<span class="cursor"></span></p>
+      <p class="lead rise d3">Plus de 5 ans à construire sur la plateforme ServiceNow : ITSM, CSM, ITOM et CMDB. Spécialiste des intégrations API et des solutions techniques complexes, j'ai évolué vers des rôles de Tech Lead sur des projets d'envergure. Aujourd'hui, je pilote une escouade de décommissionnement de serveurs chez Desjardins, au plus près des équipes infrastructure.</p>
+    </div>
+
+    <aside class="console rise d4" aria-label="Fiche profil">
+      <header><span>sys_user.profile</span><span>● live</span></header>
+      <dl>
+        <dt>name</dt><dd>M. L. Sarr</dd>
+        <dt>role</dt><dd><b>"tech_lead"</b>, "developer"</dd>
+        <dt>modules</dt><dd>[ITSM, CSM, ITOM, CMDB]</dd>
+        <dt>focus</dt><dd>CMDB · Scoped Apps · Décom. serveurs</dd>
+        <dt>location</dt><dd>Dakar, SN · remote</dd>
+      </dl>
+      <div class="stats">
+        <div><strong>5+</strong><span>Années</span></div>
+        <div><strong>7</strong><span>Certifs</span></div>
+        <div><strong>8</strong><span>Missions</span></div>
+      </div>
+    </aside>
+  </header>
+
+  <section id="expertise">
+    <div class="sec-head"><small>[ 01 ]</small><h2>Expertise</h2></div>
+    <div class="modules">
+      <div class="mod"><h3>ITSM</h3><p>Incident, change, Service Request Management, catalogue et portail.</p></div>
+      <div class="mod"><h3>CSM</h3><p>Accounts, produits, consumers, Agent Workspace et base de connaissances.</p></div>
+      <div class="mod"><h3>ITOM</h3><p>Discovery, patterns personnalisés, MID Server et monitoring.</p></div>
+      <div class="mod"><h3>CMDB</h3><p>CSDM, IRE, Service Graph Connector, qualité des données et cycle de vie des CI.</p></div>
+    </div>
+    <div class="stack">
+      <div>
+        <h4>Développement</h4>
+        <div class="chips">
+          <span class="chip on">JavaScript</span><span class="chip on">Scoped Apps</span><span class="chip">Source Control</span><span class="chip">REST API</span><span class="chip">Client Script</span><span class="chip">UI Policy</span><span class="chip">Glide AJAX</span><span class="chip">Flow Designer</span>
+        </div>
+      </div>
+      <div>
+        <h4>Interfaces</h4>
+        <div class="chips">
+          <span class="chip on">UI Builder</span><span class="chip">Service Portal</span><span class="chip">Employee Center Pro</span><span class="chip">Dashboards</span><span class="chip">Widgets</span>
+        </div>
+      </div>
+      <div>
+        <h4>Intégration</h4>
+        <div class="chips">
+          <span class="chip on">IntegrationHub ETL</span><span class="chip on">Service Graph Connector</span><span class="chip">IRE</span><span class="chip">JDBC</span><span class="chip">MID Server</span><span class="chip">Robust Transform</span><span class="chip">Transform Map</span><span class="chip">SMTP / IMAP</span><span class="chip">RPA</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="missions">
+    <div class="sec-head"><small>[ 02 ]</small><h2>Missions</h2></div>
+    <ol class="timeline">
+      <li class="job now">
+        <div class="when">Depuis jan. 2026<span class="co">ATEKO</span></div>
+        <div>
+          <h3>Tech Lead / Dev Lead ServiceNow <span class="tag">En cours</span></h3>
+          <ul>
+            <li>Conception et développement de bout en bout d'applications scoped (Studio, Change Management, intégration Employee Center)</li>
+            <li>Cycle de déploiement et gouvernance : Application Repository, Source Control, update sets, licences App Engine</li>
+            <li>Intégrations CMDB et sécurité : Service Graph Connector, Import Set / IRE, réconciliation des CI, pipelines JDBC</li>
+            <li>MID Server, journalisation des appels API entrants/sortants et workflows de callback</li>
+            <li>Orchestration avec les systèmes en aval : Network Operations, WinApp, Control-M</li>
+            <li>Accompagnement des architectes et administrateurs clients : documentation, reporting, transfert de connaissances</li>
+          </ul>
+          <div class="env">Scoped App · CMDB · Network Operations · WinApp · Control-M</div>
+        </div>
+      </li>
+      <li class="job now">
+        <div class="when">Depuis jan. 2022<span class="co">FX / Desjardins</span></div>
+        <div>
+          <h3>Tech Lead · Escouade décommissionnement de serveurs <span class="tag">En cours</span></h3>
+          <ul>
+            <li>Pilotage technique d'une escouade dédiée au décommissionnement de serveurs</li>
+            <li>Échanges quotidiens avec les équipes infrastructure pour cadrer et sécuriser chaque retrait</li>
+          </ul>
+          <h3>Auparavant · Developer CSM · Employee Center</h3>
+          <ul>
+            <li>Configuration CSM : produits, accounts, services, consumers</li>
+            <li>Catalogue de services et flows complexes, intégration avec les applications internes</li>
+            <li>Portails, widgets, Knowledge Base, Agent Workspace, rapports et dashboards</li>
+            <li>Nouveau portail Employee Center Pro construit en parallèle, sans impact sur la production</li>
+            <li>Taxonomie de contenu, thème personnalisé via le branding editor, menus contextuels</li>
+          </ul>
+          <div class="env">Infrastructure · CMDB · CSM · Employee Center · Flow Designer · Agent Workspace</div>
+        </div>
+      </li>
+      <li class="job">
+        <div class="when">Avr. 2025 → Déc. 2025<span class="co">HYDAC</span></div>
+        <div>
+          <h3>Tech Lead · ITSM · Service Request Management</h3>
+          <ul>
+            <li>Analyse et optimisation des stories, mesure de la performance</li>
+            <li>Développement de nouvelles fonctionnalités, tests et validation</li>
+            <li>Coaching des développeurs juniors et animation d'ateliers de formation</li>
+            <li>Projet de mise à niveau (upgrade) de l'instance ServiceNow</li>
+          </ul>
+          <div class="env">ServiceNow · ITSM · SRM · Agile</div>
+        </div>
+      </li>
+      <li class="job">
+        <div class="when">Jan. 2025 → Avr. 2025<span class="co">PSG</span></div>
+        <div>
+          <h3>Senior Developer · API · CMDB</h3>
+          <ul>
+            <li>Intégration de Zabbix et Workspace ONE avec la CMDB ServiceNow</li>
+            <li>Installation et configuration du MID Server pour une communication sécurisée</li>
+            <li>Datasources personnalisées, Robust Transforms et automatisation via IntegrationHub ETL</li>
+            <li>Mise en place de Discovery et création de patterns pour enrichir la découverte</li>
+            <li>Qualité CMDB : diagnostic, déduplication, remédiation</li>
+          </ul>
+          <div class="env">CMDB · Discovery · Zabbix · Workspace ONE · IH-ETL · MID Server</div>
+        </div>
+      </li>
+      <li class="job">
+        <div class="when">Nov. 2023 → Mars 2024<span class="co">PALFINGER</span></div>
+        <div>
+          <h3>Tech Lead · ITSM · Intégration API</h3>
+          <ul>
+            <li>Intégration entre les plateformes Palfinger et DXC</li>
+            <li>Conception de solutions pour la gestion des incidents et des changements</li>
+            <li>Configuration des comptes email SMTP/IMAP et intégration RPA</li>
+          </ul>
+          <div class="env">ITSM · API · RPA · SMTP · IMAP</div>
+        </div>
+      </li>
+      <li class="job">
+        <div class="when">Juil. 2021 → Jan. 2022<span class="co">CLARIANT</span></div>
+        <div>
+          <h3>Developer · ITSM · Intégration API</h3>
+          <ul>
+            <li>Création d'une API REST pour l'intégration des assets</li>
+            <li>Intégration Asset Management et CMDB, transform maps et scripts</li>
+          </ul>
+          <div class="env">ITSM · REST API · CMDB · Asset Management · Transform Map</div>
+        </div>
+      </li>
+      <li class="job">
+        <div class="when">Juin 2021 → Juil. 2021<span class="co">WIXALIA</span></div>
+        <div>
+          <h3>Developer · Data Partitioning</h3>
+          <ul>
+            <li>Améliorations de la gestion des incidents et vues de formulaires par domaine</li>
+            <li>UI Policies et Client Scripts avec Glide AJAX</li>
+          </ul>
+          <div class="env">Glide AJAX · UI Policy · Client Script</div>
+        </div>
+      </li>
+      <li class="job">
+        <div class="when">Jan. 2021 → Juin 2021<span class="co">ORPEA</span></div>
+        <div>
+          <h3>ServiceNow Developer</h3>
+          <ul>
+            <li>Interface REST bidirectionnelle avancée entre Wixalia et Orpea</li>
+            <li>Catalogue de services, catalog items et Service Portal</li>
+            <li>Recueil des besoins sur l'ensemble des modules ITSM</li>
+          </ul>
+          <div class="env">REST API · ITSM · UI Policy · Client Script</div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section id="certifications">
+    <div class="duo">
+      <div>
+        <div class="sec-head"><small>[ 03 ]</small><h2>Certifications</h2></div>
+        <ul class="certs">
+          <li><div><b>Data Foundations · CMDB &amp; CSDM</b><small>CIS-DF · Implementation Specialist</small></div><time>2026</time></li>
+          <li><div><b>Discovery</b><small>CIS-Discovery · Implementation Specialist</small></div><time>2026</time></li>
+          <li><div><b>Customer Service Management</b><small>CIS · Implementation Specialist</small></div><time>2024</time></li>
+          <li><div><b>Certified Application Developer</b><small>CAD</small></div><time>2023</time></li>
+          <li><div><b>CMDB Health</b><small>Micro-certification</small></div><time>2023</time></li>
+          <li><div><b>Flow Designer</b><small>Micro-certification</small></div><time>2023</time></li>
+          <li><div><b>Certified System Administrator</b><small>CSA</small></div><time>2022</time></li>
+        </ul>
+      </div>
+      <div>
+        <div class="sec-head"><small>[ 04 ]</small><h2>Formation</h2></div>
+        <div class="edu">
+          <div><time>2020</time><b>Master</b><span>Data Management et Génie Logiciel</span></div>
+          <div><time>2017</time><b>Licence</b><span>Systèmes d'Information</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact">
+      <div>
+        <div class="sec-head"><small>[ 05 ]</small><h2>Contact</h2></div>
+        <p class="big">Un projet <em>ServiceNow</em> ? Parlons-en.</p>
+      </div>
+      <div class="lines">
+        <div class="line"><small>Email</small><span id="mail">sarrlmn@gmail.com</span><button class="copy" data-target="mail" type="button">Copier</button></div>
+        <div class="line"><small>Tél.</small><span id="tel">+221 77 133 24 92</span><button class="copy" data-target="tel" type="button">Copier</button></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Mohamadou Lamine Sarr</span>
+    <span>ServiceNow · ITSM · CSM · ITOM · CMDB</span>
+  </footer>
+</main>
+
+<script>
+// Copier email / téléphone
+document.querySelectorAll('.copy').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const el = document.getElementById(btn.dataset.target);
+    const done = () => { btn.textContent = 'Copié'; setTimeout(() => btn.textContent = 'Copier', 1600); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Sélectionné'; setTimeout(() => btn.textContent = 'Copier', 1600); };
+    try { navigator.clipboard.writeText(el.textContent.trim()).then(done, fallback); } catch (e) { fallback(); }
+  });
+});
+
+// Fond : graphe de CI (nœuds + relations) façon CMDB
+(() => {
+  const c = document.getElementById('net'), x = c.getContext('2d');
+  const volt = getComputedStyle(document.documentElement).getPropertyValue('--volt').trim() || '#6bf0a8';
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let w, h, nodes = [], dpr = Math.min(devicePixelRatio || 1, 2);
+  function size() {
+    w = c.clientWidth; h = c.clientHeight;
+    c.width = w * dpr; c.height = h * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = Math.round(Math.min(70, w * h / 22000));
+    nodes = Array.from({ length: n }, () => ({
+      x: Math.random() * w, y: Math.random() * h,
+      vx: (Math.random() - .5) * .25, vy: (Math.random() - .5) * .25,
+      r: Math.random() < .15 ? 3 : 1.6
+    }));
+  }
+  function frame() {
+    x.clearRect(0, 0, w, h);
+    const max = 150;
+    for (let i = 0; i < nodes.length; i++) {
+      const a = nodes[i];
+      if (!still) { a.x += a.vx; a.y += a.vy; if (a.x < 0 || a.x > w) a.vx *= -1; if (a.y < 0 || a.y > h) a.vy *= -1; }
+      for (let j = i + 1; j < nodes.length; j++) {
+        const b = nodes[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < max) { x.globalAlpha = (1 - d / max) * .35; x.strokeStyle = volt; x.lineWidth = 1; x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y); x.stroke(); }
+      }
+    }
+    for (const a of nodes) {
+      x.globalAlpha = a.r > 2 ? .9 : .55; x.fillStyle = volt;
+      if (a.r > 2) { x.fillRect(a.x - a.r, a.y - a.r, a.r * 2, a.r * 2); }
+      else { x.beginPath(); x.arc(a.x, a.y, a.r, 0, 7); x.fill(); }
+    }
+    x.globalAlpha = 1;
+    if (!still) requestAnimationFrame(frame);
+  }
+  size(); frame();
+  addEventListener('resize', () => { size(); if (still) frame(); });
+})();
+</script>
+</body>
+</html>
