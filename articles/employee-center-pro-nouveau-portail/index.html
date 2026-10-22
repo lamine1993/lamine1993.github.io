@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Construire un nouveau portail Employee Center Pro sans toucher à la production</title>
+<meta name="description" content="Retour d'expérience ServiceNow : créer un nouveau portail Employee Center Pro en parallèle du portail existant, avec sa taxonomie, son thème Branding Editor et ses menus, puis basculer les employés sans interruption.">
+<meta name="author" content="Mohamadou Lamine Sarr">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#061a22">
+<link rel="canonical" href="https://lamine1993.github.io/articles/employee-center-pro-nouveau-portail/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23061a22'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%236bf0a8'%3EMLS%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Mohamadou Lamine Sarr">
+<meta property="og:title" content="Construire un nouveau portail Employee Center Pro sans toucher à la production">
+<meta property="og:description" content="Portail parallèle, taxonomie, Branding Editor et bascule sans interruption : la méthode pas à pas.">
+<meta property="og:url" content="https://lamine1993.github.io/articles/employee-center-pro-nouveau-portail/">
+<meta property="og:image" content="https://lamine1993.github.io/og.png">
+<meta property="article:published_time" content="2026-10-22">
+<meta property="article:author" content="Mohamadou Lamine Sarr">
+<meta property="article:section" content="Employee Center">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lamine1993.github.io/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/article.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Construire un nouveau portail Employee Center Pro sans toucher à la production",
+      "description": "Créer un nouveau portail Employee Center Pro en parallèle du portail existant, avec sa taxonomie, son thème et ses menus, puis basculer sans interruption.",
+      "inLanguage": "fr",
+      "datePublished": "2026-10-22",
+      "dateModified": "2026-10-22",
+      "image": "https://lamine1993.github.io/og.png",
+      "mainEntityOfPage": "https://lamine1993.github.io/articles/employee-center-pro-nouveau-portail/",
+      "author": { "@type": "Person", "name": "Mohamadou Lamine Sarr", "url": "https://lamine1993.github.io/" },
+      "keywords": "ServiceNow, Employee Center Pro, ESC, Service Portal, Branding Editor, taxonomie, portail employé"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://lamine1993.github.io/" },
+        { "@type": "ListItem", "position": 2, "name": "Articles", "item": "https://lamine1993.github.io/articles/" },
+        { "@type": "ListItem", "position": 3, "name": "Nouveau portail Employee Center Pro" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="/">MLS<span>://folio</span></a><a class="back" href="/articles/">← Tous les articles</a></div></nav>
+
+<main class="wrap">
+  <div class="crumbs"><ol><li><a href="/">Accueil</a></li><li><a href="/articles/">Articles</a></li><li>Employee Center Pro</li></ol></div>
+
+  <header class="post">
+    <span class="cat">Employee Center · Portail</span>
+    <h1>Construire un nouveau portail Employee Center Pro sans toucher à la production</h1>
+    <p class="dek">Les employés utilisent le portail tous les jours. On ne peut donc pas le refaire « en direct ». Voici comment j'ai construit un nouveau portail Employee Center Pro à côté de l'ancien, puis préparé une bascule sans interruption.</p>
+    <div class="meta"><span>Par <b>Mohamadou Lamine Sarr</b></span><span>22 octobre 2026</span><span>Lecture : 7 min</span></div>
+  </header>
+
+  <article class="body">
+    <p>Chez Desjardins, j'ai travaillé sur la configuration avancée d'<strong>Employee Center Pro</strong> (ESC), le portail unique où les employés trouvent leurs services, leurs demandes et leurs articles de connaissance.</p>
+    <p>Le défi : proposer une nouvelle expérience (nouvelle structure, nouveau thème, nouveaux menus) sans perturber le portail que tout le monde utilisait. La réponse a été de <strong>construire un second portail en parallèle</strong>.</p>
+
+    <h2>Pourquoi un portail en parallèle</h2>
+    <p>Modifier directement le portail en production pose trois problèmes :</p>
+    <ul>
+      <li>chaque changement de taxonomie ou de menu est visible tout de suite par tous les employés ;</li>
+      <li>on ne peut pas faire tester la nouvelle version à un groupe pilote ;</li>
+      <li>revenir en arrière est difficile une fois que plusieurs changements se mélangent.</li>
+    </ul>
+    <p>Un portail parallèle règle les trois : l'ancien continue de fonctionner, le nouveau se construit à son rythme, et la bascule devient une seule décision maîtrisée.</p>
+
+    <h2>Étape 1 : créer le nouveau portail</h2>
+    <p>Dans ServiceNow, un portail est un enregistrement de la table <code>sp_portal</code>, avec son propre suffixe d'URL, sa page d'accueil, son thème et son menu. Le nouveau portail reçoit un suffixe distinct de celui de l'ancien. Les deux cohabitent sur la même instance et partagent le même catalogue et la même base de connaissances.</p>
+    <div class="note"><b>Conseil</b><p>Ne modifie jamais les pages et widgets d'origine d'Employee Center. Fais une copie de ce que tu dois changer et attache la copie au nouveau portail. Les mises à jour de la plateforme resteront ainsi faciles à appliquer.</p></div>
+
+    <h2>Étape 2 : structurer la taxonomie</h2>
+    <p>La <strong>taxonomie</strong> est le plan du portail : les grands thèmes (par exemple « Mon poste de travail », « RH », « Accès et sécurité ») et leurs sous-thèmes. Les employés naviguent par sujet, pas par département.</p>
+    <p>J'ai structuré la taxonomie du nouveau portail puis rattaché le contenu à chaque sujet : éléments du catalogue, articles de connaissance, liens rapides. Une règle simple aide beaucoup : un employé doit trouver ce qu'il cherche <strong>en trois clics au maximum</strong>.</p>
+
+    <h2>Étape 3 : créer un thème avec le Branding Editor</h2>
+    <p>Le <strong>Branding Editor</strong> permet de créer un thème sans écrire de CSS : logo, couleurs, typographie, image d'accueil. J'y ai créé un thème personnalisé pour le nouveau portail, aux couleurs de l'organisation.</p>
+    <p>L'avantage par rapport à du CSS écrit à la main : le thème reste compatible avec les futures versions d'Employee Center, et une équipe non technique peut l'ajuster plus tard.</p>
+
+    <h2>Étape 4 : personnaliser l'en-tête et les widgets</h2>
+    <h3>L'en-tête et les menus</h3>
+    <p>L'en-tête est la partie la plus vue du portail. J'y ai ajouté de nouveaux menus contextuels, qui affichent des liens différents selon le profil de l'employé grâce aux <em>user criteria</em>. Chacun voit d'abord ce qui le concerne.</p>
+    <h3>My Favorites et My Applications</h3>
+    <p>J'ai activé et configuré deux widgets très appréciés des employés : <strong>My Favorites</strong>, pour retrouver en un clic les services qu'on utilise souvent, et <strong>My Applications</strong>, pour accéder directement aux applications de l'entreprise depuis le portail.</p>
+
+    <h2>Étape 5 : tester et basculer</h2>
+    <p>Le portail parallèle permet de tester dans des conditions réelles, sans risque :</p>
+    <ol>
+      <li><strong>Tests par profil</strong> : en se faisant passer pour différents utilisateurs (<em>impersonation</em>), on vérifie que chacun voit les bons menus et le bon contenu.</li>
+      <li><strong>Groupe pilote</strong> : un groupe d'employés utilise le nouveau portail et fait ses retours avant tout le monde.</li>
+      <li><strong>Bascule</strong> : le moment venu, on fait du nouveau portail la page d'arrivée par défaut. L'ancien reste disponible un temps, ce qui permet de revenir en arrière en quelques minutes si besoin.</li>
+    </ol>
+
+    <h2>Ce que je retiens</h2>
+    <ul>
+      <li><strong>Construire à côté, pas par-dessus.</strong> C'est le meilleur moyen de livrer un grand changement sans gêner personne.</li>
+      <li><strong>La taxonomie compte plus que le design.</strong> Un beau portail mal rangé reste un mauvais portail.</li>
+      <li><strong>Rester proche du standard.</strong> Branding Editor, user criteria et widgets d'origine : moins de code sur mesure, c'est des mises à jour plus simples.</li>
+    </ul>
+
+    <div class="author">
+      <div class="mono">MLS</div>
+      <div><b>Mohamadou Lamine Sarr</b><span>Tech Lead ServiceNow : CSM, Employee Center, CMDB. Certifié CIS-CSM et CAD. <a href="/#contact">Me contacter</a></span></div>
+    </div>
+  </article>
+
+  <aside class="more">
+    <h2>À lire aussi</h2>
+    <ul>
+      <li><a href="/articles/integration-cmdb-integrationhub-etl/">Intégrer Zabbix et Workspace ONE à la CMDB ServiceNow avec IntegrationHub ETL</a></li>
+      <li><a href="/articles/decommissionnement-serveurs-servicenow/">Décommissionner des serveurs avec ServiceNow : méthode et collaboration avec l'infra</a></li>
+    </ul>
+  </aside>
+
+  <footer>© 2026 Mohamadou Lamine Sarr · <a href="/">lamine1993.github.io</a></footer>
+</main>
+</body>
+</html>
