@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wallou: building an emergency alert app with Ionic and Angular</title>
+<meta name="description" content="Technical write-up of Wallou, an emergency mobile app built with Ionic, Angular and Cordova: medical profile, geolocation, JWT authentication and local SQLite storage.">
+<meta name="author" content="Mohamadou Lamine Sarr">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#061a22">
+<link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/wallou-application-urgence-ionic/">
+<link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/wallou-emergency-app-ionic/">
+<link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/wallou-application-urgence-ionic/">
+<link rel="canonical" href="https://lamine1993.github.io/en/articles/wallou-emergency-app-ionic/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23061a22'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%236bf0a8'%3EMLS%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:site_name" content="Mohamadou Lamine Sarr">
+<meta property="og:title" content="Wallou: building an emergency alert app with Ionic and Angular">
+<meta property="og:description" content="Medical profile, geolocated alert, JWT and SQLite: the architecture of an emergency mobile app.">
+<meta property="og:url" content="https://lamine1993.github.io/en/articles/wallou-emergency-app-ionic/">
+<meta property="og:image" content="https://lamine1993.github.io/og.png">
+<meta property="article:published_time" content="2026-10-22">
+<meta property="article:author" content="Mohamadou Lamine Sarr">
+<meta property="article:section" content="Mobile">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lamine1993.github.io/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/article.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Wallou: building an emergency alert app with Ionic and Angular",
+      "description": "Technical write-up of Wallou, an emergency mobile app built with Ionic, Angular and Cordova: medical profile, geolocation, JWT authentication and local SQLite storage.",
+      "inLanguage": "en",
+      "datePublished": "2026-10-22",
+      "dateModified": "2026-10-22",
+      "image": "https://lamine1993.github.io/og.png",
+      "mainEntityOfPage": "https://lamine1993.github.io/en/articles/wallou-emergency-app-ionic/",
+      "author": {
+        "@type": "Person",
+        "name": "Mohamadou Lamine Sarr",
+        "url": "https://lamine1993.github.io/en/"
+      },
+      "keywords": "Ionic, Angular, Cordova, geolocation, SQLite, JWT, REST API, mobile app, emergency",
+      "codeRepository": "https://github.com/lamine1993/wallou"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://lamine1993.github.io/en/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Articles",
+          "item": "https://lamine1993.github.io/en/articles/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Wallou"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="/en/">MLS<span>://folio</span></a><a class="back" href="/en/articles/">← All articles</a><a class="lang" href="/articles/wallou-application-urgence-ionic/" hreflang="fr" lang="fr" title="Version française">FR</a></div></nav>
+
+<main class="wrap">
+  <div class="crumbs"><ol><li><a href="/en/">Home</a></li><li><a href="/en/articles/">Articles</a></li><li>Wallou</li></ol></div>
+
+  <header class="post">
+    <span class="cat">Mobile · Health</span>
+    <h1>Wallou: building an emergency alert app with Ionic and Angular</h1>
+    <p class="dek">When someone is in danger, every second counts. Wallou lets them send an alert with their GPS position in one tap, and gives responders the medical information they need.</p>
+    <div class="meta"><span>By <b>Mohamadou Lamine Sarr</b></span><span>October 22, 2026</span><span>7 min read</span></div>
+  </header>
+
+  <article class="body">
+    <p>Wallou (from "wallu", to rescue in Wolof) is a mobile app I designed and built in 2020. The idea is simple: after an accident or a health scare, the user presses one button. The app gets their position and sends an alert to the server, which links it to their medical profile.</p>
+    <p>This article walks through the app's architecture and the technical choices behind each feature.</p>
+
+    <h2>The stack</h2>
+    <ul>
+      <li><strong>Ionic 3 and Angular</strong> for the interface and logic, in TypeScript.</li>
+      <li><strong>Cordova</strong> to access phone features: GPS, storage, on-screen messages.</li>
+      <li><strong>SQLite</strong> to keep the session and profile on the device.</li>
+      <li><strong>A REST API</strong> for accounts, profiles and alerts, secured with a JWT.</li>
+    </ul>
+
+    <h2>The user journey</h2>
+    <ol>
+      <li><strong>Sign-up</strong> in two steps: first the account (name, email, login, password), then the medical profile.</li>
+      <li><strong>Medical profile</strong>: blood group, conditions, treatments, allergies, other information and two emergency contacts. The blood group list comes from the API, so it stays consistent with the server.</li>
+      <li><strong>Alert</strong>: a home screen with an emergency button. The alert goes out with the GPS coordinates, and a dialog confirms the sending to the user.</li>
+    </ol>
+
+    <h2>Token-based authentication</h2>
+    <p>On login, the app sends the username and password to <code>/authenticate</code>. The server returns a token (<code>id_token</code>) that the app then adds to every protected call:</p>
+<pre><code>this.http.post(BASE_URL + 'authenticate', { username: login, password: pwd })
+  .map(res =&gt; res.json())
+  .subscribe(data =&gt; {
+    const headers = new Headers();
+    headers.append('Authorization', 'Bearer ' + data.id_token);
+    // the token is stored locally for the next launches
+    this.sql.setJson('token', data.id_token);
+  });</code></pre>
+    <p>On startup, the app looks for this token in local storage. If it is there, the user lands straight on the alert screen without logging in again. That is essential for an emergency app: you do not ask someone who needs help for a password.</p>
+
+    <h2>Simple local storage with SQLite</h2>
+    <p>I wrote a small <code>Sql</code> service that opens a SQLite database on the phone (through the Cordova plugin) or a WebSQL database in the browser during development. It exposes a key-value table and <code>get</code>, <code>set</code>, <code>getJson</code> and <code>setJson</code> methods:</p>
+<pre><code>set(key: string, value: string): Promise&lt;any&gt; {
+  return this.query(
+    'insert or replace into kv(key, value) values (?, ?)',
+    [key, value]);
+}</code></pre>
+    <p>Every query goes through a single <code>query</code> method that turns SQLite's callback API into promises. The rest of the app stays readable.</p>
+
+    <h2>The geolocated alert</h2>
+    <p>The emergency button calls the geolocation plugin with a 20-second timeout, then builds the alert:</p>
+<pre><code>const alerte = {
+  dateEnvoieAlerte: moment().format(),
+  localisation: lat + '; ' + lng,
+  interventionYN: false,
+  rejetYN: false,
+  resumeIntervention: '',
+  uniteSecoursId: 1,
+  usagerId: usager.id
+};
+this.http.post(BASE_URL + 'alertes', alerte, options);</code></pre>
+    <p>The alert model goes beyond sending: it lets a rescue unit take the alert, accept or reject it, then summarize its intervention. The mobile app is only the first step of a full handling process.</p>
+    <div class="note"><b>Design choice</b><p>The medical profile is not sent with the alert, only the user reference. Responders look the profile up on the server. The alert stays small, which matters on a weak network.</p></div>
+
+    <h2>What I would do differently today</h2>
+    <ul>
+      <li><strong>An offline queue for alerts.</strong> Without a network, the alert should be kept on the phone and resent automatically, with an SMS fallback to the emergency contacts.</li>
+      <li><strong>HTTPS everywhere</strong> and encrypted token storage: medical data is sensitive.</li>
+      <li><strong>Capacitor instead of Cordova</strong>, and a recent Angular version.</li>
+      <li><strong>Automated tests</strong> on the alert flow, the most critical part of the app.</li>
+    </ul>
+
+    <h2>What this project taught me</h2>
+    <p>Wallou taught me to design an app around one critical moment: everything else (sign-up, profile, session) exists so that this moment happens without friction. I apply the same logic on ServiceNow today: a good portal or a good flow removes effort at the moment the user needs it.</p>
+
+    <p>The code is public on GitHub: <a href="https://github.com/lamine1993/wallou" rel="noopener">github.com/lamine1993/wallou</a></p>
+
+    <div class="author">
+      <div class="mono">MLS</div>
+      <div><b>Mohamadou Lamine Sarr</b><span>ServiceNow Tech Lead. Before ServiceNow, mobile developer with Ionic and React Native. <a href="/en/#contact">Get in touch</a></span></div>
+    </div>
+  </article>
+
+  <aside class="more">
+    <h2>Read next</h2>
+    <ul><li><a href="/en/articles/acsa-offline-weather-ionic-sqlite/">ACSA: an offline weather app with audio bulletins, built with Ionic and SQLite</a></li><li><a href="/en/articles/arsatool-pest-diagnosis-react-native/">ArSaTool: a React Native app to diagnose crop pests</a></li></ul>
+  </aside>
+
+  <footer>© 2026 Mohamadou Lamine Sarr · <a href="/en/">lamine1993.github.io</a></footer>
+</main>
+</body>
+</html>

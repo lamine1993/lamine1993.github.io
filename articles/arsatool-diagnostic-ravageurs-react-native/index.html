@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ArSaTool : une application React Native pour diagnostiquer les ravageurs des cultures</title>
+<meta name="description" content="Retour d&#x27;expérience technique sur ArSaTool, une application React Native et Redux d&#x27;aide au diagnostic des ravageurs : catalogue des cultures, fiches techniques, chargement d&#x27;images en parallèle et envoi de photos.">
+<meta name="author" content="Mohamadou Lamine Sarr">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#061a22">
+<link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/arsatool-diagnostic-ravageurs-react-native/">
+<link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/arsatool-pest-diagnosis-react-native/">
+<link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/arsatool-diagnostic-ravageurs-react-native/">
+<link rel="canonical" href="https://lamine1993.github.io/articles/arsatool-diagnostic-ravageurs-react-native/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23061a22'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%236bf0a8'%3EMLS%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="Mohamadou Lamine Sarr">
+<meta property="og:title" content="ArSaTool : une application React Native pour diagnostiquer les ravageurs des cultures">
+<meta property="og:description" content="React Native, Redux Thunk, chargement d&#x27;images en parallèle et envoi de photos : l&#x27;architecture d&#x27;un outil de diagnostic agricole.">
+<meta property="og:url" content="https://lamine1993.github.io/articles/arsatool-diagnostic-ravageurs-react-native/">
+<meta property="og:image" content="https://lamine1993.github.io/og.png">
+<meta property="article:published_time" content="2026-10-22">
+<meta property="article:author" content="Mohamadou Lamine Sarr">
+<meta property="article:section" content="Mobile">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lamine1993.github.io/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/article.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "ArSaTool : une application React Native pour diagnostiquer les ravageurs des cultures",
+      "description": "Retour d'expérience technique sur ArSaTool, une application React Native et Redux d'aide au diagnostic des ravageurs : catalogue des cultures, fiches techniques, chargement d'images en parallèle et envoi de photos.",
+      "inLanguage": "fr",
+      "datePublished": "2026-10-22",
+      "dateModified": "2026-10-22",
+      "image": "https://lamine1993.github.io/og.png",
+      "mainEntityOfPage": "https://lamine1993.github.io/articles/arsatool-diagnostic-ravageurs-react-native/",
+      "author": {
+        "@type": "Person",
+        "name": "Mohamadou Lamine Sarr",
+        "url": "https://lamine1993.github.io/"
+      },
+      "keywords": "React Native, Redux, Redux Thunk, Native Base, React Navigation, camera, multipart upload, agriculture, ravageurs",
+      "codeRepository": "https://github.com/lamine1993/arsatool"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://lamine1993.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Articles",
+          "item": "https://lamine1993.github.io/articles/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "ArSaTool"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="/">MLS<span>://folio</span></a><a class="back" href="/articles/">← Tous les articles</a><a class="lang" href="/en/articles/arsatool-pest-diagnosis-react-native/" hreflang="en" lang="en" title="English version">EN</a></div></nav>
+
+<main class="wrap">
+  <div class="crumbs"><ol><li><a href="/">Accueil</a></li><li><a href="/articles/">Articles</a></li><li>ArSaTool</li></ol></div>
+
+  <header class="post">
+    <span class="cat">Mobile · Agriculture</span>
+    <h1>ArSaTool : une application React Native pour diagnostiquer les ravageurs des cultures</h1>
+    <p class="dek">Face à une plante abîmée, l'agriculteur veut savoir deux choses : quel insecte est en cause, et comment lutter contre lui. ArSaTool répond à ces deux questions depuis le téléphone.</p>
+    <div class="meta"><span>Par <b>Mohamadou Lamine Sarr</b></span><span>22 octobre 2026</span><span>Lecture : 7 min</span></div>
+  </header>
+
+  <article class="body">
+    <p>J'ai développé ArSaTool en 2019-2020. L'application guide l'utilisateur en trois choix : la partie de la plante touchée (feuilles, par exemple), la culture, puis l'attaque. Elle affiche alors une fiche technique avec l'insecte, les dégâts et la méthode de lutte. Si l'utilisateur ne trouve pas, il peut photographier la plante et envoyer la photo.</p>
+
+    <h2>La pile technique</h2>
+    <ul>
+      <li><strong>React Native</strong> pour une application Android et iOS à partir d'un seul code JavaScript.</li>
+      <li><strong>Redux et Redux Thunk</strong> pour l'état global et les appels asynchrones.</li>
+      <li><strong>React Navigation</strong> (tiroir, piles et écran de chargement d'authentification).</li>
+      <li><strong>Native Base</strong> pour les composants d'interface.</li>
+      <li><strong>react-native-camera</strong> et <strong>react-native-fetch-blob</strong> pour la photo et son envoi.</li>
+    </ul>
+
+    <h2>Un état découpé par domaine</h2>
+    <p>Le store Redux est découpé en trois parties, chacune avec son reducer :</p>
+<pre><code>const rootReducer = combineReducers({
+  recherche: rechercheReducer,  // cultures, attaques, sélection en cours
+  connexion: connexionReducer,  // utilisateur et jeton
+  ui: uiReducer                 // chargement, erreurs, succès
+});</code></pre>
+    <p>Séparer l'état de l'interface (<code>ui</code>) du reste est le choix qui a le plus simplifié le code. Chaque action asynchrone suit le même schéma : <code>uiStartLoading</code>, l'appel, puis <code>uiStopLoading</code> ou <code>uiShowError</code> avec un message clair. Tous les écrans affichent le chargement et les erreurs de la même façon.</p>
+
+    <h2>Charger les fiches et leurs images en parallèle</h2>
+    <p>Une fiche d'attaque a besoin de deux séries d'images : celles des dégâts et celles de l'insecte. Les charger une par une aurait été lent sur un réseau mobile. Avec <code>Promise.all</code>, toutes les requêtes partent en même temps :</p>
+<pre><code>fetch(SERVER + 'listattaquecomplet/' + culture.id + '/' + localisation)
+  .then(res =&gt; res.json())
+  .then(attaques =&gt; Promise.all([
+    Promise.all(attaques.map(a =&gt;
+      fetch(SERVER + 'imageAttaques/' + a.id).then(r =&gt; r.json()))),
+    Promise.all(attaques.map(a =&gt;
+      fetch(SERVER + 'imageInsectes/' + a.insecte.id).then(r =&gt; r.json())))
+  ]).then(([imagesAttaques, imagesInsectes]) =&gt; {
+    // chaque attaque reçoit ses images, puis une seule action Redux
+    dispatch(setAttaques(fusionner(attaques, imagesAttaques, imagesInsectes)));
+  }));</code></pre>
+    <p>Le temps d'attente devient celui de la requête la plus lente, et non la somme de toutes les requêtes. L'écran est mis à jour une seule fois, avec des données complètes.</p>
+
+    <h2>Envoyer une photo au serveur</h2>
+    <p>L'écran photo utilise <code>RNCamera</code>, avec le flash, le zoom, la mise au point et la balance des blancs. Une fois la photo prise, elle part en <code>multipart/form-data</code>, accompagnée des informations de l'agriculteur :</p>
+<pre><code>RNFetchBlob.fetch('POST', SERVER + 'imageEnvoye',
+  { 'Content-Type': 'multipart/form-data' },
+  [
+    { name: 'file', filename: 'photo.jpg', data: RNFetchBlob.wrap(path) },
+    { name: 'agriculteur', data: JSON.stringify({ agriculteurId, flag: true }) }
+  ]);</code></pre>
+    <p><code>RNFetchBlob.wrap</code> envoie le fichier directement depuis son chemin sur le téléphone, sans le convertir entièrement en base64 en mémoire. C'est important pour les téléphones d'entrée de gamme.</p>
+
+    <h2>Un contenu riche, validé côté serveur</h2>
+    <p>Les fiches viennent d'une base de connaissances agronomique : description des dégâts, type de dégât (déformation, par exemple), date de validation. Le champ <code>flag</code> et la date de validation montrent que le contenu, comme les photos envoyées, passe par une validation avant d'être publié.</p>
+
+    <h2>Ce que je ferais autrement aujourd'hui</h2>
+    <ul>
+      <li><strong>Un cache hors ligne des fiches</strong> : les zones agricoles ont souvent peu de réseau.</li>
+      <li><strong>La compression des photos</strong> avant l'envoi, et une reprise en cas de coupure.</li>
+      <li><strong>Redux Toolkit ou React Query</strong> pour réduire le code répétitif des appels.</li>
+      <li><strong>TypeScript</strong> pour sécuriser le modèle des cultures, attaques et insectes.</li>
+    </ul>
+
+    <h2>Ce que ce projet m'a appris</h2>
+    <p>ArSaTool m'a appris à structurer une application autour de ses données : un catalogue, des relations (culture, attaque, insecte, images) et un circuit de validation. C'est exactement ce que je retrouve aujourd'hui dans la CMDB : des objets, leurs relations, et des règles pour garantir la qualité de l'information.</p>
+
+    <p>Le code est public sur GitHub : <a href="https://github.com/lamine1993/arsatool" rel="noopener">github.com/lamine1993/arsatool</a></p>
+
+    <div class="author">
+      <div class="mono">MLS</div>
+      <div><b>Mohamadou Lamine Sarr</b><span>Tech Lead ServiceNow. Avant ServiceNow, développeur d'applications mobiles Ionic et React Native. <a href="/#contact">Me contacter</a></span></div>
+    </div>
+  </article>
+
+  <aside class="more">
+    <h2>À lire aussi</h2>
+    <ul><li><a href="/articles/wallou-application-urgence-ionic/">Wallou : construire une application d'alerte d'urgence avec Ionic et Angular</a></li><li><a href="/articles/acsa-meteo-hors-ligne-ionic-sqlite/">ACSA : une application météo hors ligne avec bulletins audio, en Ionic et SQLite</a></li></ul>
+  </aside>
+
+  <footer>© 2026 Mohamadou Lamine Sarr · <a href="/">lamine1993.github.io</a></footer>
+</main>
+</body>
+</html>

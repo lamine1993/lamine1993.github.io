@@ -80,4 +80,52 @@
     <lastmod>2026-10-22</lastmod>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://lamine1993.github.io/articles/wallou-application-urgence-ionic/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/wallou-application-urgence-ionic/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/wallou-emergency-app-ionic/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/wallou-application-urgence-ionic/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lamine1993.github.io/en/articles/wallou-emergency-app-ionic/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/wallou-application-urgence-ionic/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/wallou-emergency-app-ionic/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/wallou-application-urgence-ionic/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lamine1993.github.io/articles/acsa-meteo-hors-ligne-ionic-sqlite/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/acsa-meteo-hors-ligne-ionic-sqlite/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/acsa-offline-weather-ionic-sqlite/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/acsa-meteo-hors-ligne-ionic-sqlite/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lamine1993.github.io/en/articles/acsa-offline-weather-ionic-sqlite/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/acsa-meteo-hors-ligne-ionic-sqlite/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/acsa-offline-weather-ionic-sqlite/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/acsa-meteo-hors-ligne-ionic-sqlite/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lamine1993.github.io/articles/arsatool-diagnostic-ravageurs-react-native/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/arsatool-diagnostic-ravageurs-react-native/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/arsatool-pest-diagnosis-react-native/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/arsatool-diagnostic-ravageurs-react-native/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lamine1993.github.io/en/articles/arsatool-pest-diagnosis-react-native/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/arsatool-diagnostic-ravageurs-react-native/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/arsatool-pest-diagnosis-react-native/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/arsatool-diagnostic-ravageurs-react-native/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.7</priority>
+  </url>
 </urlset>

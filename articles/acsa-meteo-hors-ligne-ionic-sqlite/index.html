@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ACSA : une application météo hors ligne avec bulletins audio, en Ionic et SQLite</title>
+<meta name="description" content="Retour d&#x27;expérience technique sur ACSA, un prototype d&#x27;application météo en Ionic et Angular : prévisions par zone du Sénégal, bulletins audio et stockage local SQLite pour une lecture hors ligne.">
+<meta name="author" content="Mohamadou Lamine Sarr">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#061a22">
+<link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/acsa-meteo-hors-ligne-ionic-sqlite/">
+<link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/acsa-offline-weather-ionic-sqlite/">
+<link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/acsa-meteo-hors-ligne-ionic-sqlite/">
+<link rel="canonical" href="https://lamine1993.github.io/articles/acsa-meteo-hors-ligne-ionic-sqlite/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23061a22'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%236bf0a8'%3EMLS%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="Mohamadou Lamine Sarr">
+<meta property="og:title" content="ACSA : une application météo hors ligne avec bulletins audio, en Ionic et SQLite">
+<meta property="og:description" content="Prévisions par zone, bulletins audio et SQLite : concevoir une application météo pensée pour le hors ligne.">
+<meta property="og:url" content="https://lamine1993.github.io/articles/acsa-meteo-hors-ligne-ionic-sqlite/">
+<meta property="og:image" content="https://lamine1993.github.io/og.png">
+<meta property="article:published_time" content="2026-10-22">
+<meta property="article:author" content="Mohamadou Lamine Sarr">
+<meta property="article:section" content="Mobile">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lamine1993.github.io/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/article.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "ACSA : une application météo hors ligne avec bulletins audio, en Ionic et SQLite",
+      "description": "Retour d'expérience technique sur ACSA, un prototype d'application météo en Ionic et Angular : prévisions par zone du Sénégal, bulletins audio et stockage local SQLite pour une lecture hors ligne.",
+      "inLanguage": "fr",
+      "datePublished": "2026-10-22",
+      "dateModified": "2026-10-22",
+      "image": "https://lamine1993.github.io/og.png",
+      "mainEntityOfPage": "https://lamine1993.github.io/articles/acsa-meteo-hors-ligne-ionic-sqlite/",
+      "author": {
+        "@type": "Person",
+        "name": "Mohamadou Lamine Sarr",
+        "url": "https://lamine1993.github.io/"
+      },
+      "keywords": "Ionic, Angular, SQLite, hors ligne, offline first, application météo, audio, Sénégal",
+      "codeRepository": "https://github.com/lamine1993/acsa"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://lamine1993.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Articles",
+          "item": "https://lamine1993.github.io/articles/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "ACSA"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="/">MLS<span>://folio</span></a><a class="back" href="/articles/">← Tous les articles</a><a class="lang" href="/en/articles/acsa-offline-weather-ionic-sqlite/" hreflang="en" lang="en" title="English version">EN</a></div></nav>
+
+<main class="wrap">
+  <div class="crumbs"><ol><li><a href="/">Accueil</a></li><li><a href="/articles/">Articles</a></li><li>ACSA</li></ol></div>
+
+  <header class="post">
+    <span class="cat">Mobile · Météo</span>
+    <h1>ACSA : une application météo hors ligne avec bulletins audio, en Ionic et SQLite</h1>
+    <p class="dek">Une prévision n'est utile que si elle arrive jusqu'à son public. ACSA est un prototype d'application météo pensé pour deux contraintes : un réseau qui manque souvent, et des utilisateurs qui préfèrent écouter plutôt que lire.</p>
+    <div class="meta"><span>Par <b>Mohamadou Lamine Sarr</b></span><span>22 octobre 2026</span><span>Lecture : 6 min</span></div>
+  </header>
+
+  <article class="body">
+    <p>J'ai développé ACSA fin 2019 et début 2020, sous forme de prototype. Elle affiche la prévision du jour pour une zone du Sénégal et propose un bulletin audio qui résume la météo. L'enjeu technique principal : que l'information reste disponible même sans connexion.</p>
+
+    <h2>La pile technique</h2>
+    <ul>
+      <li><strong>Ionic 3 et Angular</strong>, en TypeScript, avec des pages chargées à la demande (<em>lazy loading</em>).</li>
+      <li><strong>SQLite</strong> via Cordova pour stocker les bulletins sur le téléphone.</li>
+      <li><strong>Ionic Audio</strong> pour lire les bulletins audio dans l'application.</li>
+      <li><strong>Moment.js</strong> pour gérer les dates des bulletins.</li>
+    </ul>
+
+    <h2>Un modèle de données calé sur le territoire</h2>
+    <p>Une prévision est rattachée à un découpage géographique précis : zone, région et département. Le modèle reprend ce découpage :</p>
+<pre><code>export interface MeteoZone {
+  zone: string;          // NORD, CENTRE OUEST, CENTRE, SUD
+  region: string;        // SAINT-LOUIS, DAKAR, THIES, MATAM…
+  departement: string;
+  paysage_ciel: string;  // état du ciel
+  temperature?: number;
+  temperatureMax?: number;
+  temperatureMin?: number;
+  humidite?: number;
+  vent?: string;
+}
+
+export interface BulletinMeteo {
+  prevision?: MeteoZone;
+  resume?: AudioType;       // le bulletin audio
+  intervalleDate?: DateMeteo;
+}</code></pre>
+    <p>Un bulletin regroupe donc trois choses : la prévision chiffrée, le fichier audio et la période couverte.</p>
+
+    <h2>Le stockage local d'abord</h2>
+    <p>L'application lit toujours ses données depuis SQLite, jamais directement depuis le réseau. Chaque bulletin est enregistré avec sa zone et sa date d'ajout, ce qui permet de retrouver la prévision du jour en une requête :</p>
+<pre><code>getMeteo(zone: string, today: string) {
+  return this._db.query(
+    'SELECT prevision, audio, dateAjout FROM meteo ' +
+    'WHERE zone = ? AND dateAjout = ? LIMIT 1',
+    [zone, today]);
+}</code></pre>
+    <p>Les objets complexes (prévision, audio, période) sont stockés en JSON dans des colonnes texte. C'est un compromis volontaire pour un prototype : le schéma reste simple et le modèle peut évoluer sans migration.</p>
+    <div class="note"><b>Pourquoi lire en local ?</b><p>Si l'écran lit toujours la base locale, il fonctionne de la même façon avec ou sans réseau. La synchronisation devient un sujet séparé, qui met la base à jour quand une connexion existe.</p></div>
+
+    <h2>Des composants découplés</h2>
+    <p>La page météo assemble deux composants : <code>bulletin-audio</code>, qui affiche le lecteur, et <code>donnee-meteo</code>, qui affiche température, vent et ciel. La page leur passe le bulletin et des <code>EventEmitter</code> pour signaler son affichage et sa fermeture. Le lecteur peut ainsi s'arrêter proprement quand l'utilisateur quitte l'écran.</p>
+
+    <h2>Où en était le prototype</h2>
+    <p>Le prototype fonctionne avec des bulletins d'exemple chargés au démarrage, pour une zone. Il valide l'interface, le modèle de données et la lecture hors ligne. La suite prévue était la synchronisation avec un serveur de bulletins.</p>
+
+    <h2>Ce que je ferais autrement aujourd'hui</h2>
+    <ul>
+      <li><strong>Une vraie synchronisation</strong> : télécharger les bulletins de la semaine dès qu'une connexion existe, puis nettoyer les anciens.</li>
+      <li><strong>Le choix de la zone par l'utilisateur</strong>, ou sa détection par GPS.</li>
+      <li><strong>Des bulletins audio en langues locales</strong>, et un mode « audio d'abord » pour les utilisateurs qui lisent peu.</li>
+      <li><strong>Un schéma SQL plus structuré</strong> une fois le modèle stabilisé.</li>
+    </ul>
+
+    <h2>Ce que ce projet m'a appris</h2>
+    <p>ACSA m'a appris à partir des contraintes réelles des utilisateurs plutôt que de la technologie : réseau instable, préférence pour l'oral. C'est la même démarche que pour un portail employé : on part de la façon dont les gens cherchent l'information, pas de la structure de l'organisation.</p>
+
+    <p>Le code est public sur GitHub : <a href="https://github.com/lamine1993/acsa" rel="noopener">github.com/lamine1993/acsa</a></p>
+
+    <div class="author">
+      <div class="mono">MLS</div>
+      <div><b>Mohamadou Lamine Sarr</b><span>Tech Lead ServiceNow. Avant ServiceNow, développeur d'applications mobiles Ionic et React Native. <a href="/#contact">Me contacter</a></span></div>
+    </div>
+  </article>
+
+  <aside class="more">
+    <h2>À lire aussi</h2>
+    <ul><li><a href="/articles/wallou-application-urgence-ionic/">Wallou : construire une application d'alerte d'urgence avec Ionic et Angular</a></li><li><a href="/articles/arsatool-diagnostic-ravageurs-react-native/">ArSaTool : une application React Native pour diagnostiquer les ravageurs des cultures</a></li></ul>
+  </aside>
+
+  <footer>© 2026 Mohamadou Lamine Sarr · <a href="/">lamine1993.github.io</a></footer>
+</main>
+</body>
+</html>
