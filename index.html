@@ -9,6 +9,9 @@
 <meta name="robots" content="index, follow">
 <meta name="google-site-verification" content="e5W9UxE1kFBTomwilx8eiTnlCwm76CWfsFvNz4-0ZkI">
 <meta name="theme-color" content="#061a22">
+<link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/">
+<link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/">
+<link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/">
 <link rel="canonical" href="https://lamine1993.github.io/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23061a22'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%236bf0a8'%3EMLS%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="profile">
@@ -108,6 +111,9 @@ nav .wrap { display: flex; align-items: center; justify-content: space-between; 
 nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
 nav ul a { font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
 nav ul a:hover { color: var(--volt); }
+nav ul { margin-left: auto; }
+.lang { flex: none; font: 500 12px/1 var(--f-mono); letter-spacing: .12em; color: var(--volt); border: 1px solid var(--volt); padding: 7px 9px; text-decoration: none; }
+.lang:hover { background: var(--volt); color: var(--ink); }
 
 /* hero */
 .hero { padding-block: 72px 56px; display: grid; grid-template-columns: 1.35fr 1fr; gap: 40px; align-items: end; }
@@ -254,6 +260,7 @@ footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 
       <li><a href="/articles/">Articles</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
+    <a class="lang" href="/en/" hreflang="en" lang="en" title="English version">EN</a>
   </div>
 </nav>
 

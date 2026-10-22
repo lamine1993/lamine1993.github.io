@@ -1,8 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://lamine1993.github.io/</loc><lastmod>2026-10-22</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://lamine1993.github.io/articles/</loc><lastmod>2026-10-22</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lamine1993.github.io/articles/decommissionnement-serveurs-servicenow/</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
-  <url><loc>https://lamine1993.github.io/articles/integration-cmdb-integrationhub-etl/</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
-  <url><loc>https://lamine1993.github.io/articles/employee-center-pro-nouveau-portail/</loc><lastmod>2026-10-22</lastmod><priority>0.7</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://lamine1993.github.io/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://lamine1993.github.io/en/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://lamine1993.github.io/articles/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lamine1993.github.io/en/articles/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lamine1993.github.io/articles/decommissionnement-serveurs-servicenow/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/decommissionnement-serveurs-servicenow/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/server-decommissioning-servicenow/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/decommissionnement-serveurs-servicenow/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lamine1993.github.io/en/articles/server-decommissioning-servicenow/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/decommissionnement-serveurs-servicenow/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/server-decommissioning-servicenow/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/decommissionnement-serveurs-servicenow/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lamine1993.github.io/articles/integration-cmdb-integrationhub-etl/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/integration-cmdb-integrationhub-etl/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/cmdb-integration-integrationhub-etl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/integration-cmdb-integrationhub-etl/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lamine1993.github.io/en/articles/cmdb-integration-integrationhub-etl/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/integration-cmdb-integrationhub-etl/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/cmdb-integration-integrationhub-etl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/integration-cmdb-integrationhub-etl/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lamine1993.github.io/articles/employee-center-pro-nouveau-portail/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/employee-center-pro-nouveau-portail/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/employee-center-pro-new-portal/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/employee-center-pro-nouveau-portail/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lamine1993.github.io/en/articles/employee-center-pro-new-portal/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/employee-center-pro-nouveau-portail/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/employee-center-pro-new-portal/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/employee-center-pro-nouveau-portail/"/>
+    <lastmod>2026-10-22</lastmod>
+    <priority>0.7</priority>
+  </url>
 </urlset>

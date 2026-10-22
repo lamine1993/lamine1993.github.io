@@ -38,6 +38,9 @@ nav .wrap { max-width: 1080px; display: flex; justify-content: space-between; al
 .logo span { color: var(--fg); }
 nav .back { font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
 nav .back:hover { color: var(--volt); }
+nav .back { margin-left: auto; }
+.lang { flex: none; font: 500 12px/1 var(--f-mono); letter-spacing: .12em; color: var(--volt); border: 1px solid var(--volt); padding: 7px 9px; text-decoration: none; }
+.lang:hover { background: var(--volt); color: var(--ink); }
 
 .crumbs { font: 400 12px/1.6 var(--f-mono); color: var(--muted); letter-spacing: .06em; padding-block: 32px 0; }
 .crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }

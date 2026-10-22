@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Integrating Zabbix and Workspace ONE with the ServiceNow CMDB using IntegrationHub ETL</title>
+<meta name="description" content="A ServiceNow Tech Lead's field notes: feeding the CMDB from Zabbix and Workspace ONE with the MID Server, IntegrationHub ETL, the Robust Transform Engine and the IRE, without creating duplicates.">
+<meta name="author" content="Mohamadou Lamine Sarr">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#061a22">
+<link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/integration-cmdb-integrationhub-etl/">
+<link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/cmdb-integration-integrationhub-etl/">
+<link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/integration-cmdb-integrationhub-etl/">
+<link rel="canonical" href="https://lamine1993.github.io/en/articles/cmdb-integration-integrationhub-etl/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23061a22'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%236bf0a8'%3EMLS%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:site_name" content="Mohamadou Lamine Sarr">
+<meta property="og:title" content="Integrating Zabbix and Workspace ONE with the ServiceNow CMDB using IntegrationHub ETL">
+<meta property="og:description" content="MID Server, IntegrationHub ETL, Robust Transform and IRE: how to feed the CMDB without duplicates.">
+<meta property="og:url" content="https://lamine1993.github.io/en/articles/cmdb-integration-integrationhub-etl/">
+<meta property="og:image" content="https://lamine1993.github.io/og.png">
+<meta property="article:published_time" content="2026-10-22">
+<meta property="article:author" content="Mohamadou Lamine Sarr">
+<meta property="article:section" content="CMDB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lamine1993.github.io/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/article.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Integrating Zabbix and Workspace ONE with the ServiceNow CMDB using IntegrationHub ETL",
+      "description": "Feeding the CMDB from Zabbix and Workspace ONE with the MID Server, IntegrationHub ETL, the Robust Transform Engine and the IRE, without creating duplicates.",
+      "inLanguage": "en",
+      "datePublished": "2026-10-22",
+      "dateModified": "2026-10-22",
+      "image": "https://lamine1993.github.io/og.png",
+      "mainEntityOfPage": "https://lamine1993.github.io/en/articles/cmdb-integration-integrationhub-etl/",
+      "author": { "@type": "Person", "name": "Mohamadou Lamine Sarr", "url": "https://lamine1993.github.io/en/" },
+      "keywords": "ServiceNow, CMDB, IntegrationHub ETL, Robust Transform Engine, IRE, MID Server, Zabbix, Workspace ONE"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lamine1993.github.io/en/" },
+        { "@type": "ListItem", "position": 2, "name": "Articles", "item": "https://lamine1993.github.io/en/articles/" },
+        { "@type": "ListItem", "position": 3, "name": "CMDB integration with IntegrationHub ETL" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="/en/">MLS<span>://folio</span></a><a class="back" href="/en/articles/">← All articles</a><a class="lang" href="/articles/integration-cmdb-integrationhub-etl/" hreflang="fr" lang="fr" title="Version française">FR</a></div></nav>
+
+<main class="wrap">
+  <div class="crumbs"><ol><li><a href="/en/">Home</a></li><li><a href="/en/articles/">Articles</a></li><li>CMDB integration</li></ol></div>
+
+  <header class="post">
+    <span class="cat">CMDB · Integration</span>
+    <h1>Integrating Zabbix and Workspace ONE with the ServiceNow CMDB using IntegrationHub ETL</h1>
+    <p class="dek">Two sources, two ways of describing a device, one rule: never create a duplicate CI. Here is the method I used to connect a network monitoring tool and an MDM to the CMDB.</p>
+    <div class="meta"><span>By <b>Mohamadou Lamine Sarr</b></span><span>October 22, 2026</span><span>8 min read</span></div>
+  </header>
+
+  <article class="body">
+    <p>On a project at PSG, I integrated two platforms with the ServiceNow CMDB: <strong>Zabbix</strong>, which monitors the network estate, and <strong>Workspace ONE</strong>, which manages mobile devices. The need is a common one: the CMDB must reflect what really exists, with no manual data entry.</p>
+    <p>The trap is just as common. A poorly designed import creates duplicates, overwrites more reliable data, and the CMDB loses the teams' trust. This article covers the architecture we chose and the decisions that matter.</p>
+
+    <h2>The architecture at a glance</h2>
+    <p>Each source follows the same path:</p>
+    <ol>
+      <li><strong>MID Server</strong>: the bridge between the ServiceNow instance and the internal network where Zabbix lives.</li>
+      <li><strong>Data source</strong>: calls the tool's API and loads the raw data into an import set table.</li>
+      <li><strong>IntegrationHub ETL</strong>: transforms the data and maps it to the right CMDB classes, using the Robust Transform Engine.</li>
+      <li><strong>IRE</strong> (Identification and Reconciliation Engine): decides whether each row matches an existing CI or a new one, and which source may update which field.</li>
+    </ol>
+    <p>The last step is the key one. With a classic Transform Map, the script writes to the CMDB. With IntegrationHub ETL, <strong>everything goes through the IRE</strong>. That is what protects the CMDB from duplicates.</p>
+
+    <h2>Step 1: secure the connection with the MID Server</h2>
+    <p>Zabbix was hosted on the internal network, with no direct access from the Internet. The MID Server is the right answer: installed inside that network, it opens an outbound connection to the instance and runs the calls on its behalf.</p>
+    <p>A few rules I always apply:</p>
+    <ul>
+      <li>A dedicated service account with read-only rights on the source tool's API.</li>
+      <li>Credentials stored in a ServiceNow <em>Credential</em> record, never in plain text in a script.</li>
+      <li>A MID Server validation and an API call test before building anything in the ETL.</li>
+    </ul>
+
+    <h2>Step 2: pull data from the source</h2>
+    <p>Zabbix exposes a JSON-RPC API. The <code>host.get</code> method returns hosts with their interfaces and inventory. I deliberately limit the requested fields: import what the CMDB will use, nothing more.</p>
+<pre><code>{
+  "jsonrpc": "2.0",
+  "method": "host.get",
+  "params": {
+    "output": ["hostid", "host", "name", "status"],
+    "selectInterfaces": ["ip", "dns", "type"],
+    "selectInventory": ["os", "serialno_a", "vendor", "model"]
+  },
+  "id": 1
+}</code></pre>
+    <p>For Workspace ONE, the UEM REST API lets you search devices with their serial number, model, platform and assigned user. In both cases I built <strong>custom data sources</strong> that handle pagination and load each response into an import set table.</p>
+    <div class="note"><b>Tip</b><p>Keep the data source "dumb": it fetches and it loads, nothing else. All transformation logic belongs in the ETL, where it is visible, testable and documented.</p></div>
+
+    <h2>Step 3: transform with IntegrationHub ETL</h2>
+    <p>IntegrationHub ETL is a guided application. For each source, I followed its steps:</p>
+    <h3>Prepare the data</h3>
+    <p>Clean before mapping: lowercase host names, split out the domain name, normalize manufacturer names ("Cisco Systems" and "cisco" must become the same value), and set aside rows without a reliable identifier.</p>
+    <h3>Map to CMDB classes</h3>
+    <p>Each row must land in the right class: a switch in <code>cmdb_ci_ip_switch</code>, a router in <code>cmdb_ci_ip_router</code>, a smartphone in the mobile device class. A classification rule based on the type reported by the source avoids dumping everything into a generic class.</p>
+    <h3>Add relationships</h3>
+    <p>An isolated CI has little value. When the source allows it, I create relationships during the import: the network interface linked to its device, the mobile device linked to its user.</p>
+    <h3>Test, then roll back</h3>
+    <p>The ETL lets you run a test import on a sample, then undo it (<em>rollback</em>). I always run several passes like this before the first real import. It is the most underrated feature of the tool.</p>
+
+    <h2>Step 4: configure the IRE properly</h2>
+    <p>This is where CMDB quality is won or lost. Three settings are essential.</p>
+    <div class="table">
+      <table>
+        <thead><tr><th>Setting</th><th>Purpose</th><th>What I did</th></tr></thead>
+        <tbody>
+          <tr><td>Discovery source</td><td>Record where each CI comes from</td><td>A dedicated value per tool, to trace and filter each source</td></tr>
+          <tr><td>Identification rules</td><td>Recognize an existing CI</td><td>Serial number first, then fully qualified host name as a fallback</td></tr>
+          <tr><td>Reconciliation rules</td><td>Decide which source writes which field</td><td>Discovery stays authoritative for technical attributes; Workspace ONE is authoritative for the device's user</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Without reconciliation rules, the last source to run wins. Two tools can then keep overwriting each other on every import, and the CI history becomes unreadable.</p>
+
+    <h2>Step 5: monitor quality over time</h2>
+    <p>An integration is never finished on go-live day. I set up regular monitoring:</p>
+    <ul>
+      <li>The <strong>CMDB Health</strong> dashboard, to track CI completeness, compliance and freshness.</li>
+      <li>The <strong>de-duplication tasks</strong> the IRE creates when it detects duplicates, reviewed and remediated one by one.</li>
+      <li>A review of rejected rows after each import, to fix the source rather than the CMDB.</li>
+    </ul>
+
+    <h2>Key takeaways</h2>
+    <ul>
+      <li><strong>The IRE is not optional.</strong> Every import into the CMDB should go through it.</li>
+      <li><strong>Identifiers first.</strong> Without a reliable serial number, no rule can save data quality.</li>
+      <li><strong>Talk to the business teams.</strong> I ran a workshop with the network and mobility teams before building anything. That is where you learn which source is authoritative for each piece of data.</li>
+    </ul>
+    <p>Going further, the same logic applies to Store connectors: <em>Service Graph Connectors</em> rely on the same building blocks (import, Robust Transform, IRE). Understanding the ETL means understanding how they work.</p>
+
+    <div class="author">
+      <div class="mono">MLS</div>
+      <div><b>Mohamadou Lamine Sarr</b><span>ServiceNow Tech Lead, certified CIS-DF (CMDB &amp; CSDM) and CIS-Discovery. <a href="/en/#contact">Get in touch</a></span></div>
+    </div>
+  </article>
+
+  <aside class="more">
+    <h2>Read next</h2>
+    <ul>
+      <li><a href="/en/articles/server-decommissioning-servicenow/">Decommissioning servers with ServiceNow: method and teamwork with infrastructure</a></li>
+      <li><a href="/en/articles/employee-center-pro-new-portal/">Building a new Employee Center Pro portal without touching production</a></li>
+    </ul>
+  </aside>
+
+  <footer>© 2026 Mohamadou Lamine Sarr · <a href="/en/">lamine1993.github.io</a></footer>
+</main>
+</body>
+</html>

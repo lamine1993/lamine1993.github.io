@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Building a new Employee Center Pro portal without touching production</title>
+<meta name="description" content="ServiceNow field notes: building a new Employee Center Pro portal alongside the existing one, with its own taxonomy, Branding Editor theme and menus, then switching employees over with no downtime.">
+<meta name="author" content="Mohamadou Lamine Sarr">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#061a22">
+<link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/employee-center-pro-nouveau-portail/">
+<link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/employee-center-pro-new-portal/">
+<link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/employee-center-pro-nouveau-portail/">
+<link rel="canonical" href="https://lamine1993.github.io/en/articles/employee-center-pro-new-portal/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23061a22'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%236bf0a8'%3EMLS%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:site_name" content="Mohamadou Lamine Sarr">
+<meta property="og:title" content="Building a new Employee Center Pro portal without touching production">
+<meta property="og:description" content="Parallel portal, taxonomy, Branding Editor and zero-downtime cutover, step by step.">
+<meta property="og:url" content="https://lamine1993.github.io/en/articles/employee-center-pro-new-portal/">
+<meta property="og:image" content="https://lamine1993.github.io/og.png">
+<meta property="article:published_time" content="2026-10-22">
+<meta property="article:author" content="Mohamadou Lamine Sarr">
+<meta property="article:section" content="Employee Center">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lamine1993.github.io/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/article.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Building a new Employee Center Pro portal without touching production",
+      "description": "Building a new Employee Center Pro portal alongside the existing one, with its own taxonomy, theme and menus, then switching over with no downtime.",
+      "inLanguage": "en",
+      "datePublished": "2026-10-22",
+      "dateModified": "2026-10-22",
+      "image": "https://lamine1993.github.io/og.png",
+      "mainEntityOfPage": "https://lamine1993.github.io/en/articles/employee-center-pro-new-portal/",
+      "author": { "@type": "Person", "name": "Mohamadou Lamine Sarr", "url": "https://lamine1993.github.io/en/" },
+      "keywords": "ServiceNow, Employee Center Pro, ESC, Service Portal, Branding Editor, taxonomy, employee portal"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lamine1993.github.io/en/" },
+        { "@type": "ListItem", "position": 2, "name": "Articles", "item": "https://lamine1993.github.io/en/articles/" },
+        { "@type": "ListItem", "position": 3, "name": "New Employee Center Pro portal" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="/en/">MLS<span>://folio</span></a><a class="back" href="/en/articles/">← All articles</a><a class="lang" href="/articles/employee-center-pro-nouveau-portail/" hreflang="fr" lang="fr" title="Version française">FR</a></div></nav>
+
+<main class="wrap">
+  <div class="crumbs"><ol><li><a href="/en/">Home</a></li><li><a href="/en/articles/">Articles</a></li><li>Employee Center Pro</li></ol></div>
+
+  <header class="post">
+    <span class="cat">Employee Center · Portal</span>
+    <h1>Building a new Employee Center Pro portal without touching production</h1>
+    <p class="dek">Employees use the portal every day, so you cannot rebuild it live. Here is how I built a new Employee Center Pro portal next to the old one, then prepared a cutover with no downtime.</p>
+    <div class="meta"><span>By <b>Mohamadou Lamine Sarr</b></span><span>October 22, 2026</span><span>7 min read</span></div>
+  </header>
+
+  <article class="body">
+    <p>At Desjardins, I worked on the advanced configuration of <strong>Employee Center Pro</strong> (ESC), the single portal where employees find their services, requests and knowledge articles.</p>
+    <p>The challenge: deliver a new experience (new structure, new theme, new menus) without disrupting the portal everyone was using. The answer was to <strong>build a second portal in parallel</strong>.</p>
+
+    <h2>Why a parallel portal</h2>
+    <p>Changing the production portal directly causes three problems:</p>
+    <ul>
+      <li>every taxonomy or menu change is immediately visible to all employees;</li>
+      <li>you cannot have a pilot group test the new version;</li>
+      <li>rolling back is hard once several changes are mixed together.</li>
+    </ul>
+    <p>A parallel portal solves all three: the old one keeps running, the new one is built at its own pace, and the cutover becomes a single, controlled decision.</p>
+
+    <h2>Step 1: create the new portal</h2>
+    <p>In ServiceNow, a portal is a record in the <code>sp_portal</code> table, with its own URL suffix, home page, theme and menu. The new portal gets a suffix different from the old one. Both live on the same instance and share the same catalog and knowledge base.</p>
+    <div class="note"><b>Tip</b><p>Never modify the out-of-the-box Employee Center pages and widgets. Copy what you need to change and attach the copy to the new portal. Platform upgrades stay easy to apply.</p></div>
+
+    <h2>Step 2: structure the taxonomy</h2>
+    <p>The <strong>taxonomy</strong> is the portal's map: the main topics (for example "My workplace", "HR", "Access and security") and their subtopics. Employees browse by subject, not by department.</p>
+    <p>I structured the new portal's taxonomy, then attached content to each topic: catalog items, knowledge articles, quick links. One simple rule helps a lot: an employee should find what they need <strong>in three clicks or fewer</strong>.</p>
+
+    <h2>Step 3: create a theme with the Branding Editor</h2>
+    <p>The <strong>Branding Editor</strong> lets you build a theme without writing CSS: logo, colors, typography, banner image. I used it to create a custom theme for the new portal, in the organization's colors.</p>
+    <p>The advantage over hand-written CSS: the theme stays compatible with future Employee Center releases, and a non-technical team can adjust it later.</p>
+
+    <h2>Step 4: customize the header and widgets</h2>
+    <h3>Header and menus</h3>
+    <p>The header is the most viewed part of the portal. I added new contextual menus that show different links depending on the employee's profile, using <em>user criteria</em>. Everyone sees what concerns them first.</p>
+    <h3>My Favorites and My Applications</h3>
+    <p>I enabled and configured two widgets employees love: <strong>My Favorites</strong>, to reach frequently used services in one click, and <strong>My Applications</strong>, to open company applications straight from the portal.</p>
+
+    <h2>Step 5: test and switch over</h2>
+    <p>The parallel portal makes it possible to test in real conditions, with no risk:</p>
+    <ol>
+      <li><strong>Tests by profile</strong>: by impersonating different users, we check that each one sees the right menus and content.</li>
+      <li><strong>Pilot group</strong>: a group of employees uses the new portal and gives feedback before everyone else.</li>
+      <li><strong>Cutover</strong>: when ready, the new portal becomes the default landing page. The old one stays available for a while, so we can roll back in minutes if needed.</li>
+    </ol>
+
+    <h2>Key takeaways</h2>
+    <ul>
+      <li><strong>Build alongside, not on top.</strong> It is the best way to ship a big change without disrupting anyone.</li>
+      <li><strong>Taxonomy matters more than design.</strong> A beautiful portal that is badly organized is still a bad portal.</li>
+      <li><strong>Stay close to the baseline.</strong> Branding Editor, user criteria and out-of-the-box widgets: less custom code means simpler upgrades.</li>
+    </ul>
+
+    <div class="author">
+      <div class="mono">MLS</div>
+      <div><b>Mohamadou Lamine Sarr</b><span>ServiceNow Tech Lead: CSM, Employee Center, CMDB. Certified CIS-CSM and CAD. <a href="/en/#contact">Get in touch</a></span></div>
+    </div>
+  </article>
+
+  <aside class="more">
+    <h2>Read next</h2>
+    <ul>
+      <li><a href="/en/articles/cmdb-integration-integrationhub-etl/">Integrating Zabbix and Workspace ONE with the ServiceNow CMDB using IntegrationHub ETL</a></li>
+      <li><a href="/en/articles/server-decommissioning-servicenow/">Decommissioning servers with ServiceNow: method and teamwork with infrastructure</a></li>
+    </ul>
+  </aside>
+
+  <footer>© 2026 Mohamadou Lamine Sarr · <a href="/en/">lamine1993.github.io</a></footer>
+</main>
+</body>
+</html>

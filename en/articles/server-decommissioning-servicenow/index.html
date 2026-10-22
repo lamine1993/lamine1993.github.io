@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Decommissioning servers with ServiceNow: method and teamwork with infrastructure</title>
+<meta name="description" content="A ServiceNow Tech Lead's method for decommissioning servers without incidents: CMDB dependency analysis, change management, observation period, CSDM lifecycle and close work with infrastructure teams.">
+<meta name="author" content="Mohamadou Lamine Sarr">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#061a22">
+<link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/decommissionnement-serveurs-servicenow/">
+<link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/server-decommissioning-servicenow/">
+<link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/decommissionnement-serveurs-servicenow/">
+<link rel="canonical" href="https://lamine1993.github.io/en/articles/server-decommissioning-servicenow/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23061a22'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%236bf0a8'%3EMLS%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:site_name" content="Mohamadou Lamine Sarr">
+<meta property="og:title" content="Decommissioning servers with ServiceNow: method and teamwork with infrastructure">
+<meta property="og:description" content="CMDB dependencies, change, observation period and CSDM lifecycle: retiring a server without breaking production.">
+<meta property="og:url" content="https://lamine1993.github.io/en/articles/server-decommissioning-servicenow/">
+<meta property="og:image" content="https://lamine1993.github.io/og.png">
+<meta property="article:published_time" content="2026-10-22">
+<meta property="article:author" content="Mohamadou Lamine Sarr">
+<meta property="article:section" content="ITOM">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://lamine1993.github.io/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/article.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Decommissioning servers with ServiceNow: method and teamwork with infrastructure",
+      "description": "CMDB dependency analysis, change management, observation period, CSDM lifecycle and close work with infrastructure teams.",
+      "inLanguage": "en",
+      "datePublished": "2026-10-22",
+      "dateModified": "2026-10-22",
+      "image": "https://lamine1993.github.io/og.png",
+      "mainEntityOfPage": "https://lamine1993.github.io/en/articles/server-decommissioning-servicenow/",
+      "author": { "@type": "Person", "name": "Mohamadou Lamine Sarr", "url": "https://lamine1993.github.io/en/" },
+      "keywords": "ServiceNow, server decommissioning, CMDB, CSDM, CI lifecycle, change management, infrastructure, Discovery"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lamine1993.github.io/en/" },
+        { "@type": "ListItem", "position": 2, "name": "Articles", "item": "https://lamine1993.github.io/en/articles/" },
+        { "@type": "ListItem", "position": 3, "name": "Server decommissioning" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="/en/">MLS<span>://folio</span></a><a class="back" href="/en/articles/">← All articles</a><a class="lang" href="/articles/decommissionnement-serveurs-servicenow/" hreflang="fr" lang="fr" title="Version française">FR</a></div></nav>
+
+<main class="wrap">
+  <div class="crumbs"><ol><li><a href="/en/">Home</a></li><li><a href="/en/articles/">Articles</a></li><li>Decommissioning</li></ol></div>
+
+  <header class="post">
+    <span class="cat">ITOM · CMDB</span>
+    <h1>Decommissioning servers with ServiceNow: method and teamwork with infrastructure</h1>
+    <p class="dek">Shutting down a server takes a minute. Being sure nobody depends on it takes much longer. Here is how I structure that work as Tech Lead of a server decommissioning squad.</p>
+    <div class="meta"><span>By <b>Mohamadou Lamine Sarr</b></span><span>October 22, 2026</span><span>7 min read</span></div>
+  </header>
+
+  <article class="body">
+    <p>In large organizations, servers pile up: old applications, forgotten test environments, machines whose owner has moved to another team. Each one costs money in licenses, power and maintenance, and adds security exposure.</p>
+    <p>Retiring them is a real lever. But a poorly prepared retirement can cut off a service nobody had linked to that server. My role as Tech Lead at Desjardins is to make this work <strong>safe, traceable and repeatable</strong>, in constant contact with the infrastructure teams.</p>
+
+    <h2>Why ServiceNow sits at the center of the process</h2>
+    <p>Decommissioning involves many teams: servers, storage, network, backup, security, application owners. ServiceNow is the shared source of truth:</p>
+    <ul>
+      <li>the <strong>CMDB</strong> says what exists and what depends on it;</li>
+      <li><strong>Change Management</strong> governs every retirement and keeps a record of approvals;</li>
+      <li>the <strong>CI lifecycle</strong> (CSDM) says where each server stands;</li>
+      <li><strong>Asset Management</strong> takes over for hardware and license end of life.</li>
+    </ul>
+
+    <h2>6 steps to a retirement with no incident</h2>
+
+    <h3>1. Identify candidates</h3>
+    <p>We start from concrete signals: a CI Discovery has not seen for a long time, a server with no related application, an application at end of life, an operating system out of support. The list is then validated with the infrastructure teams, who often know the history better than the CMDB does.</p>
+
+    <h3>2. Analyze dependencies</h3>
+    <p>This is the most important step. Before any retirement, I check the CI's relationships in both directions: what runs <em>on</em> the server and what <em>depends on</em> it. The relationship view and the dependency map help a lot. To process a batch, a simple query on the relationship table is enough:</p>
+<pre><code>// List a server's relationships, in both directions
+var rel = new GlideRecord('cmdb_rel_ci');
+var q = rel.addQuery('parent', serverSysId);
+q.addOrCondition('child', serverSysId);
+rel.query();
+while (rel.next()) {
+  gs.info(rel.parent.getDisplayValue() + ' → ' +
+          rel.type.getDisplayValue() + ' → ' +
+          rel.child.getDisplayValue());
+}</code></pre>
+    <p>No CMDB is ever 100% complete. That is why the analysis does not stop at ServiceNow: it is confirmed with application owners and the infrastructure teams.</p>
+
+    <h3>3. Get approvals</h3>
+    <p>Every retirement goes through a change request. It lists the affected CIs, the identified impacts, the rollback plan and the owners' approvals. If an incident happens later, we know exactly what was retired, when, and who agreed to it.</p>
+
+    <h3>4. Observe before deleting</h3>
+    <p>Instead of deleting right away, we first isolate or power off the server for an observation period. If a service complains, we power it back on in minutes. If nothing happens during that period, we move on. It is the best insurance against dependencies nobody had documented.</p>
+
+    <h3>5. Retire for good</h3>
+    <p>The technical retirement follows a fixed checklist shared with infrastructure: final backup if needed, removal from monitoring, DNS and IP address cleanup, storage release, license termination, then secure wipe or disposal of the hardware.</p>
+
+    <h3>6. Update the CMDB</h3>
+    <p>A server that is gone but still "Operational" in the CMDB skews reports, impact analysis and audits. So we move the CI to the <strong>End of Life</strong> lifecycle stage with the <strong>Retired</strong> status, and remove it from Discovery schedules so it does not come back.</p>
+    <div class="note"><b>Watch out</b><p>Do not delete the CI: retire it. Its history, past relationships and related changes remain useful for audits. Deletion or archiving comes later, under clear policies, for example in CMDB Data Manager.</p></div>
+
+    <h2>Working with infrastructure teams</h2>
+    <p>Most of my work is talking with the infrastructure teams. Decommissioning succeeds when the ServiceNow team and infrastructure move forward together. What works, in my experience:</p>
+    <ul>
+      <li><strong>Speak their language.</strong> For infrastructure, a server is a name, an IP, a cluster. For the CMDB, it is a CI with a class and relationships. My role is to bridge the two.</li>
+      <li><strong>A regular check-in.</strong> Short, with the list of servers in progress and the blockers. Decisions are recorded in the change, not only in a chat.</li>
+      <li><strong>Automate what repeats.</strong> Any manual task repeated between ServiceNow and infrastructure is a candidate for a flow: task creation, owner reminders, CI update when the change closes.</li>
+      <li><strong>Report the gaps.</strong> Every time infrastructure finds a dependency missing from the CMDB, it is data to fix. Decommissioning improves the CMDB along the way.</li>
+    </ul>
+
+    <h2>Key takeaways</h2>
+    <ul>
+      <li>The hard part of decommissioning is not technical: it is <strong>proving a server is no longer used</strong>.</li>
+      <li>A reliable CMDB makes every retirement faster, and every well-run retirement makes the CMDB more reliable.</li>
+      <li>The relationship with infrastructure matters as much as the tools. Without it, the best CMDB in the world is not enough.</li>
+    </ul>
+
+    <div class="author">
+      <div class="mono">MLS</div>
+      <div><b>Mohamadou Lamine Sarr</b><span>ServiceNow Tech Lead, server decommissioning squad. Certified CIS-DF and CIS-Discovery. <a href="/en/#contact">Get in touch</a></span></div>
+    </div>
+  </article>
+
+  <aside class="more">
+    <h2>Read next</h2>
+    <ul>
+      <li><a href="/en/articles/cmdb-integration-integrationhub-etl/">Integrating Zabbix and Workspace ONE with the ServiceNow CMDB using IntegrationHub ETL</a></li>
+      <li><a href="/en/articles/employee-center-pro-new-portal/">Building a new Employee Center Pro portal without touching production</a></li>
+    </ul>
+  </aside>
+
+  <footer>© 2026 Mohamadou Lamine Sarr · <a href="/en/">lamine1993.github.io</a></footer>
+</main>
+</body>
+</html>
