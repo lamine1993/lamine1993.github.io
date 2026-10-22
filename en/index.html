@@ -47,7 +47,7 @@
     "image": "https://lamine1993.github.io/og.png",
     "address": { "@type": "PostalAddress", "addressLocality": "Dakar", "addressCountry": "SN" },
     "worksFor": [{ "@type": "Organization", "name": "ATEKO" }, { "@type": "Organization", "name": "Desjardins" }],
-    "knowsAbout": ["ServiceNow", "ITSM", "Customer Service Management", "ITOM", "CMDB", "CSDM", "Discovery", "Service Graph Connector", "IntegrationHub ETL", "MID Server", "REST API", "JavaScript", "Employee Center", "Server decommissioning"],
+    "knowsAbout": ["ServiceNow", "ITSM", "Customer Service Management", "ITOM", "CMDB", "CSDM", "Discovery", "Service Graph Connector", "IntegrationHub ETL", "MID Server", "REST API", "JavaScript", "React Native", "Ionic", "Angular", "Employee Center", "Server decommissioning"],
     "hasCredential": [
       { "@type": "EducationalOccupationalCredential", "name": "ServiceNow CIS-Discovery", "credentialCategory": "certification" },
       { "@type": "EducationalOccupationalCredential", "name": "ServiceNow CIS-DF (CMDB and CSDM)", "credentialCategory": "certification" },
@@ -160,7 +160,7 @@ h2 { font: 700 clamp(28px, 4vw, 40px)/1 var(--f-display); text-transform: upperc
 .mod:hover { background: var(--panel); }
 .mod h3 { font: 700 28px/1 var(--f-display); color: var(--volt); margin: 0 0 6px; letter-spacing: .04em; }
 .mod p { margin: 0; font-size: 14px; color: var(--muted); }
-.stack { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 36px; }
+.stack { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 36px; }
 .stack > div { min-width: 0; }
 .stack h4 { font: 500 12px/1 var(--f-mono); text-transform: uppercase; letter-spacing: .14em; color: var(--muted); margin: 0 0 14px; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -200,6 +200,19 @@ h2 { font: 700 clamp(28px, 4vw, 40px)/1 var(--f-display); text-transform: upperc
 .edu b { display: block; font: 600 18px/1.3 var(--f-display); margin: 6px 0 2px; }
 .edu span { color: var(--muted); font-size: 14.5px; }
 
+/* projets */
+.projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.proj { display: grid; grid-template-rows: auto auto auto 1fr auto auto; gap: 12px; min-width: 0; border: 1px solid var(--line); border-top: 2px solid var(--volt); background: color-mix(in srgb, var(--panel) 70%, transparent); padding: 22px 20px; }
+.proj header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font: 500 11px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--volt); }
+.proj header time { color: var(--muted); }
+.proj h3 { font: 700 28px/1 var(--f-display); margin: 0; letter-spacing: .03em; }
+.proj p { margin: 0; color: var(--muted); font-size: 15px; }
+.proj ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; align-content: start; }
+.proj li { position: relative; padding-left: 18px; font-size: 14.5px; }
+.proj li::before { content: "›"; position: absolute; left: 0; color: var(--volt); font-family: var(--f-mono); }
+.proj .env { border-top: 1px solid var(--line); padding-top: 12px; }
+.proj a { font: 500 12px/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; justify-self: start; border-bottom: 1px solid var(--volt); padding-bottom: 3px; }
+
 /* articles */
 .posts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .posts a { display: grid; gap: 10px; align-content: start; min-width: 0; border: 1px solid var(--line); padding: 22px 20px; text-decoration: none; color: var(--fg); transition: border-color .2s, background .2s; }
@@ -231,7 +244,7 @@ footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 
   .hero, .duo, .contact { grid-template-columns: 1fr; }
   .modules { grid-template-columns: repeat(2, 1fr); }
   .stack { grid-template-columns: 1fr; gap: 22px; }
-  .posts { grid-template-columns: 1fr; }
+  .posts, .projects { grid-template-columns: 1fr; }
   .job { grid-template-columns: 1fr; }
   nav ul { display: none; }
 }
@@ -256,6 +269,7 @@ footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 
     <ul>
       <li><a href="#expertise">Expertise</a></li>
       <li><a href="#missions">Missions</a></li>
+      <li><a href="#projets">Projects</a></li>
       <li><a href="#certifications">Certifications</a></li>
       <li><a href="/en/articles/">Articles</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -315,6 +329,12 @@ footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 
         <h4>Integration</h4>
         <div class="chips">
           <span class="chip on">IntegrationHub ETL</span><span class="chip on">Service Graph Connector</span><span class="chip">IRE</span><span class="chip">JDBC</span><span class="chip">MID Server</span><span class="chip">Robust Transform</span><span class="chip">Transform Map</span><span class="chip">SMTP / IMAP</span><span class="chip">RPA</span>
+        </div>
+      </div>
+      <div>
+        <h4>Mobile</h4>
+        <div class="chips">
+          <span class="chip on">React Native</span><span class="chip on">Ionic</span><span class="chip">Angular</span><span class="chip">Redux</span><span class="chip">Cordova</span><span class="chip">SQLite</span>
         </div>
       </div>
     </div>
@@ -433,10 +453,40 @@ footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 
     </ol>
   </section>
 
+  <section id="projets">
+    <div class="sec-head"><small>[ 03 ]</small><h2>Mobile projects</h2></div>
+    <p class="lead" style="margin-bottom:28px">Before ServiceNow, I designed and built mobile apps for real-world needs in Senegal: health, weather and agriculture.</p>
+    <div class="projects">
+      <article class="proj">
+        <header><span>Health · Emergency</span><time>2020</time></header>
+        <h3>Wallou</h3>
+        <p>An emergency app: in one tap, the user sends an alert with their GPS position.</p>
+        <ul><li>Medical profile: blood group, conditions, treatments, allergies</li><li>Emergency contacts stored in the profile</li><li>Geolocated alert sent to a REST API</li><li>Local SQLite storage for offline access</li></ul>
+        <div class="env">Ionic · Angular · Cordova · Geolocation · SQLite</div>
+        <a href="https://github.com/lamine1993/wallou" rel="noopener">View code ↗</a>
+      </article>
+      <article class="proj">
+        <header><span>Weather · Audio</span><time>2020</time></header>
+        <h3>ACSA</h3>
+        <p>A local weather app, with audio bulletins for people who would rather listen than read.</p>
+        <ul><li>Forecasts by zone, region and department</li><li>Temperature, humidity, wind and sky conditions</li><li>Audio weather bulletins in a built-in player</li><li>Works with or without a network (SQLite, network detection)</li></ul>
+        <div class="env">Ionic · Angular · Cordova · Ionic Audio · SQLite</div>
+        <a href="https://github.com/lamine1993/acsa" rel="noopener">View code ↗</a>
+      </article>
+      <article class="proj">
+        <header><span>Agriculture · Diagnosis</span><time>2020</time></header>
+        <h3>ArSaTool</h3>
+        <p>A pest diagnosis tool: pick a crop, identify the attack, find the control method.</p>
+        <ul><li>Catalog of crops and attacks by plant part</li><li>Technical sheets: insect, damage, control method</li><li>Photo of an attack taken and sent from the app</li><li>User accounts, global state managed with Redux</li></ul>
+        <div class="env">React Native · Redux · Native Base · Camera · Axios</div>
+        <a href="https://github.com/lamine1993/arsatool" rel="noopener">View code ↗</a>
+      </article>
+    </div>
+  </section>
   <section id="certifications">
     <div class="duo">
       <div>
-        <div class="sec-head"><small>[ 03 ]</small><h2>Certifications</h2></div>
+        <div class="sec-head"><small>[ 04 ]</small><h2>Certifications</h2></div>
         <ul class="certs">
           <li><div><b>Data Foundations · CMDB &amp; CSDM</b><small>CIS-DF · Implementation Specialist</small></div><time>2026</time></li>
           <li><div><b>Discovery</b><small>CIS-Discovery · Implementation Specialist</small></div><time>2026</time></li>
@@ -448,7 +498,7 @@ footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 
         </ul>
       </div>
       <div>
-        <div class="sec-head"><small>[ 04 ]</small><h2>Education</h2></div>
+        <div class="sec-head"><small>[ 05 ]</small><h2>Education</h2></div>
         <div class="edu">
           <div><time>2020</time><b>Master's Degree</b><span>Data Management and Software Engineering</span></div>
           <div><time>2017</time><b>Bachelor's Degree</b><span>Information Systems</span></div>
@@ -458,7 +508,7 @@ footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 
   </section>
 
   <section id="articles">
-    <div class="sec-head"><small>[ 05 ]</small><h2>Articles</h2></div>
+    <div class="sec-head"><small>[ 06 ]</small><h2>Articles</h2></div>
     <div class="posts">
       <a href="/en/articles/server-decommissioning-servicenow/"><span>ITOM · CMDB</span><strong>Decommissioning servers with ServiceNow</strong><em>Method and teamwork with infrastructure</em></a>
       <a href="/en/articles/cmdb-integration-integrationhub-etl/"><span>CMDB · Integration</span><strong>Zabbix and Workspace ONE in the CMDB</strong><em>MID Server, IntegrationHub ETL and IRE</em></a>
@@ -470,7 +520,7 @@ footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 
   <section id="contact">
     <div class="contact">
       <div>
-        <div class="sec-head"><small>[ 06 ]</small><h2>Contact</h2></div>
+        <div class="sec-head"><small>[ 07 ]</small><h2>Contact</h2></div>
         <p class="big">Got a <em>ServiceNow</em> project? Let's talk.</p>
       </div>
       <div class="lines">
