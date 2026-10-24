@@ -345,7 +345,8 @@ footer { border-top-color: var(--line); }
 
 /* Mise en page finale : vidéo dans le haut de page, sans menu ni choix de couleur, accent ambre */
 body { padding-bottom: 0; }
-.hero { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: center; padding-block: 48px 40px; }
+.hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); align-items: center; gap: 48px; padding-block: 56px 40px; }
+.hero h1 { font-size: clamp(40px, 5.6vw, 68px); }
 .hero .screen { margin: 0; }
 .hero-cta { padding-block: 0 56px; display: flex; justify-content: center; }
 .status i, .job.now::before { background: var(--amber); border-color: var(--amber-ink); }
@@ -364,27 +365,17 @@ body { padding-bottom: 0; }
 
 <main class="wrap" id="top">
   <header class="hero">
-    <h1 class="sr-only">Mohamadou Lamine Sarr, Tech Lead et développeur ServiceNow</h1>
+    <div>
+      <span class="status"><i></i>Disponible pour nouvelles missions</span>
+      <h1>Mohamadou<br><span class="out">Lamine</span> Sarr</h1>
+      <p class="role">ServiceNow Developer · Tech Lead<span class="cursor"></span></p>
+      <p class="lead">Plus de 5 ans à construire sur la plateforme ServiceNow : ITSM, CSM, ITOM et CMDB. Spécialiste des intégrations API et des solutions techniques complexes, j'ai évolué vers des rôles de Tech Lead sur des projets d'envergure. Aujourd'hui, je pilote une escouade de décommissionnement de serveurs chez Desjardins, au plus près des équipes infrastructure.</p>
+    </div>
+
     <figure class="screen">
         <video id="reel-video" src="/assets/video/presentation-ml-sarr.mp4" poster="/assets/video/presentation-poster.jpg" width="1280" height="720" muted loop playsinline controls preload="metadata" aria-label="Vidéo de présentation de Mohamadou Lamine Sarr">Votre navigateur ne lit pas cette vidéo.</video>
         <figcaption><span><b>●</b> Présentation · 30 s</span><span>1280 × 720</span></figcaption>
       </figure>
-
-    <aside class="console" aria-label="Fiche profil">
-      <header><span>sys_user.profile</span><span>● live</span></header>
-      <dl>
-        <dt>name</dt><dd>M. L. Sarr</dd>
-        <dt>role</dt><dd><b>"tech_lead"</b>, "developer"</dd>
-        <dt>modules</dt><dd>[ITSM, CSM, ITOM, CMDB]</dd>
-        <dt>focus</dt><dd>CMDB · Scoped Apps · Décom. serveurs</dd>
-        <dt>location</dt><dd>Dakar, SN · remote</dd>
-      </dl>
-      <div class="stats">
-        <div><strong>5+</strong><span>Années</span></div>
-        <div><strong>7</strong><span>Certifs</span></div>
-        <div><strong>8</strong><span>Missions</span></div>
-      </div>
-    </aside>
   </header>
   <div class="hero-cta"><a class="btn" href="/articles/">Lire mes articles <span aria-hidden="true">→</span></a></div>
 
