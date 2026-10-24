@@ -102,21 +102,23 @@ section[id] { scroll-margin-top: 16px; }
 .fab-stack { display: flex; flex-direction: column; align-items: center; gap: 10px; transition: opacity .2s, transform .2s, visibility 0s; transform-origin: bottom center; }
 .fab.is-collapsed .fab-stack { opacity: 0; transform: translateY(14px) scale(.92); visibility: hidden; pointer-events: none; transition: opacity .2s, transform .2s, visibility 0s .2s; }
 .fab-toggle {
-  display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%;
-  background: var(--navy); color: #ffffff; cursor: pointer; box-shadow: 0 0 0 2px #ffffff, 0 6px 18px rgba(20, 33, 58, .25); transition: transform .15s;
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 50%; cursor: pointer;
+  background: #ffffff; color: var(--muted); border: 1px solid var(--line);
+  box-shadow: 0 4px 14px rgba(20, 33, 58, .12); transition: background .2s, color .2s, border-color .2s, box-shadow .2s, transform .15s;
 }
-.fab-toggle:hover { transform: scale(1.08); }
+.fab-toggle svg { transform: rotate(45deg); transition: transform .25s ease; }
+.fab-toggle:hover { color: var(--fg); transform: scale(1.06); }
+.fab.is-collapsed .fab-toggle { width: 52px; height: 52px; background: var(--volt); color: #ffffff; border-color: transparent; box-shadow: 0 8px 22px color-mix(in srgb, var(--volt) 40%, transparent); }
+.fab.is-collapsed .fab-toggle svg { transform: rotate(0deg); width: 24px; height: 24px; }
 .fab-toggle:focus-visible { outline: 2px solid var(--volt); outline-offset: 3px; }
-.fab-toggle .i-open { display: none; }
-.fab.is-collapsed .fab-toggle .i-open { display: block; }
-.fab.is-collapsed .fab-toggle .i-close { display: none; }
-@media (prefers-reduced-motion: reduce) { .fab-stack, .fab.is-collapsed .fab-stack { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .fab-stack, .fab.is-collapsed .fab-stack, .fab-toggle, .fab-toggle svg { transition: none; } }
 
 /* Pied de page mobile : version courte et centrée */
 .site-footer .m-links { display: none; }
 @media (max-width: 640px) {
   .fab-stack { gap: 8px; }
-  .fab-toggle { width: 42px; height: 42px; }
+  .fab-toggle { width: 40px; height: 40px; }
+  .fab.is-collapsed .fab-toggle { width: 50px; height: 50px; }
   footer.site-footer { padding-block: 36px 84px; text-align: center; }
   .site-footer .cols { grid-template-columns: 1fr; padding-right: 0; gap: 0; }
   .site-footer .cols > [role="navigation"], .site-footer .cols > div:last-child, .site-footer small { display: none; }
