@@ -117,8 +117,8 @@ section[id] { scroll-margin-top: 16px; }
 .site-footer .m-links { display: none; }
 @media (max-width: 640px) {
   .fab-stack { gap: 8px; }
-  .fab-toggle { width: 40px; height: 40px; }
-  .fab.is-collapsed .fab-toggle { width: 50px; height: 50px; }
+  .fab-toggle { display: none; }
+  .fab.is-collapsed .fab-stack { opacity: 1; transform: none; visibility: visible; pointer-events: auto; }
   footer.site-footer { padding-block: 36px 84px; text-align: center; }
   .site-footer .cols { grid-template-columns: 1fr; padding-right: 0; gap: 0; }
   .site-footer .cols > [role="navigation"], .site-footer .cols > div:last-child, .site-footer small { display: none; }

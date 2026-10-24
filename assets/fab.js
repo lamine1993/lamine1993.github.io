@@ -17,7 +17,7 @@
   small.addEventListener('change', update);
   fab.addEventListener('focusin', () => fab.classList.remove('is-hidden'));
 
-  // Repli / dépli des boutons, mémorisé dans le navigateur du visiteur
+  // Repli / dépli des boutons (ordinateur uniquement), mémorisé dans le navigateur du visiteur
   const toggle = fab.querySelector('.fab-toggle');
   if (!toggle) return;
   const KEY = 'mls-fab';
@@ -28,7 +28,7 @@
   };
   let saved = null;
   try { saved = localStorage.getItem(KEY); } catch (e) {}
-  setCollapsed(saved ? saved === 'collapsed' : small.matches);
+  setCollapsed(saved === 'collapsed');
   toggle.addEventListener('click', () => {
     const collapsed = !fab.classList.contains('is-collapsed');
     setCollapsed(collapsed);
