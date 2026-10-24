@@ -2,17 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>try{var a=localStorage.getItem('mls-accent');if(a==='green'||a==='amber')document.documentElement.setAttribute('data-accent',a)}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mohamadou Lamine Sarr · ServiceNow Tech Lead &amp; Developer</title>
 <meta name="description" content="Mohamadou Lamine Sarr, certified ServiceNow Tech Lead and developer (CSA, CAD, CIS-CSM, CIS-DF, CIS-Discovery). 5+ years on ITSM, CSM, ITOM, CMDB, Discovery and API integrations.">
 <meta name="author" content="Mohamadou Lamine Sarr">
 <meta name="robots" content="index, follow">
-<meta name="theme-color" content="#061a22">
+<meta name="theme-color" content="#0b131e">
 <link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/">
 <link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/">
 <link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/">
 <link rel="canonical" href="https://lamine1993.github.io/en/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23061a22'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%236bf0a8'%3EMLS%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230b131e'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%235e94ff'%3EMLS%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="profile">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="fr_FR">
@@ -77,8 +78,8 @@
 <style>
 /* Layout: console HUD sur une seule colonne, graphe CMDB animé en fond, missions en timeline à rail. Deux couleurs seulement : encre et volt. */
 :root {
-  --ink: #061a22;
-  --volt: #6bf0a8;
+  --ink: #0b131e;
+  --volt: #5e94ff;
   --fg: color-mix(in srgb, var(--volt) 14%, #eaf7f1);
   --muted: color-mix(in srgb, var(--volt) 30%, var(--ink) 30%, #c9d9d3);
   --line: color-mix(in srgb, var(--volt) 22%, transparent);
@@ -88,6 +89,8 @@
   --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   color-scheme: dark;
 }
+:root[data-accent="green"] { --ink: #061a22; --volt: #6bf0a8; }
+:root[data-accent="amber"] { --ink: #17110a; --volt: #ffb547; }
 * { box-sizing: border-box; }
 body { margin: 0; }
 img { max-width: 100%; }
@@ -125,8 +128,18 @@ nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; flex
 nav ul a { font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
 nav ul a:hover { color: var(--volt); }
 nav ul { margin-left: auto; }
+nav .accent { margin-left: 8px; }
 .lang { flex: none; font: 500 12px/1 var(--f-mono); letter-spacing: .12em; color: var(--volt); border: 1px solid var(--volt); padding: 7px 9px; text-decoration: none; }
 .lang:hover { background: var(--volt); color: var(--ink); }
+/* sélecteur de couleur */
+.accent { display: flex; align-items: center; gap: 6px; flex: none; }
+.accent button { width: 18px; height: 18px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: var(--c); cursor: pointer; transition: transform .15s; }
+.accent button:hover { transform: scale(1.15); }
+.accent button[aria-pressed="true"] { outline: 2px solid var(--fg); outline-offset: 2px; }
+.accent [data-accent="blue"] { --c: #5e94ff; }
+.accent [data-accent="green"] { --c: #6bf0a8; }
+.accent [data-accent="amber"] { --c: #ffb547; }
+
 
 /* hero */
 .hero { padding-block: 72px 56px; display: grid; grid-template-columns: 1.35fr 1fr; gap: 40px; align-items: end; }
@@ -274,6 +287,7 @@ footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 
   .posts, .projects { grid-template-columns: 1fr; }
   .job { grid-template-columns: 1fr; }
   nav ul { display: none; }
+  nav .accent { margin-left: auto; }
 }
 @media (max-width: 420px) {
   .stats strong { font-size: 24px; }
@@ -301,7 +315,7 @@ footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 
       <li><a href="/en/articles/">Articles</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a class="lang" href="/" hreflang="fr" lang="fr" title="Version française">FR</a>
+    <div class="accent" role="group" aria-label="Site color"><button type="button" data-accent="blue" aria-label="Blue" title="Blue"></button><button type="button" data-accent="green" aria-label="Green" title="Green"></button><button type="button" data-accent="amber" aria-label="Amber" title="Amber"></button></div><a class="lang" href="/" hreflang="fr" lang="fr" title="Version française">FR</a>
   </div>
 </nav>
 
@@ -599,7 +613,8 @@ document.querySelectorAll('.copy').forEach(btn => {
 // Background: CMDB-style CI graph (nodes + relationships)
 (() => {
   const c = document.getElementById('net'), x = c.getContext('2d');
-  const volt = getComputedStyle(document.documentElement).getPropertyValue('--volt').trim() || '#6bf0a8';
+  const readVolt = () => getComputedStyle(document.documentElement).getPropertyValue('--volt').trim() || '#5e94ff';
+  let volt = readVolt();
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let w, h, nodes = [], dpr = Math.min(devicePixelRatio || 1, 2);
   function size() {
@@ -632,8 +647,10 @@ document.querySelectorAll('.copy').forEach(btn => {
     if (!still) requestAnimationFrame(frame);
   }
   size(); frame();
+  document.addEventListener('accentchange', () => { volt = readVolt(); if (still) frame(); });
   addEventListener('resize', () => { size(); if (still) frame(); });
 })();
 </script>
+<script src="/assets/accent.js" defer></script>
 </body>
 </html>

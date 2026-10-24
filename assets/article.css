@@ -1,7 +1,7 @@
 /* Articles : colonne de lecture unique, mêmes deux couleurs que le folio (encre + volt). */
 :root {
-  --ink: #061a22;
-  --volt: #6bf0a8;
+  --ink: #0b131e;
+  --volt: #5e94ff;
   --fg: color-mix(in srgb, var(--volt) 14%, #eaf7f1);
   --muted: color-mix(in srgb, var(--volt) 30%, var(--ink) 30%, #c9d9d3);
   --line: color-mix(in srgb, var(--volt) 22%, transparent);
@@ -11,6 +11,8 @@
   --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   color-scheme: dark;
 }
+:root[data-accent="green"] { --ink: #061a22; --volt: #6bf0a8; }
+:root[data-accent="amber"] { --ink: #17110a; --volt: #ffb547; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
@@ -39,6 +41,7 @@ nav .wrap { max-width: 1080px; display: flex; justify-content: space-between; al
 nav .back { font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
 nav .back:hover { color: var(--volt); }
 nav .back { margin-left: auto; }
+nav .accent { margin-left: 4px; }
 .lang { flex: none; font: 500 12px/1 var(--f-mono); letter-spacing: .12em; color: var(--volt); border: 1px solid var(--volt); padding: 7px 9px; text-decoration: none; }
 .lang:hover { background: var(--volt); color: var(--ink); }
 
@@ -98,3 +101,12 @@ footer { border-top: 1px solid var(--line); padding-block: 24px 36px; font: 400 
 .list small { font: 400 12px/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }
+
+/* sélecteur de couleur */
+.accent { display: flex; align-items: center; gap: 6px; flex: none; }
+.accent button { width: 18px; height: 18px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: var(--c); cursor: pointer; transition: transform .15s; }
+.accent button:hover { transform: scale(1.15); }
+.accent button[aria-pressed="true"] { outline: 2px solid var(--fg); outline-offset: 2px; }
+.accent [data-accent="blue"] { --c: #5e94ff; }
+.accent [data-accent="green"] { --c: #6bf0a8; }
+.accent [data-accent="amber"] { --c: #ffb547; }

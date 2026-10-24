@@ -2,17 +2,18 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+<script>try{var a=localStorage.getItem('mls-accent');if(a==='green'||a==='amber')document.documentElement.setAttribute('data-accent',a)}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Intégrer Zabbix et Workspace ONE à la CMDB ServiceNow avec IntegrationHub ETL</title>
 <meta name="description" content="Retour d'expérience d'un Tech Lead ServiceNow : alimenter la CMDB depuis Zabbix et Workspace ONE avec le MID Server, IntegrationHub ETL, le Robust Transform Engine et l'IRE, sans créer de doublons.">
 <meta name="author" content="Mohamadou Lamine Sarr">
 <meta name="robots" content="index, follow">
-<meta name="theme-color" content="#061a22">
+<meta name="theme-color" content="#0b131e">
 <link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/articles/integration-cmdb-integrationhub-etl/">
 <link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/articles/cmdb-integration-integrationhub-etl/">
 <link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/articles/integration-cmdb-integrationhub-etl/">
 <link rel="canonical" href="https://lamine1993.github.io/articles/integration-cmdb-integrationhub-etl/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23061a22'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%236bf0a8'%3EMLS%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230b131e'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%235e94ff'%3EMLS%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Mohamadou Lamine Sarr">
@@ -58,7 +59,7 @@
 </script>
 </head>
 <body>
-<nav><div class="wrap"><a class="logo" href="/">MLS<span>://folio</span></a><a class="back" href="/articles/">← Tous les articles</a><a class="lang" href="/en/articles/cmdb-integration-integrationhub-etl/" hreflang="en" lang="en" title="English version">EN</a></div></nav>
+<nav><div class="wrap"><a class="logo" href="/">MLS<span>://folio</span></a><a class="back" href="/articles/">← Tous les articles</a><div class="accent" role="group" aria-label="Couleur du site"><button type="button" data-accent="blue" aria-label="Bleu" title="Bleu"></button><button type="button" data-accent="green" aria-label="Vert" title="Vert"></button><button type="button" data-accent="amber" aria-label="Ambre" title="Ambre"></button></div><a class="lang" href="/en/articles/cmdb-integration-integrationhub-etl/" hreflang="en" lang="en" title="English version">EN</a></div></nav>
 
 <main class="wrap">
   <div class="crumbs"><ol><li><a href="/">Accueil</a></li><li><a href="/articles/">Articles</a></li><li>Intégration CMDB</li></ol></div>
@@ -165,5 +166,6 @@
 
   <footer>© 2026 Mohamadou Lamine Sarr · <a href="/">lamine1993.github.io</a></footer>
 </main>
+<script src="/assets/accent.js" defer></script>
 </body>
 </html>
