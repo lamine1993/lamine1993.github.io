@@ -136,3 +136,8 @@ pre, code, .note, .author, .list a, .more a { background: var(--band); }
 body { padding-bottom: 0; }
 .list .cat { color: var(--ink); font-size: 11px; }
 main > header.post:first-child { padding-top: 56px; }
+
+/* Retour à l'accueil (page des articles) */
+.home-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 40px; padding: 9px 14px; border: 1px solid var(--line); border-radius: 6px; background: #ffffff; color: var(--fg); font: 500 13px/1 var(--f-mono); letter-spacing: .04em; text-decoration: none; transition: border-color .15s, color .15s; }
+.home-link:hover { border-color: var(--volt); color: var(--volt); }
+main > .home-link + header.post { padding-top: 28px; }
