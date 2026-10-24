@@ -58,6 +58,19 @@
   }
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "Introduction to Mohamadou Lamine Sarr, ServiceNow Tech Lead",
+  "description": "A 30-second introduction: ITSM, CSM, ITOM and CMDB expertise, API integrations and custom applications.",
+  "thumbnailUrl": "https://lamine1993.github.io/assets/video/presentation-poster.jpg",
+  "contentUrl": "https://lamine1993.github.io/assets/video/presentation-ml-sarr.mp4",
+  "uploadDate": "2026-10-24",
+  "duration": "PT30S",
+  "inLanguage": "fr"
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -154,6 +167,19 @@ section { padding-block: 56px; border-top: 1px solid var(--line); }
 .sec-head small { font: 500 12px/1 var(--f-mono); color: var(--volt); letter-spacing: .14em; }
 h2 { font: 700 clamp(28px, 4vw, 40px)/1 var(--f-display); text-transform: uppercase; letter-spacing: .02em; margin: 0; }
 
+/* vidéo de présentation */
+.reel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr); gap: 40px; align-items: center; }
+.reel > * { min-width: 0; }
+.reel p { color: var(--muted); margin: 0; max-width: 40ch; }
+.reel .sec-head { margin-bottom: 18px; }
+.screen { position: relative; border: 1px solid var(--line); padding: 10px; background: var(--panel); }
+.screen::before, .screen::after { content: ""; position: absolute; width: 18px; height: 18px; border: 2px solid var(--volt); }
+.screen::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
+.screen::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
+.screen video { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 16 / 9; background: var(--ink); }
+.screen figcaption { display: flex; justify-content: space-between; gap: 12px; font: 400 11px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: 10px 2px 0; }
+.screen figcaption b { color: var(--volt); font-weight: 500; }
+
 /* modules */
 .modules { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
 .mod { background: var(--ink); padding: 22px 20px; min-width: 0; transition: background .25s; }
@@ -242,7 +268,7 @@ footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 
 @keyframes rise { from { transform: translateY(14px); opacity: .001; } }
 
 @media (max-width: 860px) {
-  .hero, .duo, .contact { grid-template-columns: 1fr; }
+  .hero, .duo, .contact, .reel { grid-template-columns: 1fr; gap: 24px; }
   .modules { grid-template-columns: repeat(2, 1fr); }
   .stack { grid-template-columns: 1fr; gap: 22px; }
   .posts, .projects { grid-template-columns: 1fr; }
@@ -304,6 +330,19 @@ footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 
       </div>
     </aside>
   </header>
+
+  <section id="presentation">
+    <div class="reel">
+      <div>
+        <div class="sec-head"><small>[ ▶ ]</small><h2>Introduction</h2></div>
+        <p>My background and what I bring, in 30 seconds: four ServiceNow modules, API and CMDB integrations, and custom applications. The video is in French.</p>
+      </div>
+      <figure class="screen">
+        <video id="reel-video" src="/assets/video/presentation-ml-sarr.mp4" poster="/assets/video/presentation-poster.jpg" width="1280" height="720" muted loop playsinline controls preload="metadata" aria-label="Introduction video of Mohamadou Lamine Sarr">Your browser cannot play this video.</video>
+        <figcaption><span><b>●</b> Intro · 30 s · in French</span><span>1280 × 720</span></figcaption>
+      </figure>
+    </div>
+  </section>
 
   <section id="expertise">
     <div class="sec-head"><small>[ 01 ]</small><h2>Expertise</h2></div>
@@ -538,6 +577,15 @@ footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 
 </main>
 
 <script>
+// Vidéo : lecture quand elle est visible, pause sinon (sauf si l'utilisateur limite les animations)
+(() => {
+  const v = document.getElementById('reel-video');
+  if (!v || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) { v.play().catch(() => {}); return; }
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) v.play().catch(() => {}); else v.pause();
+  }, { threshold: 0.4 }).observe(v);
+})();
 // Copy email / phone
 document.querySelectorAll('.copy').forEach(btn => {
   btn.addEventListener('click', () => {
