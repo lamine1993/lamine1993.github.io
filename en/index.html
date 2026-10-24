@@ -354,6 +354,32 @@ body { padding-bottom: 0; }
 .job.now::before { border-color: var(--amber-ink); }
 .big em, h1 .out { color: var(--volt); }
 .console header span:last-child { color: var(--amber-ink); }
+
+/* Missions en cartes, bande des entreprises, compteurs sous la vidéo */
+.hero-media { display: grid; gap: 14px; min-width: 0; }
+.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0; }
+.kpi { background: #ffffff; border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; box-shadow: 0 1px 2px rgba(20, 33, 58, .06); }
+.kpi dd { margin: 0; font: 600 34px/1 var(--f-display); color: var(--volt); font-variant-numeric: tabular-nums; }
+.kpi dt { margin-top: 8px; font: 500 11px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.kpi { display: flex; flex-direction: column-reverse; }
+.mgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.mcard { display: flex; flex-direction: column; gap: 10px; min-width: 0; background: #ffffff; border: 1px solid var(--line); border-radius: var(--r); padding: 22px 20px; box-shadow: 0 1px 2px rgba(20, 33, 58, .06); }
+.mcard .client { display: flex; justify-content: space-between; align-items: center; gap: 10px; font: 600 13px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--volt); }
+.mcard h3 { font: 600 18px/1.3 var(--f-display); margin: 0; text-wrap: balance; }
+.mcard p { margin: 0; color: var(--muted); font-size: 15px; flex: 1; }
+.mcard .env { border-top: 1px solid var(--line); padding-top: 12px; }
+.marquee { display: flex; gap: 16px; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.marquee ul { flex: none; display: flex; gap: 16px; width: max-content; margin: 0; padding: 4px 0; list-style: none; animation: marquee 32s linear infinite; }
+.marquee:hover ul, .marquee:focus-within ul { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(calc(-100% - 16px)); } }
+.logo-tile { flex: none; width: 190px; height: 92px; display: grid; place-items: center; background: #ffffff; border: 1px solid var(--line); border-radius: var(--r); box-shadow: 0 1px 2px rgba(20, 33, 58, .06); }
+.logo-tile span { font: 700 20px/1 var(--f-display); letter-spacing: .06em; color: color-mix(in srgb, var(--fg) 72%, #ffffff); transition: color .2s; }
+.logo-tile img { max-width: 140px; max-height: 48px; filter: grayscale(1); opacity: .8; transition: filter .2s, opacity .2s; }
+.logo-tile:hover span { color: var(--volt); }
+.logo-tile:hover img { filter: none; opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .marquee { overflow-x: auto; } .marquee ul { animation: none; } .marquee ul[aria-hidden] { display: none; } }
+@media (max-width: 960px) { .mgrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .mgrid { grid-template-columns: 1fr; } .kpi dd { font-size: 28px; } .kpi { padding: 12px; } }
 </style>
 <link rel="stylesheet" href="/assets/site.css">
 </head>
@@ -372,10 +398,13 @@ body { padding-bottom: 0; }
       <p class="lead">5+ years building on the ServiceNow platform: ITSM, CSM, ITOM and CMDB. A specialist in API integrations and complex technical solutions, I have grown into Tech Lead roles on large-scale projects. Today I lead a server decommissioning squad at Desjardins, working hand in hand with the infrastructure teams.</p>
     </div>
 
-    <figure class="screen">
+    <div class="hero-media">
+      <figure class="screen">
         <video id="reel-video" src="/assets/video/presentation-ml-sarr.mp4" poster="/assets/video/presentation-poster.jpg" width="1280" height="720" muted loop playsinline controls preload="metadata" aria-label="Introduction video of Mohamadou Lamine Sarr">Your browser cannot play this video.</video>
         <figcaption><span><b>●</b> Intro · 30 s · in French</span><span>1280 × 720</span></figcaption>
       </figure>
+      <dl class="kpis" aria-label="Key figures"><div class="kpi"><dt>Missions</dt><dd data-count="9">9</dd></div><div class="kpi"><dt>Certifications</dt><dd data-count="7">7</dd></div><div class="kpi"><dt>Companies</dt><dd data-count="8">8</dd></div></dl>
+    </div>
   </header>
   <div class="hero-cta"><a class="btn" href="/en/articles/">Read my articles <span aria-hidden="true">→</span></a></div>
 
@@ -416,122 +445,77 @@ body { padding-bottom: 0; }
   </section>
 
   <section id="missions">
-    <div class="sec-head"><small>[ 02 ]</small><h2>Missions &amp; achievements</h2></div>
+    <div class="sec-head"><small>[ 02 ]</small><h2>Missions</h2></div>
     <p class="lead" style="margin: -12px 0 36px">What I delivered for each client, from CMDB integrations to employee portals.</p>
-    <ol class="timeline">
-      <li class="job now">
-        <div class="when">Since Jan. 2026<span class="co">ATEKO</span></div>
-        <div>
-          <h3>Tech Lead / Dev Lead ServiceNow <span class="tag">Current</span></h3>
-          <ul>
-            <li>Delivered scoped applications end to end (Change Management, Employee Center integration), from design to deployment</li>
-            <li>Set up application governance: Application Repository, Source Control, update sets and App Engine licensing</li>
-            <li>Made CMDB data feeds reliable with Service Graph Connector, the IRE and JDBC pipelines</li>
-            <li>Made every inbound and outbound API call traceable, with logging and callback workflows through the MID Server</li>
-            <li>Orchestrated integration with Network Operations, WinApp and Control-M</li>
-            <li>Made the client's teams self-sufficient: technical documentation, reporting and knowledge transfer</li>
-          </ul>
-          <div class="env">Scoped App · CMDB · Service Graph Connector · Network Operations · Control-M</div>
-        </div>
-      </li>
-      <li class="job now">
-        <div class="when">Since Jan. 2022<span class="co">FX / Desjardins</span></div>
-        <div>
-          <h3>Tech Lead · Server Decommissioning Squad <span class="tag">Current</span></h3>
-          <ul>
-            <li>Lead the squad that retires servers no longer in use</li>
-            <li>Build every retirement around the CMDB and Change Management, so it is safe and traceable</li>
-            <li>Bridge the ServiceNow team and the infrastructure teams every day</li>
-          </ul>
-          <h3>Previously · CSM Developer · Employee Center</h3>
-          <ul>
-            <li>Launched a new Employee Center Pro portal alongside the existing one, with no impact on production</li>
-            <li>Structured the content taxonomy and built a custom theme with the Branding Editor</li>
-            <li>Rolled out CSM (products, accounts, services, consumers) and connected it to internal applications</li>
-            <li>Delivered the service catalog, complex flows, reports and dashboards</li>
-          </ul>
-          <div class="env">Infrastructure · CMDB · CSM · Employee Center · Flow Designer</div>
-        </div>
-      </li>
-      <li class="job">
-        <div class="when">Apr. 2025 → Dec. 2025<span class="co">HYDAC</span></div>
-        <div>
-          <h3>Tech Lead · ITSM · Service Request Management</h3>
-          <ul>
-            <li>Led the ServiceNow instance upgrade</li>
-            <li>Continuously improved stories, with performance tracking</li>
-            <li>Delivered new SRM features, tested and validated</li>
-            <li>Grew junior developers' skills through coaching and training workshops</li>
-          </ul>
-          <div class="env">ITSM · Service Request Management · Agile</div>
-        </div>
-      </li>
-      <li class="job">
-        <div class="when">Jan. 2025 → Apr. 2025<span class="co">PSG</span></div>
-        <div>
-          <h3>Senior Developer · API · CMDB</h3>
-          <ul>
-            <li>Connected Zabbix and Workspace ONE to the CMDB: the network and mobile estate is now fed automatically</li>
-            <li>Secured data exchange by installing and configuring the MID Server</li>
-            <li>Automated data import and transformation with IntegrationHub ETL and Robust Transforms</li>
-            <li>Cleaned up the CMDB: troubleshooting, de-duplication and remediation</li>
-            <li>Enriched discovery with Discovery and optimized patterns</li>
-            <li>Ran the technical integration workshop with stakeholders</li>
-          </ul>
-          <div class="env">CMDB · Discovery · IntegrationHub ETL · MID Server · Zabbix · Workspace ONE</div>
-        </div>
-      </li>
-      <li class="job">
-        <div class="when">Nov. 2023 → Mar. 2024<span class="co">PALFINGER</span></div>
-        <div>
-          <h3>Tech Lead · ITSM · API Integration</h3>
-          <ul>
-            <li>Integrated the Palfinger and DXC platforms for incident and change management</li>
-            <li>Automated part of incident management with an RPA integration</li>
-            <li>Configured inbound and outbound email (SMTP / IMAP)</li>
-          </ul>
-          <div class="env">ITSM · API · RPA · SMTP · IMAP</div>
-        </div>
-      </li>
-      <li class="job">
-        <div class="when">Jul. 2021 → Jan. 2022<span class="co">CLARIANT</span></div>
-        <div>
-          <h3>Developer · ITSM · API Integration</h3>
-          <ul>
-            <li>Built a REST API to integrate assets into ServiceNow</li>
-            <li>Connected Asset Management and the CMDB with transform maps and scripts</li>
-          </ul>
-          <div class="env">REST API · Asset Management · CMDB · Transform Map</div>
-        </div>
-      </li>
-      <li class="job">
-        <div class="when">Jun. 2021 → Jul. 2021<span class="co">WIXALIA</span></div>
-        <div>
-          <h3>Developer · Data Partitioning</h3>
-          <ul>
-            <li>Improved incident management and built domain-specific form views</li>
-            <li>Improved the service catalog on the portal, with UI Policies and Client Scripts (Glide AJAX)</li>
-          </ul>
-          <div class="env">Glide AJAX · UI Policy · Client Script</div>
-        </div>
-      </li>
-      <li class="job">
-        <div class="when">Jan. 2021 → Jun. 2021<span class="co">ORPEA</span></div>
-        <div>
-          <h3>ServiceNow Developer</h3>
-          <ul>
-            <li>Built a bidirectional REST interface between Wixalia and Orpea</li>
-            <li>Set up the service catalog and the Service Portal</li>
-            <li>Gathered requirements across all ITSM modules</li>
-          </ul>
-          <div class="env">REST API · ITSM · Service Portal</div>
-        </div>
-      </li>
-    </ol>
+    <div class="mgrid">
+      <article class="mcard">
+        <div class="client"><span>ATEKO</span><span class="tag">Current</span></div>
+        <h3>Tech Lead / Dev Lead ServiceNow</h3>
+        <p>I design and deliver scoped applications end to end, with full governance: Source Control, update sets and App Engine licensing. I made CMDB data feeds reliable and orchestrated integration with Network Operations, WinApp and Control-M.</p>
+        <div class="env">Scoped App · CMDB · Service Graph Connector · Control-M</div>
+      </article>
+      <article class="mcard">
+        <div class="client"><span>Desjardins</span><span class="tag">Current</span></div>
+        <h3>Tech Lead · Server Decommissioning</h3>
+        <p>I lead the squad that retires servers no longer in use. Every retirement relies on the CMDB and Change Management, in daily contact with the infrastructure teams.</p>
+        <div class="env">CMDB · Change Management · Infrastructure</div>
+      </article>
+      <article class="mcard">
+        <div class="client"><span>Desjardins</span></div>
+        <h3>CSM Developer · Employee Center</h3>
+        <p>I launched a new Employee Center Pro portal alongside the existing one, with no impact on production. I also rolled out CSM and its service catalog, connected to internal applications.</p>
+        <div class="env">CSM · Employee Center Pro · Flow Designer</div>
+      </article>
+      <article class="mcard">
+        <div class="client"><span>HYDAC</span></div>
+        <h3>Tech Lead · ITSM · Service Request Management</h3>
+        <p>I led the ServiceNow instance upgrade and delivered new Service Request Management features. I also grew the junior developers' skills.</p>
+        <div class="env">ITSM · SRM · Agile</div>
+      </article>
+      <article class="mcard">
+        <div class="client"><span>PSG</span></div>
+        <h3>Senior Developer · API · CMDB</h3>
+        <p>I connected Zabbix and Workspace ONE to the CMDB: the network and mobile estate is fed automatically through the MID Server and IntegrationHub ETL. I then cleaned up the CMDB and enriched Discovery.</p>
+        <div class="env">CMDB · Discovery · IntegrationHub ETL · MID Server</div>
+      </article>
+      <article class="mcard">
+        <div class="client"><span>PALFINGER</span></div>
+        <h3>Tech Lead · ITSM · API Integration</h3>
+        <p>I integrated the Palfinger and DXC platforms for incident and change management, and automated part of incident management with an RPA integration.</p>
+        <div class="env">ITSM · API · RPA · SMTP / IMAP</div>
+      </article>
+      <article class="mcard">
+        <div class="client"><span>CLARIANT</span></div>
+        <h3>Developer · ITSM · API Integration</h3>
+        <p>I built a REST API to integrate assets into ServiceNow and connected Asset Management to the CMDB.</p>
+        <div class="env">REST API · Asset Management · CMDB</div>
+      </article>
+      <article class="mcard">
+        <div class="client"><span>WIXALIA</span></div>
+        <h3>Developer · Data Partitioning</h3>
+        <p>I improved incident management, built domain-specific form views and enriched the portal's service catalog.</p>
+        <div class="env">Glide AJAX · UI Policy · Client Script</div>
+      </article>
+      <article class="mcard">
+        <div class="client"><span>ORPEA</span></div>
+        <h3>ServiceNow Developer</h3>
+        <p>I built a bidirectional REST interface between Wixalia and Orpea, then set up the service catalog and the Service Portal.</p>
+        <div class="env">REST API · ITSM · Service Portal</div>
+      </article>
+    </div>
+  </section>
+
+  <section id="entreprises">
+    <div class="sec-head"><small>[ 03 ]</small><h2>Companies</h2></div>
+    <p class="lead" style="margin: -12px 0 32px">Companies I have worked with.</p>
+    <div class="marquee" aria-label="Companies">
+      <ul><li class="logo-tile"><span>ATEKO</span></li><li class="logo-tile"><span>Desjardins</span></li><li class="logo-tile"><span>HYDAC</span></li><li class="logo-tile"><span>PSG</span></li><li class="logo-tile"><span>PALFINGER</span></li><li class="logo-tile"><span>CLARIANT</span></li><li class="logo-tile"><span>WIXALIA</span></li><li class="logo-tile"><span>ORPEA</span></li></ul>
+      <ul aria-hidden="true"><li class="logo-tile"><span>ATEKO</span></li><li class="logo-tile"><span>Desjardins</span></li><li class="logo-tile"><span>HYDAC</span></li><li class="logo-tile"><span>PSG</span></li><li class="logo-tile"><span>PALFINGER</span></li><li class="logo-tile"><span>CLARIANT</span></li><li class="logo-tile"><span>WIXALIA</span></li><li class="logo-tile"><span>ORPEA</span></li></ul>
+    </div>
   </section>
 
   <section id="projets">
-    <div class="sec-head"><small>[ 03 ]</small><h2>Mobile projects</h2></div>
+    <div class="sec-head"><small>[ 04 ]</small><h2>Mobile projects</h2></div>
     <p class="lead" style="margin-bottom:28px">Before ServiceNow, I designed and built mobile apps for real-world needs in Senegal: health, weather and agriculture.</p>
     <div class="projects">
       <article class="proj">
@@ -563,7 +547,7 @@ body { padding-bottom: 0; }
   <section id="certifications">
     <div class="duo">
       <div>
-        <div class="sec-head"><small>[ 04 ]</small><h2>Certifications</h2></div>
+        <div class="sec-head"><small>[ 05 ]</small><h2>Certifications</h2></div>
         <ul class="certs">
           <li><div><b>Data Foundations · CMDB &amp; CSDM</b><small>CIS-DF · Implementation Specialist</small></div><time>2026</time></li>
           <li><div><b>Discovery</b><small>CIS-Discovery · Implementation Specialist</small></div><time>2026</time></li>
@@ -575,7 +559,7 @@ body { padding-bottom: 0; }
         </ul>
       </div>
       <div>
-        <div class="sec-head"><small>[ 05 ]</small><h2>Education</h2></div>
+        <div class="sec-head"><small>[ 06 ]</small><h2>Education</h2></div>
         <div class="edu">
           <div><time>2020</time><b>Master's Degree</b><span>Data Management and Software Engineering</span></div>
           <div><time>2017</time><b>Bachelor's Degree</b><span>Information Systems</span></div>
@@ -585,7 +569,7 @@ body { padding-bottom: 0; }
   </section>
 
   <section id="articles">
-    <div class="sec-head"><small>[ 06 ]</small><h2>Articles</h2></div>
+    <div class="sec-head"><small>[ 07 ]</small><h2>Articles</h2></div>
     <div class="posts">
       <a href="/en/articles/server-decommissioning-servicenow/"><span>ITOM · CMDB</span><strong>Decommissioning servers with ServiceNow</strong><em>Method and teamwork with infrastructure</em></a>
       <a href="/en/articles/cmdb-integration-integrationhub-etl/"><span>CMDB · Integration</span><strong>Zabbix and Workspace ONE in the CMDB</strong><em>MID Server, IntegrationHub ETL and IRE</em></a>
@@ -597,7 +581,7 @@ body { padding-bottom: 0; }
   <section id="contact">
     <div class="contact">
       <div>
-        <div class="sec-head"><small>[ 07 ]</small><h2>Contact</h2></div>
+        <div class="sec-head"><small>[ 08 ]</small><h2>Contact</h2></div>
         <p class="big">Got a <em>ServiceNow</em> project? Let's talk.</p>
       </div>
       <div class="lines">
@@ -619,7 +603,7 @@ body { padding-bottom: 0; }
       </div>
       <div role="navigation" aria-label="Navigation">
         <h2>Navigation</h2>
-        <ul><li><a href="/en/#expertise">Expertise</a></li><li><a href="/en/#missions">Missions</a></li><li><a href="/en/#projets">Projects</a></li><li><a href="/en/#certifications">Certifications</a></li><li><a href="/en/articles/">Articles</a></li><li><a href="/en/#contact">Contact</a></li></ul>
+        <ul><li><a href="/en/#expertise">Expertise</a></li><li><a href="/en/#missions">Missions</a></li><li><a href="/en/#entreprises">Companies</a></li><li><a href="/en/#projets">Projects</a></li><li><a href="/en/#certifications">Certifications</a></li><li><a href="/en/articles/">Articles</a></li><li><a href="/en/#contact">Contact</a></li></ul>
       </div>
       <div>
         <h2>Contact</h2>
@@ -644,6 +628,19 @@ body { padding-bottom: 0; }
   new IntersectionObserver(([e]) => {
     if (e.isIntersecting) v.play().catch(() => {}); else v.pause();
   }, { threshold: 0.4 }).observe(v);
+})();
+// Compteurs : montée de 0 à la valeur finale (la valeur finale est déjà dans la page)
+(() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const end = +el.dataset.count, t0 = performance.now(), dur = 1200;
+    const tick = now => {
+      const k = Math.min(1, (now - t0) / dur);
+      el.textContent = Math.round(end * (1 - Math.pow(1 - k, 3)));
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
 })();
 // Copy email / phone
 document.querySelectorAll('.copy').forEach(btn => {
