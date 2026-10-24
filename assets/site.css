@@ -97,3 +97,32 @@ section[id] { scroll-margin-top: 16px; }
 .fab { transition: transform .25s ease, opacity .25s ease; }
 .fab.is-hidden { transform: translateX(calc(100% + 24px)); opacity: 0; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) { .fab { transition: none; } }
+
+/* Repli des boutons latéraux */
+.fab-stack { display: flex; flex-direction: column; align-items: center; gap: 10px; transition: opacity .2s, transform .2s, visibility 0s; transform-origin: bottom center; }
+.fab.is-collapsed .fab-stack { opacity: 0; transform: translateY(14px) scale(.92); visibility: hidden; pointer-events: none; transition: opacity .2s, transform .2s, visibility 0s .2s; }
+.fab-toggle {
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%;
+  background: var(--navy); color: #ffffff; cursor: pointer; box-shadow: 0 0 0 2px #ffffff, 0 6px 18px rgba(20, 33, 58, .25); transition: transform .15s;
+}
+.fab-toggle:hover { transform: scale(1.08); }
+.fab-toggle:focus-visible { outline: 2px solid var(--volt); outline-offset: 3px; }
+.fab-toggle .i-open { display: none; }
+.fab.is-collapsed .fab-toggle .i-open { display: block; }
+.fab.is-collapsed .fab-toggle .i-close { display: none; }
+@media (prefers-reduced-motion: reduce) { .fab-stack, .fab.is-collapsed .fab-stack { transition: none; } }
+
+/* Pied de page mobile : version courte et centrée */
+.site-footer .m-links { display: none; }
+@media (max-width: 640px) {
+  .fab-stack { gap: 8px; }
+  .fab-toggle { width: 42px; height: 42px; }
+  footer.site-footer { padding-block: 36px 84px; text-align: center; }
+  .site-footer .cols { grid-template-columns: 1fr; padding-right: 0; gap: 0; }
+  .site-footer .cols > [role="navigation"], .site-footer .cols > div:last-child, .site-footer small { display: none; }
+  .site-footer .brand { margin-bottom: 10px; }
+  .site-footer .m-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 18px; margin: 14px 0 0; }
+  .site-footer .m-links a { color: #ffffff; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255, 255, 255, .35); }
+  .site-footer .bottom { justify-content: center; margin-top: 24px; padding-top: 16px; }
+  .site-footer .bottom span:last-child { display: none; }
+}
