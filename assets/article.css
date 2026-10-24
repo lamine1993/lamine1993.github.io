@@ -1,18 +1,18 @@
 /* Articles : colonne de lecture unique, mêmes deux couleurs que le folio (encre + volt). */
 :root {
-  --ink: #0b131e;
+  --ink: #16243b;
   --volt: #5e94ff;
-  --fg: color-mix(in srgb, var(--volt) 14%, #eaf7f1);
-  --muted: color-mix(in srgb, var(--volt) 30%, var(--ink) 30%, #c9d9d3);
-  --line: color-mix(in srgb, var(--volt) 22%, transparent);
-  --panel: color-mix(in srgb, var(--volt) 5%, var(--ink));
-  --f-display: "Chakra Petch", "Rajdhani", "Segoe UI", sans-serif;
-  --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
-  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --fg: color-mix(in srgb, var(--volt) 6%, #eef2f7);
+  --muted: color-mix(in srgb, var(--volt) 12%, #aeb9c8);
+  --line: color-mix(in srgb, #ffffff 13%, transparent);
+  --panel: color-mix(in srgb, #ffffff 5%, var(--ink));
+  --f-display: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   color-scheme: dark;
 }
-:root[data-accent="green"] { --ink: #061a22; --volt: #6bf0a8; }
-:root[data-accent="amber"] { --ink: #17110a; --volt: #ffb547; }
+:root[data-accent="green"] { --ink: #13292f; --volt: #6bf0a8; }
+:root[data-accent="amber"] { --ink: #261d13; --volt: #ffb547; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
@@ -118,3 +118,12 @@ footer { border-top: 1px solid var(--line); padding-block: 24px 36px; font: 400 
 .wa:hover { transform: scale(1.08); }
 body { padding-bottom: 72px; }
 .wa:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+
+/* Allure corporate : fond marine plus clair, typographie IBM Plex */
+body { background-image: none; }
+h1 { font-weight: 600; letter-spacing: -.02em; }
+article.body h2 { font-weight: 600; letter-spacing: -.01em; }
+article.body h2::before { content: none; }
+.note, pre, .author, .list a, .more a, .table { border-radius: 8px; }
+.note, .author, .list a, .more a { background: var(--panel); }
+.cat, .lang, code { border-radius: 4px; }

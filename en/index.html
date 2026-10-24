@@ -8,12 +8,12 @@
 <meta name="description" content="Mohamadou Lamine Sarr, certified ServiceNow Tech Lead and developer (CSA, CAD, CIS-CSM, CIS-DF, CIS-Discovery). 5+ years on ITSM, CSM, ITOM, CMDB, Discovery and API integrations.">
 <meta name="author" content="Mohamadou Lamine Sarr">
 <meta name="robots" content="index, follow">
-<meta name="theme-color" content="#0b131e">
+<meta name="theme-color" content="#16243b">
 <link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/">
 <link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/">
 <link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/">
 <link rel="canonical" href="https://lamine1993.github.io/en/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230b131e'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%235e94ff'%3EMLS%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2316243b'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' font-weight='700' text-anchor='middle' fill='%235e94ff'%3EMLS%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="profile">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="fr_FR">
@@ -74,23 +74,23 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: console HUD sur une seule colonne, graphe CMDB animé en fond, missions en timeline à rail. Deux couleurs seulement : encre et volt. */
 :root {
-  --ink: #0b131e;
+  --ink: #16243b;
   --volt: #5e94ff;
-  --fg: color-mix(in srgb, var(--volt) 14%, #eaf7f1);
-  --muted: color-mix(in srgb, var(--volt) 30%, var(--ink) 30%, #c9d9d3);
-  --line: color-mix(in srgb, var(--volt) 22%, transparent);
-  --panel: color-mix(in srgb, var(--volt) 5%, var(--ink));
-  --f-display: "Chakra Petch", "Rajdhani", "Segoe UI", sans-serif;
-  --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
-  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --fg: color-mix(in srgb, var(--volt) 6%, #eef2f7);
+  --muted: color-mix(in srgb, var(--volt) 12%, #aeb9c8);
+  --line: color-mix(in srgb, #ffffff 13%, transparent);
+  --panel: color-mix(in srgb, #ffffff 5%, var(--ink));
+  --f-display: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   color-scheme: dark;
 }
-:root[data-accent="green"] { --ink: #061a22; --volt: #6bf0a8; }
-:root[data-accent="amber"] { --ink: #17110a; --volt: #ffb547; }
+:root[data-accent="green"] { --ink: #13292f; --volt: #6bf0a8; }
+:root[data-accent="amber"] { --ink: #261d13; --volt: #ffb547; }
 * { box-sizing: border-box; }
 body { margin: 0; }
 img { max-width: 100%; }
@@ -306,6 +306,34 @@ footer { padding-block: 28px 40px; border-top: 1px solid var(--line); font: 400 
   *, *::before { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
 }
+
+/* Allure corporate : fond marine plus clair, typographie IBM Plex, effets néon retirés */
+:root { --r: 8px; }
+.scan { display: none; }
+#net { opacity: .22; }
+section { padding-block: 64px; }
+.logo { letter-spacing: .04em; }
+h1 { font: 600 clamp(40px, 6.4vw, 76px)/1.04 var(--f-display); text-transform: none; letter-spacing: -.025em; }
+h1 .out { color: var(--volt); -webkit-text-stroke: 0; }
+h2 { font-weight: 600; text-transform: none; letter-spacing: -.015em; }
+.big { font-weight: 600; text-transform: none; letter-spacing: -.02em; }
+.role { font-weight: 500; letter-spacing: 0; }
+.status { border-radius: 999px; padding: 8px 14px; }
+.status i, .job.now::before { box-shadow: none; }
+.console { clip-path: none; border-radius: var(--r); overflow: hidden; background: var(--panel); box-shadow: 0 18px 40px rgba(0, 0, 0, .22); }
+.modules, .certs { border-radius: var(--r); overflow: hidden; }
+.mod { background: var(--panel); }
+.mod:hover { background: color-mix(in srgb, #ffffff 8%, var(--ink)); }
+.mod h3, .proj h3 { font-weight: 600; letter-spacing: -.01em; }
+.when .co { font-weight: 600; letter-spacing: 0; }
+.certs, .line { background: var(--panel); }
+.proj { border-top: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
+.posts a { border-radius: var(--r); background: var(--panel); }
+.line { border-radius: var(--r); }
+.screen { border-radius: var(--r); }
+.screen video { border-radius: calc(var(--r) - 4px); }
+.screen::before, .screen::after { display: none; }
+.chip, .copy, .tag, .lang { border-radius: 4px; }
 </style>
 </head>
 <body>
