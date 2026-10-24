@@ -9,7 +9,7 @@
 <meta name="author" content="Mohamadou Lamine Sarr">
 <meta name="robots" content="index, follow">
 <meta name="google-site-verification" content="e5W9UxE1kFBTomwilx8eiTnlCwm76CWfsFvNz4-0ZkI">
-<meta name="theme-color" content="#16243b">
+<meta name="theme-color" content="#ffffff">
 <link rel="alternate" hreflang="fr" href="https://lamine1993.github.io/">
 <link rel="alternate" hreflang="en" href="https://lamine1993.github.io/en/">
 <link rel="alternate" hreflang="x-default" href="https://lamine1993.github.io/">
@@ -334,6 +334,28 @@ h2 { font-weight: 600; text-transform: none; letter-spacing: -.015em; }
 .screen video { border-radius: calc(var(--r) - 4px); }
 .screen::before, .screen::after { display: none; }
 .chip, .copy, .tag, .lang { border-radius: 4px; }
+
+/* Thème clair : fond blanc, sections en bandes alternées, menu discret */
+:root { --ink: #ffffff; --volt: #2b67d9; --fg: #14213a; --muted: #5b6678; --line: rgba(20, 33, 58, .12); --panel: #ffffff; --band: color-mix(in srgb, var(--volt) 5%, #f3f5f8); color-scheme: light; }
+:root[data-accent="green"] { --ink: #ffffff; --volt: #0b8450; }
+:root[data-accent="amber"] { --ink: #ffffff; --volt: #a86200; }
+nav { background: color-mix(in srgb, #ffffff 72%, transparent); border-bottom-color: rgba(20, 33, 58, .06); }
+nav .wrap { padding-block: 10px; }
+nav ul a, nav .back { font-size: 11px; color: #97a0ad; }
+nav ul a:hover, nav .back:hover { color: var(--volt); }
+.logo { font-size: 14px; opacity: .85; }
+.lang { border-color: var(--line); color: #97a0ad; padding: 6px 8px; font-size: 11px; }
+.accent button { width: 14px; height: 14px; border-color: rgba(20, 33, 58, .15); }
+#net { opacity: .12; }
+section { border-top: 0; padding-block: 72px; }
+main > section:nth-of-type(odd) { background: var(--band); box-shadow: 0 0 0 100vmax var(--band); clip-path: inset(0 -100vmax); }
+.hero { padding-block: 64px 72px; }
+.console { box-shadow: 0 12px 32px rgba(20, 33, 58, .10); }
+.mod, .proj, .posts a, .certs, .line, .screen { background: #ffffff; box-shadow: 0 1px 2px rgba(20, 33, 58, .06); }
+.mod:hover, .posts a:hover { background: var(--band); }
+.modules { box-shadow: 0 1px 2px rgba(20, 33, 58, .06); }
+.wa { box-shadow: 0 6px 20px rgba(20, 33, 58, .22); }
+footer { border-top-color: var(--line); }
 </style>
 </head>
 <body>

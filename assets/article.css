@@ -127,3 +127,20 @@ article.body h2::before { content: none; }
 .note, pre, .author, .list a, .more a, .table { border-radius: 8px; }
 .note, .author, .list a, .more a { background: var(--panel); }
 .cat, .lang, code { border-radius: 4px; }
+
+/* Thème clair : fond blanc, encadrés teintés, menu discret */
+:root { --ink: #ffffff; --volt: #2b67d9; --fg: #14213a; --muted: #5b6678; --line: rgba(20, 33, 58, .12); --panel: #ffffff; --band: color-mix(in srgb, var(--volt) 5%, #f3f5f8); color-scheme: light; }
+:root[data-accent="green"] { --ink: #ffffff; --volt: #0b8450; }
+:root[data-accent="amber"] { --ink: #ffffff; --volt: #a86200; }
+nav { background: color-mix(in srgb, #ffffff 72%, transparent); border-bottom-color: rgba(20, 33, 58, .06); }
+nav .wrap { padding-block: 10px; }
+nav ul a, nav .back { font-size: 11px; color: #97a0ad; }
+nav ul a:hover, nav .back:hover { color: var(--volt); }
+.logo { font-size: 14px; opacity: .85; }
+.lang { border-color: var(--line); color: #97a0ad; padding: 6px 8px; font-size: 11px; }
+.accent button { width: 14px; height: 14px; border-color: rgba(20, 33, 58, .15); }
+body { background: #ffffff; }
+article.body strong { color: var(--fg); }
+pre, code, .note, .author, .list a, .more a { background: var(--band); }
+.list a:hover, .more a:hover { background: #ffffff; }
+.wa { box-shadow: 0 6px 20px rgba(20, 33, 58, .22); }
