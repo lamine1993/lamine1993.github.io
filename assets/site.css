@@ -14,7 +14,7 @@
   position: fixed; z-index: 6;
   right: calc(16px + env(safe-area-inset-right, 0px));
   bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
 }
 .fab .wa { position: static; }
 .fab .lang {
@@ -71,3 +71,15 @@ section[id] { scroll-margin-top: 16px; }
   .mcard, .proj, .posts a, .list a, .more a { transition: none; }
   .mcard:hover, .proj:hover, .posts a:hover, .list a:hover, .more a:hover { transform: none; }
 }
+
+/* Boutons de contact à côté de WhatsApp */
+.fab-row { display: flex; align-items: center; gap: 10px; }
+.fab .lang { margin-right: 6px; }
+.fab-btn {
+  display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%;
+  background: #ffffff; color: var(--volt); border: 1px solid var(--line); text-decoration: none;
+  box-shadow: 0 4px 14px rgba(20, 33, 58, .14); transition: transform .15s, background .15s, color .15s;
+}
+.fab-btn:hover { transform: scale(1.08); background: var(--volt); color: #ffffff; }
+.fab-btn:focus-visible, .fab .lang:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+@media (max-width: 420px) { .fab-row { gap: 8px; } .fab-btn { width: 42px; height: 42px; } }
