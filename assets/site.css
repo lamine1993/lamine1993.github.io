@@ -57,3 +57,17 @@ footer.site-footer {
   border-top: 1px solid rgba(255, 255, 255, .12); font: 400 12px/1.5 var(--f-mono); color: #8d97a8; letter-spacing: .04em;
 }
 @media (max-width: 760px) { .site-footer .cols { grid-template-columns: 1fr; gap: 28px; } }
+
+/* Finitions : accès clavier, sélection, ancres, survol des cartes, progression de lecture */
+.skip { position: absolute; left: 16px; top: -60px; z-index: 20; padding: 10px 14px; border-radius: 6px; background: var(--volt); color: #ffffff; font: 500 14px/1 var(--f-body); text-decoration: none; transition: top .15s; }
+.skip:focus { top: calc(12px + env(safe-area-inset-top, 0px)); }
+::selection { background: color-mix(in srgb, var(--volt) 22%, transparent); }
+section[id] { scroll-margin-top: 16px; }
+.mcard, .proj, .posts a, .list a, .more a { transition: transform .2s, box-shadow .2s, border-color .2s, background .2s; }
+.mcard:hover, .proj:hover, .posts a:hover, .list a:hover, .more a:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(20, 33, 58, .10); }
+.progress { position: fixed; inset: env(safe-area-inset-top, 0px) 0 auto; height: 3px; z-index: 7; pointer-events: none; }
+.progress span { display: block; height: 100%; background: var(--volt); transform-origin: 0 50%; transform: scaleX(0); }
+@media (prefers-reduced-motion: reduce) {
+  .mcard, .proj, .posts a, .list a, .more a { transition: none; }
+  .mcard:hover, .proj:hover, .posts a:hover, .list a:hover, .more a:hover { transform: none; }
+}
