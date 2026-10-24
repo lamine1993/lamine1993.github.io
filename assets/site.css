@@ -14,7 +14,7 @@
   position: fixed; z-index: 6;
   right: calc(16px + env(safe-area-inset-right, 0px));
   bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-  display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
 }
 .fab .wa { position: static; }
 .fab .lang {
@@ -73,8 +73,7 @@ section[id] { scroll-margin-top: 16px; }
 }
 
 /* Boutons de contact à côté de WhatsApp */
-.fab-row { display: flex; align-items: center; gap: 10px; }
-.fab .lang { margin-right: 6px; }
+.fab-row { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .fab-btn {
   display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%;
   background: #ffffff; color: var(--volt); border: 1px solid var(--line); text-decoration: none;
