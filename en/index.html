@@ -48,7 +48,7 @@
     "sameAs": ["https://www.linkedin.com/in/mohamadou-lamine-sarr/", "https://github.com/lamine1993"],
     "address": { "@type": "PostalAddress", "addressLocality": "Dakar", "addressCountry": "SN" },
     "worksFor": [{ "@type": "Organization", "name": "ATEKO" }, { "@type": "Organization", "name": "Desjardins" }],
-    "knowsAbout": ["ServiceNow", "ITSM", "Customer Service Management", "ITOM", "CMDB", "CSDM", "Discovery", "Service Graph Connector", "IntegrationHub ETL", "MID Server", "REST API", "JavaScript", "React Native", "Ionic", "Angular", "Employee Center", "Server decommissioning"],
+    "knowsAbout": ["ServiceNow", "ITSM", "Customer Service Management", "ITOM", "CMDB", "CSDM", "Discovery", "Service Graph Connector", "IntegrationHub ETL", "MID Server", "REST API", "JavaScript", "TypeScript", "React Native", "Ionic", "Angular", "Web and mobile development", "Employee Center", "Server decommissioning"],
     "hasCredential": [
       { "@type": "EducationalOccupationalCredential", "name": "ServiceNow CIS-Discovery", "credentialCategory": "certification" },
       { "@type": "EducationalOccupationalCredential", "name": "ServiceNow CIS-DF (CMDB and CSDM)", "credentialCategory": "certification" },
@@ -381,6 +381,16 @@ body { padding-bottom: 0; }
 @media (prefers-reduced-motion: reduce) { .marquee { overflow-x: auto; } .marquee ul { animation: none; } .marquee ul[aria-hidden] { display: none; } }
 @media (max-width: 960px) { .mgrid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) { .mgrid { grid-template-columns: 1fr; } .kpi dd { font-size: 28px; } .kpi { padding: 12px; } }
+
+/* Expertise : 6 cartes, technologies dans chaque carte */
+.modules { grid-template-columns: repeat(3, 1fr); }
+.mod { display: flex; flex-direction: column; gap: 14px; padding: 24px 22px; }
+.mod h3 { margin: 0; }
+.mod p { flex: 1; }
+.mod .chips { gap: 6px; }
+.mod .chip { font-size: 11.5px; padding: 6px 9px; border-radius: 4px; background: #ffffff; }
+@media (max-width: 960px) { .modules { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .modules { grid-template-columns: 1fr; } }
 </style>
 <link rel="stylesheet" href="/assets/site.css">
 </head>
@@ -412,36 +422,12 @@ body { padding-bottom: 0; }
   <section id="expertise">
     <div class="sec-head"><small>[ 01 ]</small><h2>Expertise</h2></div>
     <div class="modules">
-      <div class="mod"><h3>ITSM</h3><p>Incident, change, Service Request Management, catalog and portal.</p></div>
-      <div class="mod"><h3>CSM</h3><p>Accounts, products, consumers, Agent Workspace and knowledge base.</p></div>
-      <div class="mod"><h3>ITOM</h3><p>Discovery, custom patterns, MID Server and monitoring.</p></div>
-      <div class="mod"><h3>CMDB</h3><p>CSDM, IRE, Service Graph Connector, data quality and CI lifecycle.</p></div>
-    </div>
-    <div class="stack">
-      <div>
-        <h4>Development</h4>
-        <div class="chips">
-          <span class="chip on">JavaScript</span><span class="chip on">Scoped Apps</span><span class="chip">Source Control</span><span class="chip">REST API</span><span class="chip">Client Script</span><span class="chip">UI Policy</span><span class="chip">Glide AJAX</span><span class="chip">Flow Designer</span>
-        </div>
-      </div>
-      <div>
-        <h4>Interfaces</h4>
-        <div class="chips">
-          <span class="chip on">UI Builder</span><span class="chip">Service Portal</span><span class="chip">Employee Center Pro</span><span class="chip">Dashboards</span><span class="chip">Widgets</span>
-        </div>
-      </div>
-      <div>
-        <h4>Integration</h4>
-        <div class="chips">
-          <span class="chip on">IntegrationHub ETL</span><span class="chip on">Service Graph Connector</span><span class="chip">IRE</span><span class="chip">JDBC</span><span class="chip">MID Server</span><span class="chip">Robust Transform</span><span class="chip">Transform Map</span><span class="chip">SMTP / IMAP</span><span class="chip">RPA</span>
-        </div>
-      </div>
-      <div>
-        <h4>Mobile</h4>
-        <div class="chips">
-          <span class="chip on">React Native</span><span class="chip on">Ionic</span><span class="chip">Angular</span><span class="chip">Redux</span><span class="chip">Cordova</span><span class="chip">SQLite</span>
-        </div>
-      </div>
+      <div class="mod"><h3>ITSM</h3><p>Incident, change, Service Request Management, catalog and portal.</p><div class="chips"><span class="chip">Flow Designer</span><span class="chip">Service Portal</span><span class="chip">UI Policy</span><span class="chip">Client Script</span><span class="chip">Glide AJAX</span></div></div>
+      <div class="mod"><h3>CSM</h3><p>Accounts, products, consumers, Agent Workspace and knowledge base.</p><div class="chips"><span class="chip">Agent Workspace</span><span class="chip">Employee Center Pro</span><span class="chip">UI Builder</span><span class="chip">Knowledge Base</span><span class="chip">Dashboards</span></div></div>
+      <div class="mod"><h3>ITOM</h3><p>Discovery, custom patterns, MID Server and monitoring.</p><div class="chips"><span class="chip">Discovery</span><span class="chip">MID Server</span><span class="chip">Patterns</span><span class="chip">Service Graph Connector</span></div></div>
+      <div class="mod"><h3>CMDB</h3><p>CSDM, IRE, data quality and CI lifecycle.</p><div class="chips"><span class="chip">CSDM</span><span class="chip">IRE</span><span class="chip">CMDB Health</span><span class="chip">Robust Transform</span></div></div>
+      <div class="mod"><h3>Dev &amp; integration</h3><p>Scoped applications, REST APIs and integrations between ServiceNow and the client's tools.</p><div class="chips"><span class="chip">JavaScript</span><span class="chip">Scoped Apps</span><span class="chip">Source Control</span><span class="chip">REST API</span><span class="chip">IntegrationHub ETL</span><span class="chip">Transform Map</span><span class="chip">JDBC</span><span class="chip">RPA</span><span class="chip">SMTP / IMAP</span></div></div>
+      <div class="mod"><h3>Web &amp; mobile</h3><p>Web and mobile apps connected to REST APIs, built to work offline.</p><div class="chips"><span class="chip">Angular</span><span class="chip">Ionic</span><span class="chip">React Native</span><span class="chip">Redux</span><span class="chip">TypeScript</span><span class="chip">Cordova</span><span class="chip">SQLite</span></div></div>
     </div>
   </section>
 
