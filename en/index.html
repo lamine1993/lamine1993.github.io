@@ -443,6 +443,28 @@ body { padding-bottom: 0; }
   .dots button { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: color-mix(in srgb, var(--fg) 20%, transparent); cursor: pointer; transition: width .2s, background .2s; }
   .dots button.on { width: 20px; border-radius: 4px; background: var(--volt); }
 }
+
+/* Mobile : textes plus compacts */
+@media (max-width: 640px) {
+  body { font-size: 15px; line-height: 1.6; }
+  .hero h1 { font-size: clamp(34px, 9.5vw, 44px); }
+  .role { font-size: 16px; }
+  .lead, .reel p { font-size: 14.5px; }
+  h2 { font-size: 25px; }
+  .mod h3 { font-size: 22px; }
+  .mod p, .mcard p, .proj p, .posts em, .edu span { font-size: 14px; }
+  .mcard h3 { font-size: 16.5px; }
+  .proj h3 { font-size: 23px; }
+  .proj li, .job li { font-size: 13.5px; }
+  .posts strong { font-size: 17px; }
+  .certs b { font-size: 15px; }
+  .certs time { font-size: 17px; }
+  .edu b { font-size: 16px; }
+  .big { font-size: clamp(25px, 7.5vw, 34px); }
+  .line { font-size: 13.5px; }
+  .chip { font-size: 11px; }
+  .env { font-size: 10.5px; }
+}
 </style>
 <link rel="stylesheet" href="/assets/site.css">
 </head>
