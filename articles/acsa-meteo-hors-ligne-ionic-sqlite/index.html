@@ -2,7 +2,6 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<script>try{var a=localStorage.getItem('mls-accent');if(a==='green'||a==='amber')document.documentElement.setAttribute('data-accent',a)}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ACSA : une application météo hors ligne avec bulletins audio, en Ionic et SQLite</title>
 <meta name="description" content="Retour d&#x27;expérience technique sur ACSA, un prototype d&#x27;application météo en Ionic et Angular : prévisions par zone du Sénégal, bulletins audio et stockage local SQLite pour une lecture hors ligne.">
@@ -77,9 +76,9 @@
   ]
 }
 </script>
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
-<nav><div class="wrap"><a class="logo" href="/">MLS<span>://folio</span></a><a class="back" href="/articles/">← Tous les articles</a><div class="accent" role="group" aria-label="Couleur du site"><button type="button" data-accent="blue" aria-label="Bleu" title="Bleu"></button><button type="button" data-accent="green" aria-label="Vert" title="Vert"></button><button type="button" data-accent="amber" aria-label="Ambre" title="Ambre"></button></div><a class="lang" href="/en/articles/acsa-offline-weather-ionic-sqlite/" hreflang="en" lang="en" title="English version">EN</a></div></nav>
 
 <main class="wrap">
   <div class="crumbs"><ol><li><a href="/">Accueil</a></li><li><a href="/articles/">Articles</a></li><li>ACSA</li></ol></div>
@@ -164,9 +163,32 @@ export interface BulletinMeteo {
     <ul><li><a href="/articles/wallou-application-urgence-ionic/">Wallou : construire une application d'alerte d'urgence avec Ionic et Angular</a></li><li><a href="/articles/arsatool-diagnostic-ravageurs-react-native/">ArSaTool : une application React Native pour diagnostiquer les ravageurs des cultures</a></li></ul>
   </aside>
 
-  <footer>© 2026 Mohamadou Lamine Sarr · <a href="/">lamine1993.github.io</a></footer>
+  <footer class="site-footer">
+    <div class="cols">
+      <div>
+        <p class="brand">MLS<span>://</span>folio</p>
+        <p class="who">Mohamadou Lamine Sarr</p>
+        <p>Tech Lead &amp; Développeur ServiceNow</p>
+        <small>Dakar, Sénégal · missions à distance</small>
+        <small style="margin-top:6px">7 certifications ServiceNow</small>
+      </div>
+      <div role="navigation" aria-label="Navigation">
+        <h2>Navigation</h2>
+        <ul><li><a href="/#expertise">Expertise</a></li><li><a href="/#missions">Missions</a></li><li><a href="/#projets">Projets</a></li><li><a href="/#certifications">Certifications</a></li><li><a href="/articles/">Articles</a></li><li><a href="/#contact">Contact</a></li></ul>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a href="mailto:sarrlmn@gmail.com">sarrlmn@gmail.com</a></li>
+          <li><a href="tel:+221771332492">+221 77 133 24 92</a></li>
+          <li><a href="https://wa.me/221771332492?text=Bonjour%20Mohamadou%2C%20je%20vous%20contacte%20depuis%20votre%20portfolio." target="_blank" rel="noopener">WhatsApp ↗</a></li>
+          <li><a href="https://github.com/lamine1993" target="_blank" rel="noopener">GitHub ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom"><span>© 2026 Mohamadou Lamine Sarr</span><span>ServiceNow · ITSM · CSM · ITOM · CMDB</span></div>
+  </footer>
 </main>
-<a class="wa" href="https://wa.me/221771332492?text=Bonjour%20Mohamadou%2C%20je%20vous%20contacte%20depuis%20votre%20portfolio." target="_blank" rel="noopener" aria-label="Me contacter sur WhatsApp"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg><span>WhatsApp</span></a>
-<script src="/assets/accent.js" defer></script>
+<div class="fab"><a class="lang" href="/en/articles/acsa-offline-weather-ionic-sqlite/" hreflang="en" lang="en" title="English version">EN</a><a class="wa" href="https://wa.me/221771332492?text=Bonjour%20Mohamadou%2C%20je%20vous%20contacte%20depuis%20votre%20portfolio." target="_blank" rel="noopener" aria-label="Me contacter sur WhatsApp"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg><span>WhatsApp</span></a></div>
 </body>
 </html>

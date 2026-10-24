@@ -1,0 +1,59 @@
+/* Éléments communs à toutes les pages : couleurs bleu + ambre, boutons flottants, pied de page. */
+:root {
+  --ink: #ffffff;
+  --volt: #2b67d9;
+  --amber: #ffb547;
+  --amber-ink: #8a5200;
+  --navy: #14213a;
+}
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Boutons flottants : langue au-dessus de WhatsApp */
+.fab {
+  position: fixed; z-index: 6;
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.fab .wa { position: static; }
+.fab .lang {
+  display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+  border-radius: 50%; border: 1px solid var(--line); background: #ffffff; color: var(--fg);
+  font: 500 12px/1 var(--f-mono); letter-spacing: .06em; text-decoration: none;
+  box-shadow: 0 4px 14px rgba(20, 33, 58, .14); transition: transform .15s, color .15s;
+}
+.fab .lang:hover { transform: scale(1.08); color: var(--volt); background: #ffffff; }
+
+/* Bouton principal */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border-radius: 6px;
+  background: var(--volt); color: #ffffff; text-decoration: none; font: 500 15px/1 var(--f-body);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--volt) 28%, transparent); transition: transform .15s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+
+/* Pied de page en 3 colonnes, bande marine sur toute la largeur */
+footer.site-footer {
+  display: block; margin-top: 0; padding-block: 56px 28px; border-top: 0;
+  background: var(--navy); box-shadow: 0 0 0 100vmax var(--navy); clip-path: inset(0 -100vmax);
+  color: #c3cad6; font: 400 15px/1.6 var(--f-body); letter-spacing: 0;
+}
+.site-footer .cols { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 40px; }
+.site-footer .cols > * { min-width: 0; }
+.site-footer h2 { font: 500 12px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: #ffffff; margin: 0 0 16px; }
+.site-footer h2::before { content: none; }
+.site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.site-footer a { color: #c3cad6; text-decoration: none; overflow-wrap: anywhere; }
+.site-footer a:hover { color: #ffffff; text-decoration: underline; }
+.site-footer .brand { font: 700 16px/1 var(--f-display); letter-spacing: .04em; color: #ffffff; margin: 0 0 14px; }
+.site-footer .brand span { color: var(--amber); }
+.site-footer .who { color: #ffffff; font-weight: 600; margin: 0; }
+.site-footer p { margin: 0 0 6px; }
+.site-footer small { font: 400 11px/1.3 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: #8d97a8; display: block; }
+.site-footer .bottom {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 40px; padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, .12); font: 400 12px/1.5 var(--f-mono); color: #8d97a8; letter-spacing: .04em;
+}
+@media (max-width: 760px) { .site-footer .cols { grid-template-columns: 1fr; gap: 28px; } }

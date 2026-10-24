@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<script>try{var a=localStorage.getItem('mls-accent');if(a==='green'||a==='amber')document.documentElement.setAttribute('data-accent',a)}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mohamadou Lamine Sarr · ServiceNow Tech Lead &amp; Developer</title>
 <meta name="description" content="Mohamadou Lamine Sarr, certified ServiceNow Tech Lead and developer (CSA, CAD, CIS-CSM, CIS-DF, CIS-Discovery). 5+ years on ITSM, CSM, ITOM, CMDB, Discovery and API integrations.">
@@ -89,8 +88,6 @@
   --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   color-scheme: dark;
 }
-:root[data-accent="green"] { --ink: #13292f; --volt: #6bf0a8; }
-:root[data-accent="amber"] { --ink: #261d13; --volt: #ffb547; }
 * { box-sizing: border-box; }
 body { margin: 0; }
 img { max-width: 100%; }
@@ -128,17 +125,9 @@ nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; flex
 nav ul a { font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
 nav ul a:hover { color: var(--volt); }
 nav ul { margin-left: auto; }
-nav .accent { margin-left: 8px; }
 .lang { flex: none; font: 500 12px/1 var(--f-mono); letter-spacing: .12em; color: var(--volt); border: 1px solid var(--volt); padding: 7px 9px; text-decoration: none; }
 .lang:hover { background: var(--volt); color: var(--ink); }
-/* sélecteur de couleur */
-.accent { display: flex; align-items: center; gap: 6px; flex: none; }
-.accent button { width: 18px; height: 18px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: var(--c); cursor: pointer; transition: transform .15s; }
-.accent button:hover { transform: scale(1.15); }
-.accent button[aria-pressed="true"] { outline: 2px solid var(--fg); outline-offset: 2px; }
-.accent [data-accent="blue"] { --c: #5e94ff; }
-.accent [data-accent="green"] { --c: #6bf0a8; }
-.accent [data-accent="amber"] { --c: #ffb547; }
+
 
 
 /* hero */
@@ -337,15 +326,12 @@ h2 { font-weight: 600; text-transform: none; letter-spacing: -.015em; }
 
 /* Thème clair : fond blanc, sections en bandes alternées, menu discret */
 :root { --ink: #ffffff; --volt: #2b67d9; --fg: #14213a; --muted: #5b6678; --line: rgba(20, 33, 58, .12); --panel: #ffffff; --band: color-mix(in srgb, var(--volt) 5%, #f3f5f8); color-scheme: light; }
-:root[data-accent="green"] { --ink: #ffffff; --volt: #0b8450; }
-:root[data-accent="amber"] { --ink: #ffffff; --volt: #a86200; }
 nav { background: color-mix(in srgb, #ffffff 72%, transparent); border-bottom-color: rgba(20, 33, 58, .06); }
 nav .wrap { padding-block: 10px; }
 nav ul a, nav .back { font-size: 11px; color: #97a0ad; }
 nav ul a:hover, nav .back:hover { color: var(--volt); }
 .logo { font-size: 14px; opacity: .85; }
 .lang { border-color: var(--line); color: #97a0ad; padding: 6px 8px; font-size: 11px; }
-.accent button { width: 14px; height: 14px; border-color: rgba(20, 33, 58, .15); }
 #net { opacity: .12; }
 section { border-top: 0; padding-block: 72px; }
 main > section:nth-of-type(odd) { background: var(--band); box-shadow: 0 0 0 100vmax var(--band); clip-path: inset(0 -100vmax); }
@@ -356,38 +342,35 @@ main > section:nth-of-type(odd) { background: var(--band); box-shadow: 0 0 0 100
 .modules { box-shadow: 0 1px 2px rgba(20, 33, 58, .06); }
 .wa { box-shadow: 0 6px 20px rgba(20, 33, 58, .22); }
 footer { border-top-color: var(--line); }
+
+/* Mise en page finale : vidéo dans le haut de page, sans menu ni choix de couleur, accent ambre */
+body { padding-bottom: 0; }
+.hero { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: center; padding-block: 48px 40px; }
+.hero .screen { margin: 0; }
+.hero-cta { padding-block: 0 56px; display: flex; justify-content: center; }
+.status i, .job.now::before { background: var(--amber); border-color: var(--amber-ink); }
+.tag { background: var(--amber); color: var(--navy); }
+.job.now::before { border-color: var(--amber-ink); }
+.big em, h1 .out { color: var(--volt); }
+.console header span:last-child { color: var(--amber-ink); }
 </style>
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
 
 <canvas id="net" aria-hidden="true"></canvas>
 <div class="scan" aria-hidden="true"></div>
 
-<nav>
-  <div class="wrap">
-    <a class="logo" href="#top">MLS<span>://folio</span></a>
-    <ul>
-      <li><a href="#expertise">Expertise</a></li>
-      <li><a href="#missions">Missions</a></li>
-      <li><a href="#projets">Projects</a></li>
-      <li><a href="#certifications">Certifications</a></li>
-      <li><a href="/en/articles/">Articles</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <div class="accent" role="group" aria-label="Site color"><button type="button" data-accent="blue" aria-label="Blue" title="Blue"></button><button type="button" data-accent="green" aria-label="Green" title="Green"></button><button type="button" data-accent="amber" aria-label="Amber" title="Amber"></button></div><a class="lang" href="/" hreflang="fr" lang="fr" title="Version française">FR</a>
-  </div>
-</nav>
 
 <main class="wrap" id="top">
   <header class="hero">
-    <div>
-      <span class="status rise"><i></i>Available for new projects</span>
-      <h1 class="rise d1">Mohamadou<br><span class="out">Lamine</span> Sarr</h1>
-      <p class="role rise d2">ServiceNow Developer · Tech Lead<span class="cursor"></span></p>
-      <p class="lead rise d3">5+ years building on the ServiceNow platform: ITSM, CSM, ITOM and CMDB. A specialist in API integrations and complex technical solutions, I have grown into Tech Lead roles on large-scale projects. Today I lead a server decommissioning squad at Desjardins, working hand in hand with the infrastructure teams.</p>
-    </div>
+    <h1 class="sr-only">Mohamadou Lamine Sarr, ServiceNow Tech Lead and developer</h1>
+    <figure class="screen">
+        <video id="reel-video" src="/assets/video/presentation-ml-sarr.mp4" poster="/assets/video/presentation-poster.jpg" width="1280" height="720" muted loop playsinline controls preload="metadata" aria-label="Introduction video of Mohamadou Lamine Sarr">Your browser cannot play this video.</video>
+        <figcaption><span><b>●</b> Intro · 30 s · in French</span><span>1280 × 720</span></figcaption>
+      </figure>
 
-    <aside class="console rise d4" aria-label="Profile card">
+    <aside class="console" aria-label="Profile card">
       <header><span>sys_user.profile</span><span>● live</span></header>
       <dl>
         <dt>name</dt><dd>M. L. Sarr</dd>
@@ -403,19 +386,7 @@ footer { border-top-color: var(--line); }
       </div>
     </aside>
   </header>
-
-  <section id="presentation">
-    <div class="reel">
-      <div>
-        <div class="sec-head"><small>[ ▶ ]</small><h2>Introduction</h2></div>
-        <p>My background and what I bring, in 30 seconds: four ServiceNow modules, API and CMDB integrations, and custom applications. The video is in French.</p>
-      </div>
-      <figure class="screen">
-        <video id="reel-video" src="/assets/video/presentation-ml-sarr.mp4" poster="/assets/video/presentation-poster.jpg" width="1280" height="720" muted loop playsinline controls preload="metadata" aria-label="Introduction video of Mohamadou Lamine Sarr">Your browser cannot play this video.</video>
-        <figcaption><span><b>●</b> Intro · 30 s · in French</span><span>1280 × 720</span></figcaption>
-      </figure>
-    </div>
-  </section>
+  <div class="hero-cta"><a class="btn" href="/en/articles/">Read my articles <span aria-hidden="true">→</span></a></div>
 
   <section id="expertise">
     <div class="sec-head"><small>[ 01 ]</small><h2>Expertise</h2></div>
@@ -454,21 +425,22 @@ footer { border-top-color: var(--line); }
   </section>
 
   <section id="missions">
-    <div class="sec-head"><small>[ 02 ]</small><h2>Missions</h2></div>
+    <div class="sec-head"><small>[ 02 ]</small><h2>Missions &amp; achievements</h2></div>
+    <p class="lead" style="margin: -12px 0 36px">What I delivered for each client, from CMDB integrations to employee portals.</p>
     <ol class="timeline">
       <li class="job now">
         <div class="when">Since Jan. 2026<span class="co">ATEKO</span></div>
         <div>
           <h3>Tech Lead / Dev Lead ServiceNow <span class="tag">Current</span></h3>
           <ul>
-            <li>End-to-end design and development of scoped applications (Studio, Change Management, Employee Center integration)</li>
-            <li>Deployment lifecycle and governance: Application Repository, Source Control, update sets, App Engine licensing</li>
-            <li>CMDB and security integrations: Service Graph Connector, Import Set / IRE, CI reconciliation, JDBC pipelines</li>
-            <li>MID Server, inbound/outbound API call logging and callback workflows</li>
-            <li>Orchestration with downstream systems: Network Operations, WinApp, Control-M</li>
-            <li>Support for client architects and administrators: technical documentation, reporting, knowledge transfer</li>
+            <li>Delivered scoped applications end to end (Change Management, Employee Center integration), from design to deployment</li>
+            <li>Set up application governance: Application Repository, Source Control, update sets and App Engine licensing</li>
+            <li>Made CMDB data feeds reliable with Service Graph Connector, the IRE and JDBC pipelines</li>
+            <li>Made every inbound and outbound API call traceable, with logging and callback workflows through the MID Server</li>
+            <li>Orchestrated integration with Network Operations, WinApp and Control-M</li>
+            <li>Made the client's teams self-sufficient: technical documentation, reporting and knowledge transfer</li>
           </ul>
-          <div class="env">Scoped App · CMDB · Network Operations · WinApp · Control-M</div>
+          <div class="env">Scoped App · CMDB · Service Graph Connector · Network Operations · Control-M</div>
         </div>
       </li>
       <li class="job now">
@@ -476,18 +448,18 @@ footer { border-top-color: var(--line); }
         <div>
           <h3>Tech Lead · Server Decommissioning Squad <span class="tag">Current</span></h3>
           <ul>
-            <li>Technical lead of a squad dedicated to server decommissioning</li>
-            <li>Daily work with the infrastructure teams to scope and secure every retirement</li>
+            <li>Lead the squad that retires servers no longer in use</li>
+            <li>Build every retirement around the CMDB and Change Management, so it is safe and traceable</li>
+            <li>Bridge the ServiceNow team and the infrastructure teams every day</li>
           </ul>
           <h3>Previously · CSM Developer · Employee Center</h3>
           <ul>
-            <li>CSM configuration: products, accounts, services, consumers</li>
-            <li>Service catalog and complex flows, integration with internal applications</li>
-            <li>Portals, widgets, Knowledge Base, Agent Workspace, reports and dashboards</li>
-            <li>New Employee Center Pro portal built in parallel, with no impact on production</li>
-            <li>Content taxonomy, custom theme with the Branding Editor, contextual menus</li>
+            <li>Launched a new Employee Center Pro portal alongside the existing one, with no impact on production</li>
+            <li>Structured the content taxonomy and built a custom theme with the Branding Editor</li>
+            <li>Rolled out CSM (products, accounts, services, consumers) and connected it to internal applications</li>
+            <li>Delivered the service catalog, complex flows, reports and dashboards</li>
           </ul>
-          <div class="env">Infrastructure · CMDB · CSM · Employee Center · Flow Designer · Agent Workspace</div>
+          <div class="env">Infrastructure · CMDB · CSM · Employee Center · Flow Designer</div>
         </div>
       </li>
       <li class="job">
@@ -495,12 +467,12 @@ footer { border-top-color: var(--line); }
         <div>
           <h3>Tech Lead · ITSM · Service Request Management</h3>
           <ul>
-            <li>Story analysis and optimization, performance measurement</li>
-            <li>New feature development, testing and validation</li>
-            <li>Coaching junior developers and running training workshops</li>
-            <li>ServiceNow instance upgrade project</li>
+            <li>Led the ServiceNow instance upgrade</li>
+            <li>Continuously improved stories, with performance tracking</li>
+            <li>Delivered new SRM features, tested and validated</li>
+            <li>Grew junior developers' skills through coaching and training workshops</li>
           </ul>
-          <div class="env">ServiceNow · ITSM · SRM · Agile</div>
+          <div class="env">ITSM · Service Request Management · Agile</div>
         </div>
       </li>
       <li class="job">
@@ -508,13 +480,14 @@ footer { border-top-color: var(--line); }
         <div>
           <h3>Senior Developer · API · CMDB</h3>
           <ul>
-            <li>Integration of Zabbix and Workspace ONE with the ServiceNow CMDB</li>
-            <li>MID Server installation and configuration for secure communication</li>
-            <li>Custom data sources, Robust Transforms and automation with IntegrationHub ETL</li>
-            <li>Discovery implementation and custom patterns to enrich discovery</li>
-            <li>CMDB quality: troubleshooting, deduplication, remediation</li>
+            <li>Connected Zabbix and Workspace ONE to the CMDB: the network and mobile estate is now fed automatically</li>
+            <li>Secured data exchange by installing and configuring the MID Server</li>
+            <li>Automated data import and transformation with IntegrationHub ETL and Robust Transforms</li>
+            <li>Cleaned up the CMDB: troubleshooting, de-duplication and remediation</li>
+            <li>Enriched discovery with Discovery and optimized patterns</li>
+            <li>Ran the technical integration workshop with stakeholders</li>
           </ul>
-          <div class="env">CMDB · Discovery · Zabbix · Workspace ONE · IH-ETL · MID Server</div>
+          <div class="env">CMDB · Discovery · IntegrationHub ETL · MID Server · Zabbix · Workspace ONE</div>
         </div>
       </li>
       <li class="job">
@@ -522,9 +495,9 @@ footer { border-top-color: var(--line); }
         <div>
           <h3>Tech Lead · ITSM · API Integration</h3>
           <ul>
-            <li>Integration between the Palfinger and DXC platforms</li>
-            <li>Solution design for incident and change management</li>
-            <li>SMTP/IMAP email account configuration and RPA integration</li>
+            <li>Integrated the Palfinger and DXC platforms for incident and change management</li>
+            <li>Automated part of incident management with an RPA integration</li>
+            <li>Configured inbound and outbound email (SMTP / IMAP)</li>
           </ul>
           <div class="env">ITSM · API · RPA · SMTP · IMAP</div>
         </div>
@@ -534,10 +507,10 @@ footer { border-top-color: var(--line); }
         <div>
           <h3>Developer · ITSM · API Integration</h3>
           <ul>
-            <li>REST API for asset integration</li>
-            <li>Asset Management and CMDB integration, transform maps and scripts</li>
+            <li>Built a REST API to integrate assets into ServiceNow</li>
+            <li>Connected Asset Management and the CMDB with transform maps and scripts</li>
           </ul>
-          <div class="env">ITSM · REST API · CMDB · Asset Management · Transform Map</div>
+          <div class="env">REST API · Asset Management · CMDB · Transform Map</div>
         </div>
       </li>
       <li class="job">
@@ -545,8 +518,8 @@ footer { border-top-color: var(--line); }
         <div>
           <h3>Developer · Data Partitioning</h3>
           <ul>
-            <li>Incident management improvements and domain-specific form views</li>
-            <li>UI Policies and Client Scripts with Glide AJAX</li>
+            <li>Improved incident management and built domain-specific form views</li>
+            <li>Improved the service catalog on the portal, with UI Policies and Client Scripts (Glide AJAX)</li>
           </ul>
           <div class="env">Glide AJAX · UI Policy · Client Script</div>
         </div>
@@ -556,11 +529,11 @@ footer { border-top-color: var(--line); }
         <div>
           <h3>ServiceNow Developer</h3>
           <ul>
-            <li>Advanced bidirectional REST interface between Wixalia and Orpea</li>
-            <li>Service catalog, catalog items and Service Portal</li>
-            <li>Requirements gathering across all ITSM modules</li>
+            <li>Built a bidirectional REST interface between Wixalia and Orpea</li>
+            <li>Set up the service catalog and the Service Portal</li>
+            <li>Gathered requirements across all ITSM modules</li>
           </ul>
-          <div class="env">REST API · ITSM · UI Policy · Client Script</div>
+          <div class="env">REST API · ITSM · Service Portal</div>
         </div>
       </li>
     </ol>
@@ -644,9 +617,30 @@ footer { border-top-color: var(--line); }
     </div>
   </section>
 
-  <footer>
-    <span>© 2026 Mohamadou Lamine Sarr</span>
-    <span>ServiceNow · ITSM · CSM · ITOM · CMDB</span>
+  <footer class="site-footer">
+    <div class="cols">
+      <div>
+        <p class="brand">MLS<span>://</span>folio</p>
+        <p class="who">Mohamadou Lamine Sarr</p>
+        <p>ServiceNow Tech Lead &amp; Developer</p>
+        <small>Dakar, Senegal · remote engagements</small>
+        <small style="margin-top:6px">7 ServiceNow certifications</small>
+      </div>
+      <div role="navigation" aria-label="Navigation">
+        <h2>Navigation</h2>
+        <ul><li><a href="/en/#expertise">Expertise</a></li><li><a href="/en/#missions">Missions</a></li><li><a href="/en/#projets">Projects</a></li><li><a href="/en/#certifications">Certifications</a></li><li><a href="/en/articles/">Articles</a></li><li><a href="/en/#contact">Contact</a></li></ul>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a href="mailto:sarrlmn@gmail.com">sarrlmn@gmail.com</a></li>
+          <li><a href="tel:+221771332492">+221 77 133 24 92</a></li>
+          <li><a href="https://wa.me/221771332492?text=Hello%20Mohamadou%2C%20I%27m%20reaching%20out%20from%20your%20portfolio." target="_blank" rel="noopener">WhatsApp ↗</a></li>
+          <li><a href="https://github.com/lamine1993" target="_blank" rel="noopener">GitHub ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom"><span>© 2026 Mohamadou Lamine Sarr</span><span>ServiceNow · ITSM · CSM · ITOM · CMDB</span></div>
   </footer>
 </main>
 
@@ -707,11 +701,9 @@ document.querySelectorAll('.copy').forEach(btn => {
     if (!still) requestAnimationFrame(frame);
   }
   size(); frame();
-  document.addEventListener('accentchange', () => { volt = readVolt(); if (still) frame(); });
   addEventListener('resize', () => { size(); if (still) frame(); });
 })();
 </script>
-<a class="wa" href="https://wa.me/221771332492?text=Hello%20Mohamadou%2C%20I%27m%20reaching%20out%20from%20your%20portfolio." target="_blank" rel="noopener" aria-label="Contact me on WhatsApp"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg><span>WhatsApp</span></a>
-<script src="/assets/accent.js" defer></script>
+<div class="fab"><a class="lang" href="/" hreflang="fr" lang="fr" title="Version française">FR</a><a class="wa" href="https://wa.me/221771332492?text=Hello%20Mohamadou%2C%20I%27m%20reaching%20out%20from%20your%20portfolio." target="_blank" rel="noopener" aria-label="Contact me on WhatsApp"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg><span>WhatsApp</span></a></div>
 </body>
 </html>
