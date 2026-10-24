@@ -128,3 +128,11 @@ section[id] { scroll-margin-top: 16px; }
   .site-footer .bottom { justify-content: center; margin-top: 24px; padding-top: 16px; }
   .site-footer .bottom span:last-child { display: none; }
 }
+
+/* Bouton secondaire (téléchargement du CV) */
+.hero-cta { gap: 12px; flex-wrap: wrap; align-items: center; }
+.hero-cta .btn { min-height: 48px; }
+.btn-ghost { background: #ffffff; color: var(--volt); border: 1px solid color-mix(in srgb, var(--volt) 35%, transparent); box-shadow: 0 2px 8px rgba(20, 33, 58, .06); }
+.btn-ghost small { font: 400 11px/1 var(--f-mono); color: var(--muted); letter-spacing: .04em; }
+.btn-ghost:hover { border-color: var(--volt); }
+@media (max-width: 640px) { .hero-cta .btn { width: 100%; justify-content: center; } }
