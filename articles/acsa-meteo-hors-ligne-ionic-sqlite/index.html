@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ACSA : une application météo hors ligne avec bulletins audio, en Ionic et SQLite</title>
+<title>ACSA : une application météo hors ligne avec bulletins audio, en Ionic et SQLite</title>
 <meta name="description" content="Retour d&#x27;expérience technique sur ACSA, un prototype d&#x27;application météo en Ionic et Angular : prévisions par zone du Sénégal, bulletins audio et stockage local SQLite pour une lecture hors ligne.">
 <meta name="author" content="Mohamadou Lamine Sarr">
 <meta name="robots" content="index, follow">
@@ -88,13 +88,13 @@
 
   <header class="post">
     <span class="cat">Mobile · Météo</span>
-    <h1>ACSA : une application météo hors ligne avec bulletins audio, en Ionic et SQLite</h1>
-    <p class="dek">Une prévision n'est utile que si elle arrive jusqu'à son public. ACSA est un prototype d'application météo pensé pour deux contraintes : un réseau qui manque souvent, et des utilisateurs qui préfèrent écouter plutôt que lire.</p>
-    <div class="meta"><span>Par <b>Mohamadou Lamine Sarr</b></span><span>22 octobre 2026</span><span>Lecture : 6 min</span></div>
+    <h1>ACSA : une application météo hors ligne avec bulletins audio, en Ionic et SQLite</h1>
+    <p class="dek">Une prévision n'est utile que si elle arrive jusqu'à son public. ACSA est un prototype d'application météo pensé pour deux contraintes : un réseau qui manque souvent, et des utilisateurs qui préfèrent écouter plutôt que lire.</p>
+    <div class="meta"><span>Par <b>Mohamadou Lamine Sarr</b></span><span>22 octobre 2026</span><span>Lecture : 6 min</span></div>
   </header>
 
   <article class="body">
-    <p>J'ai développé ACSA fin 2019 et début 2020, sous forme de prototype, au sein de l'Incubateur UGB (Université Gaston Berger de Saint-Louis). Elle affiche la prévision du jour pour une zone du Sénégal et propose un bulletin audio qui résume la météo. L'enjeu technique principal : que l'information reste disponible même sans connexion.</p>
+    <p>J'ai développé ACSA fin 2019 et début 2020, sous forme de prototype, au sein de l'Incubateur UGB (Université Gaston Berger de Saint-Louis). Elle affiche la prévision du jour pour une zone du Sénégal et propose un bulletin audio qui résume la météo. L'enjeu technique principal : que l'information reste disponible même sans connexion.</p>
 
     <h2>La pile technique</h2>
     <ul>
@@ -105,7 +105,7 @@
     </ul>
 
     <h2>Un modèle de données calé sur le territoire</h2>
-    <p>Une prévision est rattachée à un découpage géographique précis : zone, région et département. Le modèle reprend ce découpage :</p>
+    <p>Une prévision est rattachée à un découpage géographique précis : zone, région et département. Le modèle reprend ce découpage :</p>
 <pre><code>export interface MeteoZone {
   zone: string;          // NORD, CENTRE OUEST, CENTRE, SUD
   region: string;        // SAINT-LOUIS, DAKAR, THIES, MATAM…
@@ -123,37 +123,37 @@ export interface BulletinMeteo {
   resume?: AudioType;       // le bulletin audio
   intervalleDate?: DateMeteo;
 }</code></pre>
-    <p>Un bulletin regroupe donc trois choses : la prévision chiffrée, le fichier audio et la période couverte.</p>
+    <p>Un bulletin regroupe donc trois choses : la prévision chiffrée, le fichier audio et la période couverte.</p>
 
     <h2>Le stockage local d'abord</h2>
-    <p>L'application lit toujours ses données depuis SQLite, jamais directement depuis le réseau. Chaque bulletin est enregistré avec sa zone et sa date d'ajout, ce qui permet de retrouver la prévision du jour en une requête :</p>
+    <p>L'application lit toujours ses données depuis SQLite, jamais directement depuis le réseau. Chaque bulletin est enregistré avec sa zone et sa date d'ajout, ce qui permet de retrouver la prévision du jour en une requête :</p>
 <pre><code>getMeteo(zone: string, today: string) {
   return this._db.query(
     'SELECT prevision, audio, dateAjout FROM meteo ' +
     'WHERE zone = ? AND dateAjout = ? LIMIT 1',
     [zone, today]);
 }</code></pre>
-    <p>Les objets complexes (prévision, audio, période) sont stockés en JSON dans des colonnes texte. C'est un compromis volontaire pour un prototype : le schéma reste simple et le modèle peut évoluer sans migration.</p>
-    <div class="note"><b>Pourquoi lire en local ?</b><p>Si l'écran lit toujours la base locale, il fonctionne de la même façon avec ou sans réseau. La synchronisation devient un sujet séparé, qui met la base à jour quand une connexion existe.</p></div>
+    <p>Les objets complexes (prévision, audio, période) sont stockés en JSON dans des colonnes texte. C'est un compromis volontaire pour un prototype : le schéma reste simple et le modèle peut évoluer sans migration.</p>
+    <div class="note"><b>Pourquoi lire en local ?</b><p>Si l'écran lit toujours la base locale, il fonctionne de la même façon avec ou sans réseau. La synchronisation devient un sujet séparé, qui met la base à jour quand une connexion existe.</p></div>
 
     <h2>Des composants découplés</h2>
-    <p>La page météo assemble deux composants : <code>bulletin-audio</code>, qui affiche le lecteur, et <code>donnee-meteo</code>, qui affiche température, vent et ciel. La page leur passe le bulletin et des <code>EventEmitter</code> pour signaler son affichage et sa fermeture. Le lecteur peut ainsi s'arrêter proprement quand l'utilisateur quitte l'écran.</p>
+    <p>La page météo assemble deux composants : <code>bulletin-audio</code>, qui affiche le lecteur, et <code>donnee-meteo</code>, qui affiche température, vent et ciel. La page leur passe le bulletin et des <code>EventEmitter</code> pour signaler son affichage et sa fermeture. Le lecteur peut ainsi s'arrêter proprement quand l'utilisateur quitte l'écran.</p>
 
     <h2>Où en était le prototype</h2>
     <p>Le prototype fonctionne avec des bulletins d'exemple chargés au démarrage, pour une zone. Il valide l'interface, le modèle de données et la lecture hors ligne. La suite prévue était la synchronisation avec un serveur de bulletins.</p>
 
     <h2>Ce que je ferais autrement aujourd'hui</h2>
     <ul>
-      <li><strong>Une vraie synchronisation</strong> : télécharger les bulletins de la semaine dès qu'une connexion existe, puis nettoyer les anciens.</li>
+      <li><strong>Une vraie synchronisation</strong> : télécharger les bulletins de la semaine dès qu'une connexion existe, puis nettoyer les anciens.</li>
       <li><strong>Le choix de la zone par l'utilisateur</strong>, ou sa détection par GPS.</li>
       <li><strong>Des bulletins audio en langues locales</strong>, et un mode « audio d'abord » pour les utilisateurs qui lisent peu.</li>
       <li><strong>Un schéma SQL plus structuré</strong> une fois le modèle stabilisé.</li>
     </ul>
 
     <h2>Ce que ce projet m'a appris</h2>
-    <p>ACSA m'a appris à partir des contraintes réelles des utilisateurs plutôt que de la technologie : réseau instable, préférence pour l'oral. C'est la même démarche que pour un portail employé : on part de la façon dont les gens cherchent l'information, pas de la structure de l'organisation.</p>
+    <p>ACSA m'a appris à partir des contraintes réelles des utilisateurs plutôt que de la technologie : réseau instable, préférence pour l'oral. C'est la même démarche que pour un portail employé : on part de la façon dont les gens cherchent l'information, pas de la structure de l'organisation.</p>
 
-    <p>Le code est public sur GitHub : <a href="https://github.com/lamine1993/acsa" rel="noopener">github.com/lamine1993/acsa</a></p>
+    <p>Le code est public sur GitHub : <a href="https://github.com/lamine1993/acsa" rel="noopener">github.com/lamine1993/acsa</a></p>
 
     <div class="author">
       <div class="mono">MLS</div>
@@ -163,7 +163,7 @@ export interface BulletinMeteo {
 
   <aside class="more">
     <h2>À lire aussi</h2>
-    <ul><li><a href="/articles/wallou-application-urgence-ionic/">Wallou : construire une application d'alerte d'urgence avec Ionic et Angular</a></li><li><a href="/articles/arsatool-diagnostic-ravageurs-react-native/">ArSaTool : une application React Native pour diagnostiquer les ravageurs des cultures</a></li></ul>
+    <ul><li><a href="/articles/wallou-application-urgence-ionic/">Wallou : construire une application d'alerte d'urgence avec Ionic et Angular</a></li><li><a href="/articles/arsatool-diagnostic-ravageurs-react-native/">ArSaTool : une application React Native pour diagnostiquer les ravageurs des cultures</a></li></ul>
   </aside>
 
   <footer class="site-footer">
@@ -194,5 +194,6 @@ export interface BulletinMeteo {
 </main>
 <div class="fab"><a class="lang" href="/en/articles/acsa-offline-weather-ionic-sqlite/" hreflang="en" lang="en" title="English version">EN</a><div class="fab-row"><a class="fab-btn" href="mailto:sarrlmn@gmail.com?subject=Contact%20depuis%20votre%20portfolio" aria-label="M'envoyer un email" title="M'envoyer un email"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3.5 6h17v12h-17zM4 7l8 6 8-6"/></svg></a><a class="fab-btn" href="tel:+221771332492" aria-label="M'appeler" title="M'appeler"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M6 3.5h3.2l1.6 4.4-2.1 1.3a11 11 0 0 0 6.1 6.1l1.3-2.1 4.4 1.6V18a2.5 2.5 0 0 1-2.6 2.5A15.5 15.5 0 0 1 3.5 6.1 2.5 2.5 0 0 1 6 3.5z"/></svg></a><a class="fab-btn" href="https://www.linkedin.com/in/mohamadou-lamine-sarr/" target="_blank" rel="noopener" aria-label="Mon profil LinkedIn" title="Mon profil LinkedIn"><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.84-2 3.79-2 4.05 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.25-.02-2.85-1.83-2.85-1.84 0-2.12 1.36-2.12 2.76V21h-4z"/></svg></a><a class="wa" href="https://wa.me/221771332492?text=Bonjour%20Mohamadou%2C%20je%20vous%20contacte%20depuis%20votre%20portfolio." target="_blank" rel="noopener" aria-label="Me contacter sur WhatsApp"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg><span>WhatsApp</span></a></div></div>
 <script src="/assets/progress.js" defer></script>
+<script src="/assets/fab.js" defer></script>
 </body>
 </html>

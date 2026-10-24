@@ -70,58 +70,58 @@
     <span class="cat">Employee Center · Portail</span>
     <h1>Construire un nouveau portail Employee Center Pro sans toucher à la production</h1>
     <p class="dek">Les employés utilisent le portail tous les jours. On ne peut donc pas le refaire « en direct ». Voici comment j'ai construit un nouveau portail Employee Center Pro à côté de l'ancien, puis préparé une bascule sans interruption.</p>
-    <div class="meta"><span>Par <b>Mohamadou Lamine Sarr</b></span><span>22 octobre 2026</span><span>Lecture : 7 min</span></div>
+    <div class="meta"><span>Par <b>Mohamadou Lamine Sarr</b></span><span>22 octobre 2026</span><span>Lecture : 7 min</span></div>
   </header>
 
   <article class="body">
     <p>Chez Desjardins, j'ai travaillé sur la configuration avancée d'<strong>Employee Center Pro</strong> (ESC), le portail unique où les employés trouvent leurs services, leurs demandes et leurs articles de connaissance.</p>
-    <p>Le défi : proposer une nouvelle expérience (nouvelle structure, nouveau thème, nouveaux menus) sans perturber le portail que tout le monde utilisait. La réponse a été de <strong>construire un second portail en parallèle</strong>.</p>
+    <p>Le défi : proposer une nouvelle expérience (nouvelle structure, nouveau thème, nouveaux menus) sans perturber le portail que tout le monde utilisait. La réponse a été de <strong>construire un second portail en parallèle</strong>.</p>
 
     <h2>Pourquoi un portail en parallèle</h2>
-    <p>Modifier directement le portail en production pose trois problèmes :</p>
+    <p>Modifier directement le portail en production pose trois problèmes :</p>
     <ul>
-      <li>chaque changement de taxonomie ou de menu est visible tout de suite par tous les employés ;</li>
-      <li>on ne peut pas faire tester la nouvelle version à un groupe pilote ;</li>
+      <li>chaque changement de taxonomie ou de menu est visible tout de suite par tous les employés ;</li>
+      <li>on ne peut pas faire tester la nouvelle version à un groupe pilote ;</li>
       <li>revenir en arrière est difficile une fois que plusieurs changements se mélangent.</li>
     </ul>
-    <p>Un portail parallèle règle les trois : l'ancien continue de fonctionner, le nouveau se construit à son rythme, et la bascule devient une seule décision maîtrisée.</p>
+    <p>Un portail parallèle règle les trois : l'ancien continue de fonctionner, le nouveau se construit à son rythme, et la bascule devient une seule décision maîtrisée.</p>
 
-    <h2>Étape 1 : créer le nouveau portail</h2>
+    <h2>Étape 1 : créer le nouveau portail</h2>
     <p>Dans ServiceNow, un portail est un enregistrement de la table <code>sp_portal</code>, avec son propre suffixe d'URL, sa page d'accueil, son thème et son menu. Le nouveau portail reçoit un suffixe distinct de celui de l'ancien. Les deux cohabitent sur la même instance et partagent le même catalogue et la même base de connaissances.</p>
     <div class="note"><b>Conseil</b><p>Ne modifie jamais les pages et widgets d'origine d'Employee Center. Fais une copie de ce que tu dois changer et attache la copie au nouveau portail. Les mises à jour de la plateforme resteront ainsi faciles à appliquer.</p></div>
 
-    <h2>Étape 2 : structurer la taxonomie</h2>
-    <p>La <strong>taxonomie</strong> est le plan du portail : les grands thèmes (par exemple « Mon poste de travail », « RH », « Accès et sécurité ») et leurs sous-thèmes. Les employés naviguent par sujet, pas par département.</p>
-    <p>J'ai structuré la taxonomie du nouveau portail puis rattaché le contenu à chaque sujet : éléments du catalogue, articles de connaissance, liens rapides. Une règle simple aide beaucoup : un employé doit trouver ce qu'il cherche <strong>en trois clics au maximum</strong>.</p>
+    <h2>Étape 2 : structurer la taxonomie</h2>
+    <p>La <strong>taxonomie</strong> est le plan du portail : les grands thèmes (par exemple « Mon poste de travail », « RH », « Accès et sécurité ») et leurs sous-thèmes. Les employés naviguent par sujet, pas par département.</p>
+    <p>J'ai structuré la taxonomie du nouveau portail puis rattaché le contenu à chaque sujet : éléments du catalogue, articles de connaissance, liens rapides. Une règle simple aide beaucoup : un employé doit trouver ce qu'il cherche <strong>en trois clics au maximum</strong>.</p>
 
-    <h2>Étape 3 : créer un thème avec le Branding Editor</h2>
-    <p>Le <strong>Branding Editor</strong> permet de créer un thème sans écrire de CSS : logo, couleurs, typographie, image d'accueil. J'y ai créé un thème personnalisé pour le nouveau portail, aux couleurs de l'organisation.</p>
-    <p>L'avantage par rapport à du CSS écrit à la main : le thème reste compatible avec les futures versions d'Employee Center, et une équipe non technique peut l'ajuster plus tard.</p>
+    <h2>Étape 3 : créer un thème avec le Branding Editor</h2>
+    <p>Le <strong>Branding Editor</strong> permet de créer un thème sans écrire de CSS : logo, couleurs, typographie, image d'accueil. J'y ai créé un thème personnalisé pour le nouveau portail, aux couleurs de l'organisation.</p>
+    <p>L'avantage par rapport à du CSS écrit à la main : le thème reste compatible avec les futures versions d'Employee Center, et une équipe non technique peut l'ajuster plus tard.</p>
 
-    <h2>Étape 4 : personnaliser l'en-tête et les widgets</h2>
+    <h2>Étape 4 : personnaliser l'en-tête et les widgets</h2>
     <h3>L'en-tête et les menus</h3>
     <p>L'en-tête est la partie la plus vue du portail. J'y ai ajouté de nouveaux menus contextuels, qui affichent des liens différents selon le profil de l'employé grâce aux <em>user criteria</em>. Chacun voit d'abord ce qui le concerne.</p>
     <h3>My Favorites et My Applications</h3>
-    <p>J'ai activé et configuré deux widgets très appréciés des employés : <strong>My Favorites</strong>, pour retrouver en un clic les services qu'on utilise souvent, et <strong>My Applications</strong>, pour accéder directement aux applications de l'entreprise depuis le portail.</p>
+    <p>J'ai activé et configuré deux widgets très appréciés des employés : <strong>My Favorites</strong>, pour retrouver en un clic les services qu'on utilise souvent, et <strong>My Applications</strong>, pour accéder directement aux applications de l'entreprise depuis le portail.</p>
 
-    <h2>Étape 5 : tester et basculer</h2>
-    <p>Le portail parallèle permet de tester dans des conditions réelles, sans risque :</p>
+    <h2>Étape 5 : tester et basculer</h2>
+    <p>Le portail parallèle permet de tester dans des conditions réelles, sans risque :</p>
     <ol>
-      <li><strong>Tests par profil</strong> : en se faisant passer pour différents utilisateurs (<em>impersonation</em>), on vérifie que chacun voit les bons menus et le bon contenu.</li>
-      <li><strong>Groupe pilote</strong> : un groupe d'employés utilise le nouveau portail et fait ses retours avant tout le monde.</li>
-      <li><strong>Bascule</strong> : le moment venu, on fait du nouveau portail la page d'arrivée par défaut. L'ancien reste disponible un temps, ce qui permet de revenir en arrière en quelques minutes si besoin.</li>
+      <li><strong>Tests par profil</strong> : en se faisant passer pour différents utilisateurs (<em>impersonation</em>), on vérifie que chacun voit les bons menus et le bon contenu.</li>
+      <li><strong>Groupe pilote</strong> : un groupe d'employés utilise le nouveau portail et fait ses retours avant tout le monde.</li>
+      <li><strong>Bascule</strong> : le moment venu, on fait du nouveau portail la page d'arrivée par défaut. L'ancien reste disponible un temps, ce qui permet de revenir en arrière en quelques minutes si besoin.</li>
     </ol>
 
     <h2>Ce que je retiens</h2>
     <ul>
       <li><strong>Construire à côté, pas par-dessus.</strong> C'est le meilleur moyen de livrer un grand changement sans gêner personne.</li>
       <li><strong>La taxonomie compte plus que le design.</strong> Un beau portail mal rangé reste un mauvais portail.</li>
-      <li><strong>Rester proche du standard.</strong> Branding Editor, user criteria et widgets d'origine : moins de code sur mesure, c'est des mises à jour plus simples.</li>
+      <li><strong>Rester proche du standard.</strong> Branding Editor, user criteria et widgets d'origine : moins de code sur mesure, c'est des mises à jour plus simples.</li>
     </ul>
 
     <div class="author">
       <div class="mono">MLS</div>
-      <div><b>Mohamadou Lamine Sarr</b><span>Tech Lead ServiceNow : CSM, Employee Center, CMDB. Certifié CIS-CSM et CAD. <a href="/#contact">Me contacter</a></span></div>
+      <div><b>Mohamadou Lamine Sarr</b><span>Tech Lead ServiceNow : CSM, Employee Center, CMDB. Certifié CIS-CSM et CAD. <a href="/#contact">Me contacter</a></span></div>
     </div>
   </article>
 
@@ -129,7 +129,7 @@
     <h2>À lire aussi</h2>
     <ul>
       <li><a href="/articles/integration-cmdb-integrationhub-etl/">Intégrer Zabbix et Workspace ONE à la CMDB ServiceNow avec IntegrationHub ETL</a></li>
-      <li><a href="/articles/decommissionnement-serveurs-servicenow/">Décommissionner des serveurs avec ServiceNow : méthode et collaboration avec l'infra</a></li>
+      <li><a href="/articles/decommissionnement-serveurs-servicenow/">Décommissionner des serveurs avec ServiceNow : méthode et collaboration avec l'infra</a></li>
     </ul>
   </aside>
 
@@ -161,5 +161,6 @@
 </main>
 <div class="fab"><a class="lang" href="/en/articles/employee-center-pro-new-portal/" hreflang="en" lang="en" title="English version">EN</a><div class="fab-row"><a class="fab-btn" href="mailto:sarrlmn@gmail.com?subject=Contact%20depuis%20votre%20portfolio" aria-label="M'envoyer un email" title="M'envoyer un email"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3.5 6h17v12h-17zM4 7l8 6 8-6"/></svg></a><a class="fab-btn" href="tel:+221771332492" aria-label="M'appeler" title="M'appeler"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M6 3.5h3.2l1.6 4.4-2.1 1.3a11 11 0 0 0 6.1 6.1l1.3-2.1 4.4 1.6V18a2.5 2.5 0 0 1-2.6 2.5A15.5 15.5 0 0 1 3.5 6.1 2.5 2.5 0 0 1 6 3.5z"/></svg></a><a class="fab-btn" href="https://www.linkedin.com/in/mohamadou-lamine-sarr/" target="_blank" rel="noopener" aria-label="Mon profil LinkedIn" title="Mon profil LinkedIn"><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.84-2 3.79-2 4.05 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.25-.02-2.85-1.83-2.85-1.84 0-2.12 1.36-2.12 2.76V21h-4z"/></svg></a><a class="wa" href="https://wa.me/221771332492?text=Bonjour%20Mohamadou%2C%20je%20vous%20contacte%20depuis%20votre%20portfolio." target="_blank" rel="noopener" aria-label="Me contacter sur WhatsApp"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg><span>WhatsApp</span></a></div></div>
 <script src="/assets/progress.js" defer></script>
+<script src="/assets/fab.js" defer></script>
 </body>
 </html>

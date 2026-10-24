@@ -69,35 +69,35 @@
   <header class="post">
     <span class="cat">CMDB · Intégration</span>
     <h1>Intégrer Zabbix et Workspace ONE à la CMDB ServiceNow avec IntegrationHub ETL</h1>
-    <p class="dek">Deux sources, deux façons de décrire un équipement, une seule règle : ne jamais créer un CI en double. Voici la méthode que j'ai appliquée pour brancher un outil de supervision réseau et un MDM sur la CMDB.</p>
-    <div class="meta"><span>Par <b>Mohamadou Lamine Sarr</b></span><span>22 octobre 2026</span><span>Lecture : 8 min</span></div>
+    <p class="dek">Deux sources, deux façons de décrire un équipement, une seule règle : ne jamais créer un CI en double. Voici la méthode que j'ai appliquée pour brancher un outil de supervision réseau et un MDM sur la CMDB.</p>
+    <div class="meta"><span>Par <b>Mohamadou Lamine Sarr</b></span><span>22 octobre 2026</span><span>Lecture : 8 min</span></div>
   </header>
 
   <article class="body">
-    <p>Lors d'une mission chez PSG, j'ai eu à intégrer deux plateformes à la CMDB ServiceNow : <strong>Zabbix</strong>, qui supervise le parc réseau, et <strong>Workspace ONE</strong>, qui gère les appareils mobiles. Le besoin est classique : la CMDB doit refléter ce qui existe vraiment, sans saisie manuelle.</p>
+    <p>Lors d'une mission chez PSG, j'ai eu à intégrer deux plateformes à la CMDB ServiceNow : <strong>Zabbix</strong>, qui supervise le parc réseau, et <strong>Workspace ONE</strong>, qui gère les appareils mobiles. Le besoin est classique : la CMDB doit refléter ce qui existe vraiment, sans saisie manuelle.</p>
     <p>Le piège l'est aussi. Un import mal conçu crée des doublons, écrase des données plus fiables, et la CMDB perd la confiance des équipes. Cet article décrit l'architecture retenue et les décisions qui comptent.</p>
 
     <h2>L'architecture en un coup d'œil</h2>
-    <p>Chaque source suit le même chemin :</p>
+    <p>Chaque source suit le même chemin :</p>
     <ol>
-      <li><strong>MID Server</strong> : il fait le lien entre l'instance ServiceNow et le réseau interne où vit Zabbix.</li>
-      <li><strong>Data source</strong> : elle appelle l'API de l'outil et charge les données brutes dans une table d'import.</li>
-      <li><strong>IntegrationHub ETL</strong> : il transforme ces données et les associe aux bonnes classes de la CMDB, grâce au Robust Transform Engine.</li>
-      <li><strong>IRE</strong> (Identification and Reconciliation Engine) : il décide si chaque ligne correspond à un CI existant ou à un nouveau CI, et quelle source a le droit de modifier quel champ.</li>
+      <li><strong>MID Server</strong> : il fait le lien entre l'instance ServiceNow et le réseau interne où vit Zabbix.</li>
+      <li><strong>Data source</strong> : elle appelle l'API de l'outil et charge les données brutes dans une table d'import.</li>
+      <li><strong>IntegrationHub ETL</strong> : il transforme ces données et les associe aux bonnes classes de la CMDB, grâce au Robust Transform Engine.</li>
+      <li><strong>IRE</strong> (Identification and Reconciliation Engine) : il décide si chaque ligne correspond à un CI existant ou à un nouveau CI, et quelle source a le droit de modifier quel champ.</li>
     </ol>
     <p>Le point clé est le dernier. Avec un Transform Map classique, c'est le script qui écrit dans la CMDB. Avec IntegrationHub ETL, <strong>tout passe par l'IRE</strong>. C'est ce qui protège la CMDB des doublons.</p>
 
-    <h2>Étape 1 : sécuriser la connexion avec le MID Server</h2>
-    <p>Zabbix était hébergé dans le réseau interne, sans accès direct depuis Internet. Le MID Server est la bonne réponse : installé dans ce réseau, il ouvre une connexion sortante vers l'instance et exécute les appels pour elle.</p>
-    <p>Quelques règles que j'applique systématiquement :</p>
+    <h2>Étape 1 : sécuriser la connexion avec le MID Server</h2>
+    <p>Zabbix était hébergé dans le réseau interne, sans accès direct depuis Internet. Le MID Server est la bonne réponse : installé dans ce réseau, il ouvre une connexion sortante vers l'instance et exécute les appels pour elle.</p>
+    <p>Quelques règles que j'applique systématiquement :</p>
     <ul>
       <li>Un compte de service dédié, avec des droits en lecture seule sur l'API de l'outil source.</li>
       <li>Les identifiants stockés dans un <em>Credential</em> ServiceNow, jamais en clair dans un script.</li>
       <li>Une vérification du MID (<em>Validate</em>) et un test de l'appel API avant de construire quoi que ce soit dans l'ETL.</li>
     </ul>
 
-    <h2>Étape 2 : récupérer les données de la source</h2>
-    <p>Zabbix expose une API JSON-RPC. La méthode <code>host.get</code> renvoie les hôtes avec leurs interfaces et leur inventaire. Je limite volontairement les champs demandés : on importe ce que la CMDB va utiliser, rien de plus.</p>
+    <h2>Étape 2 : récupérer les données de la source</h2>
+    <p>Zabbix expose une API JSON-RPC. La méthode <code>host.get</code> renvoie les hôtes avec leurs interfaces et leur inventaire. Je limite volontairement les champs demandés : on importe ce que la CMDB va utiliser, rien de plus.</p>
 <pre><code>{
   "jsonrpc": "2.0",
   "method": "host.get",
@@ -109,20 +109,20 @@
   "id": 1
 }</code></pre>
     <p>Pour Workspace ONE, l'API REST de l'UEM permet de rechercher les appareils, avec le numéro de série, le modèle, la plateforme et l'utilisateur associé. Dans les deux cas, j'ai construit des <strong>data sources personnalisées</strong> qui gèrent la pagination et chargent chaque réponse dans une table d'import.</p>
-    <div class="note"><b>Conseil</b><p>Garde la data source « bête » : elle récupère et elle charge, c'est tout. Toute la logique de transformation va dans l'ETL, où elle est visible, testable et documentée.</p></div>
+    <div class="note"><b>Conseil</b><p>Garde la data source « bête » : elle récupère et elle charge, c'est tout. Toute la logique de transformation va dans l'ETL, où elle est visible, testable et documentée.</p></div>
 
-    <h2>Étape 3 : transformer avec IntegrationHub ETL</h2>
-    <p>IntegrationHub ETL est un assistant guidé. Pour chaque source, j'ai suivi ses étapes :</p>
+    <h2>Étape 3 : transformer avec IntegrationHub ETL</h2>
+    <p>IntegrationHub ETL est un assistant guidé. Pour chaque source, j'ai suivi ses étapes :</p>
     <h3>Préparer les données</h3>
-    <p>Nettoyer avant de mapper : mettre les noms d'hôte en minuscules, séparer le nom de domaine, normaliser les noms de fabricants (« Cisco Systems » et « cisco » doivent devenir la même valeur), écarter les lignes sans identifiant fiable.</p>
+    <p>Nettoyer avant de mapper : mettre les noms d'hôte en minuscules, séparer le nom de domaine, normaliser les noms de fabricants (« Cisco Systems » et « cisco » doivent devenir la même valeur), écarter les lignes sans identifiant fiable.</p>
     <h3>Associer aux classes CMDB</h3>
-    <p>Chaque ligne doit aller dans la bonne classe : un commutateur dans <code>cmdb_ci_ip_switch</code>, un routeur dans <code>cmdb_ci_ip_router</code>, un smartphone dans la classe des appareils mobiles. Une règle de classification fondée sur le type remonté par la source évite de tout mettre dans une classe générique.</p>
+    <p>Chaque ligne doit aller dans la bonne classe : un commutateur dans <code>cmdb_ci_ip_switch</code>, un routeur dans <code>cmdb_ci_ip_router</code>, un smartphone dans la classe des appareils mobiles. Une règle de classification fondée sur le type remonté par la source évite de tout mettre dans une classe générique.</p>
     <h3>Ajouter les relations</h3>
-    <p>Un CI isolé a peu de valeur. Quand la source le permet, je crée les relations dès l'import : l'interface réseau rattachée à son équipement, l'appareil mobile rattaché à son utilisateur.</p>
+    <p>Un CI isolé a peu de valeur. Quand la source le permet, je crée les relations dès l'import : l'interface réseau rattachée à son équipement, l'appareil mobile rattaché à son utilisateur.</p>
     <h3>Tester, puis annuler</h3>
     <p>L'ETL permet de lancer un import de test sur un échantillon, puis de l'annuler (<em>rollback</em>). Je fais toujours plusieurs passages ainsi avant le premier import réel. C'est la fonction la plus sous-estimée de l'outil.</p>
 
-    <h2>Étape 4 : bien régler l'IRE</h2>
+    <h2>Étape 4 : bien régler l'IRE</h2>
     <p>C'est ici que se joue la qualité de la CMDB. Trois réglages sont essentiels.</p>
     <div class="table">
       <table>
@@ -130,14 +130,14 @@
         <tbody>
           <tr><td>Source de découverte</td><td>Indiquer d'où vient chaque CI</td><td>Une valeur dédiée par outil, pour tracer et filtrer chaque source</td></tr>
           <tr><td>Règles d'identification</td><td>Reconnaître un CI existant</td><td>Le numéro de série d'abord, puis le nom d'hôte complet en second recours</td></tr>
-          <tr><td>Règles de réconciliation</td><td>Décider quelle source écrit quel champ</td><td>Discovery reste prioritaire sur les attributs techniques ; Workspace ONE fait foi pour l'utilisateur de l'appareil</td></tr>
+          <tr><td>Règles de réconciliation</td><td>Décider quelle source écrit quel champ</td><td>Discovery reste prioritaire sur les attributs techniques ; Workspace ONE fait foi pour l'utilisateur de l'appareil</td></tr>
         </tbody>
       </table>
     </div>
     <p>Sans règles de réconciliation, la dernière source qui passe a raison. Deux outils peuvent alors se corriger l'un l'autre à chaque import, et l'historique du CI devient illisible.</p>
 
-    <h2>Étape 5 : surveiller la qualité dans la durée</h2>
-    <p>Une intégration n'est jamais terminée le jour de sa mise en production. J'ai mis en place un suivi régulier :</p>
+    <h2>Étape 5 : surveiller la qualité dans la durée</h2>
+    <p>Une intégration n'est jamais terminée le jour de sa mise en production. J'ai mis en place un suivi régulier :</p>
     <ul>
       <li>Le tableau de bord <strong>CMDB Health</strong>, pour suivre l'exhaustivité, la conformité et la fraîcheur des CI.</li>
       <li>Les <strong>tâches de déduplication</strong> créées par l'IRE quand il détecte des doublons, traitées et remédiées une par une.</li>
@@ -150,7 +150,7 @@
       <li><strong>Les identifiants avant tout.</strong> Sans numéro de série fiable, aucune règle ne peut sauver la qualité des données.</li>
       <li><strong>Parler avec les équipes métier.</strong> J'ai animé un atelier avec les équipes réseau et mobilité avant de construire quoi que ce soit. C'est là qu'on apprend quelle source fait foi pour chaque information.</li>
     </ul>
-    <p>Pour aller plus loin, la même logique s'applique aux connecteurs du Store : les <em>Service Graph Connectors</em> reposent sur les mêmes briques (import, Robust Transform, IRE). Comprendre l'ETL, c'est comprendre comment ils fonctionnent.</p>
+    <p>Pour aller plus loin, la même logique s'applique aux connecteurs du Store : les <em>Service Graph Connectors</em> reposent sur les mêmes briques (import, Robust Transform, IRE). Comprendre l'ETL, c'est comprendre comment ils fonctionnent.</p>
 
     <div class="author">
       <div class="mono">MLS</div>
@@ -161,7 +161,7 @@
   <aside class="more">
     <h2>À lire aussi</h2>
     <ul>
-      <li><a href="/articles/decommissionnement-serveurs-servicenow/">Décommissionner des serveurs avec ServiceNow : méthode et collaboration avec l'infra</a></li>
+      <li><a href="/articles/decommissionnement-serveurs-servicenow/">Décommissionner des serveurs avec ServiceNow : méthode et collaboration avec l'infra</a></li>
       <li><a href="/articles/employee-center-pro-nouveau-portail/">Construire un nouveau portail Employee Center Pro sans toucher à la production</a></li>
     </ul>
   </aside>
@@ -194,5 +194,6 @@
 </main>
 <div class="fab"><a class="lang" href="/en/articles/cmdb-integration-integrationhub-etl/" hreflang="en" lang="en" title="English version">EN</a><div class="fab-row"><a class="fab-btn" href="mailto:sarrlmn@gmail.com?subject=Contact%20depuis%20votre%20portfolio" aria-label="M'envoyer un email" title="M'envoyer un email"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3.5 6h17v12h-17zM4 7l8 6 8-6"/></svg></a><a class="fab-btn" href="tel:+221771332492" aria-label="M'appeler" title="M'appeler"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M6 3.5h3.2l1.6 4.4-2.1 1.3a11 11 0 0 0 6.1 6.1l1.3-2.1 4.4 1.6V18a2.5 2.5 0 0 1-2.6 2.5A15.5 15.5 0 0 1 3.5 6.1 2.5 2.5 0 0 1 6 3.5z"/></svg></a><a class="fab-btn" href="https://www.linkedin.com/in/mohamadou-lamine-sarr/" target="_blank" rel="noopener" aria-label="Mon profil LinkedIn" title="Mon profil LinkedIn"><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.84-2 3.79-2 4.05 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.25-.02-2.85-1.83-2.85-1.84 0-2.12 1.36-2.12 2.76V21h-4z"/></svg></a><a class="wa" href="https://wa.me/221771332492?text=Bonjour%20Mohamadou%2C%20je%20vous%20contacte%20depuis%20votre%20portfolio." target="_blank" rel="noopener" aria-label="Me contacter sur WhatsApp"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg><span>WhatsApp</span></a></div></div>
 <script src="/assets/progress.js" defer></script>
+<script src="/assets/fab.js" defer></script>
 </body>
 </html>

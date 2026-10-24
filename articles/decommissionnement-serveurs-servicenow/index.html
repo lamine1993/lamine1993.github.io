@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Décommissionner des serveurs avec ServiceNow : méthode et collaboration avec l'infra</title>
+<title>Décommissionner des serveurs avec ServiceNow : méthode et collaboration avec l'infra</title>
 <meta name="description" content="La méthode d'un Tech Lead ServiceNow pour décommissionner des serveurs sans incident : analyse des dépendances dans la CMDB, change, période d'observation, cycle de vie CSDM et travail avec les équipes infrastructure.">
 <meta name="author" content="Mohamadou Lamine Sarr">
 <meta name="robots" content="index, follow">
@@ -68,31 +68,31 @@
 
   <header class="post">
     <span class="cat">ITOM · CMDB</span>
-    <h1>Décommissionner des serveurs avec ServiceNow : méthode et collaboration avec l'infra</h1>
+    <h1>Décommissionner des serveurs avec ServiceNow : méthode et collaboration avec l'infra</h1>
     <p class="dek">Éteindre un serveur prend une minute. Être sûr que personne n'en dépend prend beaucoup plus de temps. Voici comment je structure ce travail en tant que Tech Lead d'une escouade de décommissionnement.</p>
-    <div class="meta"><span>Par <b>Mohamadou Lamine Sarr</b></span><span>22 octobre 2026</span><span>Lecture : 7 min</span></div>
+    <div class="meta"><span>Par <b>Mohamadou Lamine Sarr</b></span><span>22 octobre 2026</span><span>Lecture : 7 min</span></div>
   </header>
 
   <article class="body">
-    <p>Dans les grandes organisations, les serveurs s'accumulent : anciennes applications, environnements de test oubliés, machines dont le propriétaire a changé d'équipe. Chacun coûte en licences, en énergie, en maintenance et en exposition aux failles de sécurité.</p>
+    <p>Dans les grandes organisations, les serveurs s'accumulent : anciennes applications, environnements de test oubliés, machines dont le propriétaire a changé d'équipe. Chacun coûte en licences, en énergie, en maintenance et en exposition aux failles de sécurité.</p>
     <p>Les retirer est donc un vrai levier. Mais un retrait mal préparé peut couper un service que personne n'avait relié à ce serveur. Mon rôle de Tech Lead, chez Desjardins, est de rendre ce travail <strong>sûr, traçable et répétable</strong>, en lien constant avec les équipes infrastructure.</p>
 
     <h2>Pourquoi ServiceNow est au centre du processus</h2>
-    <p>Le décommissionnement touche plusieurs équipes : serveurs, stockage, réseau, sauvegarde, sécurité, propriétaires d'applications. ServiceNow sert de point de vérité commun :</p>
+    <p>Le décommissionnement touche plusieurs équipes : serveurs, stockage, réseau, sauvegarde, sécurité, propriétaires d'applications. ServiceNow sert de point de vérité commun :</p>
     <ul>
-      <li>la <strong>CMDB</strong> dit ce qui existe et ce qui en dépend ;</li>
-      <li>le <strong>Change Management</strong> encadre chaque retrait et garde la trace des validations ;</li>
-      <li>le <strong>cycle de vie des CI</strong> (CSDM) dit où en est chaque serveur ;</li>
+      <li>la <strong>CMDB</strong> dit ce qui existe et ce qui en dépend ;</li>
+      <li>le <strong>Change Management</strong> encadre chaque retrait et garde la trace des validations ;</li>
+      <li>le <strong>cycle de vie des CI</strong> (CSDM) dit où en est chaque serveur ;</li>
       <li>l'<strong>Asset Management</strong> prend le relais pour la fin de vie du matériel et des licences.</li>
     </ul>
 
     <h2>Les 6 étapes d'un retrait sans incident</h2>
 
     <h3>1. Identifier les candidats</h3>
-    <p>On part de signaux concrets : un CI qui n'a plus été vu par Discovery depuis longtemps, un serveur sans application rattachée, une application en fin de vie, un système d'exploitation hors support. La liste est ensuite validée avec les équipes infrastructure, qui connaissent souvent l'historique mieux que la CMDB.</p>
+    <p>On part de signaux concrets : un CI qui n'a plus été vu par Discovery depuis longtemps, un serveur sans application rattachée, une application en fin de vie, un système d'exploitation hors support. La liste est ensuite validée avec les équipes infrastructure, qui connaissent souvent l'historique mieux que la CMDB.</p>
 
     <h3>2. Analyser les dépendances</h3>
-    <p>C'est l'étape la plus importante. Avant tout retrait, je vérifie les relations du CI dans les deux sens : ce qui tourne <em>sur</em> le serveur et ce qui <em>dépend de</em> lui. La vue des relations et la carte des dépendances aident beaucoup. Pour traiter un lot, une simple requête sur la table des relations suffit :</p>
+    <p>C'est l'étape la plus importante. Avant tout retrait, je vérifie les relations du CI dans les deux sens : ce qui tourne <em>sur</em> le serveur et ce qui <em>dépend de</em> lui. La vue des relations et la carte des dépendances aident beaucoup. Pour traiter un lot, une simple requête sur la table des relations suffit :</p>
 <pre><code>// Lister les relations d'un serveur, dans les deux sens
 var rel = new GlideRecord('cmdb_rel_ci');
 var q = rel.addQuery('parent', serverSysId);
@@ -103,7 +103,7 @@ while (rel.next()) {
           rel.type.getDisplayValue() + ' → ' +
           rel.child.getDisplayValue());
 }</code></pre>
-    <p>Une CMDB n'est jamais complète à 100 %. C'est pourquoi l'analyse ne s'arrête pas à ServiceNow : elle se confirme avec les propriétaires d'applications et les équipes infra.</p>
+    <p>Une CMDB n'est jamais complète à 100 %. C'est pourquoi l'analyse ne s'arrête pas à ServiceNow : elle se confirme avec les propriétaires d'applications et les équipes infra.</p>
 
     <h3>3. Obtenir les validations</h3>
     <p>Chaque retrait passe par une demande de changement. Elle liste les CI concernés, les impacts identifiés, le plan de retour arrière et les validations des propriétaires. Si un incident survient plus tard, on sait exactement ce qui a été retiré, quand et avec l'accord de qui.</p>
@@ -112,24 +112,24 @@ while (rel.next()) {
     <p>Plutôt que de supprimer tout de suite, on isole ou on éteint d'abord le serveur pendant une période d'observation. Si un service se plaint, on rallume en quelques minutes. Sans réaction pendant cette période, on passe à la suite. C'est la meilleure assurance contre les dépendances que personne n'avait documentées.</p>
 
     <h3>5. Retirer pour de bon</h3>
-    <p>Le retrait technique suit une liste de contrôle fixe, partagée avec l'infra : sauvegarde finale si nécessaire, retrait de la supervision, nettoyage DNS et adresses IP, libération du stockage, fin des licences, puis effacement sécurisé ou mise au rebut du matériel.</p>
+    <p>Le retrait technique suit une liste de contrôle fixe, partagée avec l'infra : sauvegarde finale si nécessaire, retrait de la supervision, nettoyage DNS et adresses IP, libération du stockage, fin des licences, puis effacement sécurisé ou mise au rebut du matériel.</p>
 
     <h3>6. Mettre la CMDB à jour</h3>
     <p>Un serveur retiré mais encore « Opérationnel » dans la CMDB fausse les rapports, les analyses d'impact et les audits. On passe donc le CI à l'étape de cycle de vie <strong>Fin de vie</strong>, avec le statut <strong>Retiré</strong>, et on le sort des plannings Discovery pour qu'il ne réapparaisse pas.</p>
-    <div class="note"><b>Attention</b><p>On ne supprime pas le CI : on le retire. Son historique, ses relations passées et les changements liés restent utiles pour les audits. La suppression ou l'archivage viennent plus tard, avec des politiques claires, par exemple dans CMDB Data Manager.</p></div>
+    <div class="note"><b>Attention</b><p>On ne supprime pas le CI : on le retire. Son historique, ses relations passées et les changements liés restent utiles pour les audits. La suppression ou l'archivage viennent plus tard, avec des politiques claires, par exemple dans CMDB Data Manager.</p></div>
 
     <h2>Travailler avec les équipes infrastructure</h2>
-    <p>La plus grande partie de mon travail est de discuter avec les équipes infrastructure. Le décommissionnement réussit quand l'équipe ServiceNow et l'infra avancent ensemble. Ce qui marche, de mon expérience :</p>
+    <p>La plus grande partie de mon travail est de discuter avec les équipes infrastructure. Le décommissionnement réussit quand l'équipe ServiceNow et l'infra avancent ensemble. Ce qui marche, de mon expérience :</p>
     <ul>
       <li><strong>Parler leur langue.</strong> Pour l'infra, un serveur, c'est un nom, une IP, un cluster. Pour la CMDB, c'est un CI avec une classe et des relations. Mon rôle est de faire le pont entre les deux.</li>
       <li><strong>Un point de suivi régulier.</strong> Court, avec la liste des serveurs en cours et les blocages. Les décisions prises sont notées dans le change, pas seulement dans un chat.</li>
-      <li><strong>Automatiser ce qui se répète.</strong> Chaque tâche manuelle répétée entre ServiceNow et l'infra est candidate à un flow : création des tâches, relances des propriétaires, mise à jour du CI à la clôture du change.</li>
+      <li><strong>Automatiser ce qui se répète.</strong> Chaque tâche manuelle répétée entre ServiceNow et l'infra est candidate à un flow : création des tâches, relances des propriétaires, mise à jour du CI à la clôture du change.</li>
       <li><strong>Remonter les écarts.</strong> Chaque fois que l'infra trouve une dépendance absente de la CMDB, c'est une donnée à corriger. Le décommissionnement améliore ainsi la CMDB au passage.</li>
     </ul>
 
     <h2>Ce que je retiens</h2>
     <ul>
-      <li>La partie difficile du décommissionnement n'est pas technique : c'est <strong>prouver qu'un serveur n'est plus utilisé</strong>.</li>
+      <li>La partie difficile du décommissionnement n'est pas technique : c'est <strong>prouver qu'un serveur n'est plus utilisé</strong>.</li>
       <li>Une CMDB fiable rend chaque retrait plus rapide, et chaque retrait bien fait rend la CMDB plus fiable.</li>
       <li>La relation avec l'infra compte autant que les outils. Sans elle, la meilleure CMDB du monde ne suffit pas.</li>
     </ul>
@@ -176,5 +176,6 @@ while (rel.next()) {
 </main>
 <div class="fab"><a class="lang" href="/en/articles/server-decommissioning-servicenow/" hreflang="en" lang="en" title="English version">EN</a><div class="fab-row"><a class="fab-btn" href="mailto:sarrlmn@gmail.com?subject=Contact%20depuis%20votre%20portfolio" aria-label="M'envoyer un email" title="M'envoyer un email"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3.5 6h17v12h-17zM4 7l8 6 8-6"/></svg></a><a class="fab-btn" href="tel:+221771332492" aria-label="M'appeler" title="M'appeler"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M6 3.5h3.2l1.6 4.4-2.1 1.3a11 11 0 0 0 6.1 6.1l1.3-2.1 4.4 1.6V18a2.5 2.5 0 0 1-2.6 2.5A15.5 15.5 0 0 1 3.5 6.1 2.5 2.5 0 0 1 6 3.5z"/></svg></a><a class="fab-btn" href="https://www.linkedin.com/in/mohamadou-lamine-sarr/" target="_blank" rel="noopener" aria-label="Mon profil LinkedIn" title="Mon profil LinkedIn"><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.84-2 3.79-2 4.05 0 4.8 2.6 4.8 6V21h-4v-5.2c0-1.25-.02-2.85-1.83-2.85-1.84 0-2.12 1.36-2.12 2.76V21h-4z"/></svg></a><a class="wa" href="https://wa.me/221771332492?text=Bonjour%20Mohamadou%2C%20je%20vous%20contacte%20depuis%20votre%20portfolio." target="_blank" rel="noopener" aria-label="Me contacter sur WhatsApp"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg><span>WhatsApp</span></a></div></div>
 <script src="/assets/progress.js" defer></script>
+<script src="/assets/fab.js" defer></script>
 </body>
 </html>
