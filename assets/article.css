@@ -110,3 +110,10 @@ footer { border-top: 1px solid var(--line); padding-block: 24px 36px; font: 400 
 .accent [data-accent="blue"] { --c: #5e94ff; }
 .accent [data-accent="green"] { --c: #6bf0a8; }
 .accent [data-accent="amber"] { --c: #ffb547; }
+
+/* WhatsApp */
+.wa { position: fixed; z-index: 6; right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); display: inline-flex; align-items: center; gap: 8px; padding: 11px 14px; background: var(--volt); color: var(--ink); text-decoration: none; font: 500 12px/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; box-shadow: 0 6px 24px color-mix(in srgb, var(--volt) 30%, transparent); transition: transform .15s; }
+.wa:hover { transform: translateY(-2px); }
+body { padding-bottom: 72px; }
+.wa:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+@media (max-width: 520px) { .wa span { display: none; } .wa { padding: 12px; border-radius: 50%; } }
